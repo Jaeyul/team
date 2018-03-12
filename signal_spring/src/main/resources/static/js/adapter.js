@@ -6,13 +6,10 @@
  *  tree.
  */
 
-/*
- *  Copyright (c) 2014 The WebRTC project authors. All Rights Reserved.
- *
- *  Use of this source code is governed by a BSD-style license
- *  that can be found in the LICENSE file in the root of the source
- *  tree.
- */
+/* More information about these options at jshint.com/docs/options */
+/* global mozRTCIceCandidate, mozRTCPeerConnection,
+mozRTCSessionDescription, webkitRTCPeerConnection */
+/* exported trace,requestUserMedia */
 
 'use strict';
 
@@ -23,50 +20,69 @@ var reattachMediaStream = null;
 var webrtcDetectedBrowser = null;
 var webrtcDetectedVersion = null;
 
-function maybeFixConfiguration(pcConfig) {
-  if (!pcConfig) {
-    return;
+function trace(text) {
+  // This function is used for logging.
+  if (text[text.length - 1] === '\n') {
+    text = text.substring(0, text.length - 1);
   }
-  for (var i = 0; i < pcConfig.iceServers.length; i++) {
-    if (pcConfig.iceServers[i].hasOwnProperty('urls')) {
-      pcConfig.iceServers[i].url = pcConfig.iceServers[i].urls;
-      delete pcConfig.iceServers[i].urls;
-    }
+  if (window.performance) {
+    var now = (window.performance.now() / 1000).toFixed(3);
+    console.log(now + ': ' + text);
+  } else {
+    console.log(text);
   }
 }
 
 if (navigator.mozGetUserMedia) {
   console.log('This appears to be Firefox');
 
-  window.webrtcDetectedBrowser = 'firefox';
+  webrtcDetectedBrowser = 'firefox';
 
-  window.webrtcDetectedVersion =
+  webrtcDetectedVersion =
     parseInt(navigator.userAgent.match(/Firefox\/([0-9]+)\./)[1], 10);
 
   // The RTCPeerConnection object.
   RTCPeerConnection = function(pcConfig, pcConstraints) {
     // .urls is not supported in FF yet.
-    maybeFixConfiguration(pcConfig);
+    if (pcConfig && pcConfig.iceServers) {
+      for (var i = 0; i < pcConfig.iceServers.length; i++) {
+        if (pcConfig.iceServers[i].hasOwnProperty('urls')) {
+          pcConfig.iceServers[i].url = pcConfig.iceServers[i].urls;
+          delete pcConfig.iceServers[i].urls;
+        }
+      }
+    }
     return new mozRTCPeerConnection(pcConfig, pcConstraints);
   };
 
   // The RTCSessionDescription object.
-  RTCSessionDescription = mozRTCSessionDescription;
+  window.RTCSessionDescription = mozRTCSessionDescription;
 
   // The RTCIceCandidate object.
-  RTCIceCandidate = mozRTCIceCandidate;
+  window.RTCIceCandidate = mozRTCIceCandidate;
 
-  // Get UserMedia (only difference is the prefix).
+  // getUserMedia shim (only difference is the prefix).
   // Code from Adam Barth.
-  window.getUserMedia = navigator.mozGetUserMedia.bind(navigator);
+  getUserMedia = navigator.mozGetUserMedia.bind(navigator);
   navigator.getUserMedia = getUserMedia;
 
-  // Creates iceServer from the url for FF.
+  // Shim for MediaStreamTrack.getSources.
+  MediaStreamTrack.getSources = function(successCb) {
+    setTimeout(function() {
+      var infos = [
+        {kind: 'audio', id: 'default', label:'', facing:''},
+        {kind: 'video', id: 'default', label:'', facing:''}
+      ];
+      successCb(infos);
+    }, 0);
+  };
+
+  // Creates ICE server from the URL for FF.
   window.createIceServer = function(url, username, password) {
     var iceServer = null;
     var urlParts = url.split(':');
     if (urlParts[0].indexOf('stun') === 0) {
-      // Create iceServer with stun url.
+      // Create ICE server with STUN URL.
       iceServer = {
         'url': url
       };
@@ -101,9 +117,8 @@ if (navigator.mozGetUserMedia) {
     var iceServers = [];
     // Use .url for FireFox.
     for (var i = 0; i < urls.length; i++) {
-      var iceServer = createIceServer(urls[i],
-        username,
-        password);
+      var iceServer =
+        window.createIceServer(urls[i], username, password);
       if (iceServer !== null) {
         iceServers.push(iceServer);
       }
@@ -112,29 +127,27 @@ if (navigator.mozGetUserMedia) {
   };
 
   // Attach a media stream to an element.
-  window.attachMediaStream = function(element, stream) {
+  attachMediaStream = function(element, stream) {
     console.log('Attaching media stream');
     element.mozSrcObject = stream;
-    element.play();
   };
 
-  window.reattachMediaStream = function(to, from) {
+  reattachMediaStream = function(to, from) {
     console.log('Reattaching media stream');
     to.mozSrcObject = from.mozSrcObject;
-    to.play();
   };
 
 } else if (navigator.webkitGetUserMedia) {
   console.log('This appears to be Chrome');
 
-  window.webrtcDetectedBrowser = 'chrome';
+  webrtcDetectedBrowser = 'chrome';
   // Temporary fix until crbug/374263 is fixed.
   // Setting Chrome version to 999, if version is unavailable.
   var result = navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./);
   if (result !== null) {
-    window.webrtcDetectedVersion = parseInt(result[2], 10);
+    webrtcDetectedVersion = parseInt(result[2], 10);
   } else {
-    window.webrtcDetectedVersion = 999;
+    webrtcDetectedVersion = 999;
   }
 
   // Creates iceServer from the url for Chrome M33 and earlier.
@@ -157,45 +170,27 @@ if (navigator.mozGetUserMedia) {
     return iceServer;
   };
 
-  // Creates iceServers from the urls for Chrome M34 and above.
+  // Creates an ICEServer object from multiple URLs.
   window.createIceServers = function(urls, username, password) {
-    var iceServers = [];
-    if (webrtcDetectedVersion >= 34) {
-      // .urls is supported since Chrome M34.
-      iceServers = {
-        'urls': urls,
-        'credential': password,
-        'username': username
-      };
-    } else {
-      for (var i = 0; i < urls.length; i++) {
-        var iceServer = createIceServer(urls[i],
-          username,
-          password);
-        if (iceServer !== null) {
-          iceServers.push(iceServer);
-        }
-      }
-    }
-    return iceServers;
+    return {
+      'urls': urls,
+      'credential': password,
+      'username': username
+    };
   };
 
   // The RTCPeerConnection object.
   RTCPeerConnection = function(pcConfig, pcConstraints) {
-    // .urls is supported since Chrome M34.
-    if (webrtcDetectedVersion < 34) {
-      maybeFixConfiguration(pcConfig);
-    }
     return new webkitRTCPeerConnection(pcConfig, pcConstraints);
   };
 
   // Get UserMedia (only difference is the prefix).
   // Code from Adam Barth.
-  window.getUserMedia = navigator.webkitGetUserMedia.bind(navigator);
+  getUserMedia = navigator.webkitGetUserMedia.bind(navigator);
   navigator.getUserMedia = getUserMedia;
 
   // Attach a media stream to an element.
-  window.attachMediaStream = function(element, stream) {
+  attachMediaStream = function(element, stream) {
     if (typeof element.srcObject !== 'undefined') {
       element.srcObject = stream;
     } else if (typeof element.mozSrcObject !== 'undefined') {
@@ -207,9 +202,27 @@ if (navigator.mozGetUserMedia) {
     }
   };
 
-  window.reattachMediaStream = function(to, from) {
+  reattachMediaStream = function(to, from) {
     to.src = from.src;
   };
 } else {
   console.log('Browser does not appear to be WebRTC-capable');
+}
+
+// Returns the result of getUserMedia as a Promise.
+function requestUserMedia(constraints) {
+  return new Promise(function(resolve, reject) {
+    var onSuccess = function(stream) {
+      resolve(stream);
+    };
+    var onError = function(error) {
+      reject(error);
+    };
+
+    try {
+      getUserMedia(constraints, onSuccess, onError);
+    } catch (e) {
+      reject(e);
+    }
+  });
 }

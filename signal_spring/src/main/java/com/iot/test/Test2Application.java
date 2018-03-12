@@ -3,7 +3,7 @@ package com.iot.test;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+//d@SpringBootApplication
 public class Test2Application {
 
 	public static void main(String[] args) {
