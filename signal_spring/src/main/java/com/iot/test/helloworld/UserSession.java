@@ -1,4 +1,4 @@
-package com.iot.test;
+package com.iot.test.helloworld;
 
 import org.kurento.client.IceCandidate;
 import org.kurento.client.MediaPipeline;

@@ -1,4 +1,4 @@
-package com.iot.test;
+package com.iot.test.helloworld;
 
 import org.kurento.client.KurentoClient;
 import org.springframework.boot.SpringApplication;
@@ -14,8 +14,8 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
  * @author Boni Garcia (bgarcia@gsyc.es)
  * @since 5.0.0
  */
-@SpringBootApplication
-@EnableWebSocket
+//@SpringBootApplication
+//@EnableWebSocket
 public class HelloWorldApp implements WebSocketConfigurer {
 
   @Bean

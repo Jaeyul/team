@@ -1,4 +1,4 @@
-package com.iot.test;
+package com.iot.test.helloworld;
 
 import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;

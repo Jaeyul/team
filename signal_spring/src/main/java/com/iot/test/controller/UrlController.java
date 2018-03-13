@@ -11,6 +11,6 @@ public class UrlController {
 	@RequestMapping("/test")
     public String index(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
         model.addAttribute("name", name);
-        return "hellow";
+        return "onetoone";
     }
 }
