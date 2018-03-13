@@ -3,6 +3,35 @@
 
 <!DOCTYPE html>
 <html>
+<script src="js/jquery-3.3.1.js"></script>
+<script src="js/components/visibility.js"></script>
+<script src="js/components/sidebar.js"></script>
+<script src="js/components/transition.js"></script>
+<script src="js/components/form.js"></script>
+  
+<link rel="stylesheet" type="text/css" href="css/components/reset.css">
+<link rel="stylesheet" type="text/css" href="css/components/site.css">
+<link rel="stylesheet" type="text/css" href="css/components/container.css">
+<link rel="stylesheet" type="text/css" href="css/components/grid.css">
+<link rel="stylesheet" type="text/css" href="css/components/header.css">
+<link rel="stylesheet" type="text/css" href="css/components/image.css">
+<link rel="stylesheet" type="text/css" href="css/components/menu.css">
+<link rel="stylesheet" type="text/css" href="css/components/divider.css">
+<link rel="stylesheet" type="text/css" href="css/components/dropdown.css">
+<link rel="stylesheet" type="text/css" href="csss/components/segment.css">
+
+<link rel="stylesheet" type="text/css" href="css/components/form.css">
+<link rel="stylesheet" type="text/css" href="css/components/list.css">
+<link rel="stylesheet" type="text/css" href="css/components/icon.css">
+<link rel="stylesheet" type="text/css" href="css/components/sidebar.css">
+<link rel="stylesheet" type="text/css" href="css/components/transition.css">
+<link rel="stylesheet" type="text/css" href="css/components/input.css">
+<link rel="stylesheet" type="text/css" href="css/components/button.css">
+<link rel="stylesheet" type="text/css" href="css/components/message.css">
+<link rel="stylesheet" type="text/css" href="css/components/icon.css">
+
+
+
 <head>
 
 
@@ -20,54 +49,16 @@
       max-width: 450px;
     }
   </style>
-  
-  <script>
-  $(document)
-    .ready(function() {
-      $('.ui.form')
-        .form({
-          fields: {
-            email: {
-              identifier  : 'ID',
-              rules: [
-                {
-                  type   : 'empty',
-                  prompt : 'Please enter your id'
-                },
-                {
-                  type   : 'ID',
-                  prompt : 'Please enter a valid id'
-                }
-              ]
-            },
-            password: {
-              identifier  : 'password',
-              rules: [
-                {
-                  type   : 'empty',
-                  prompt : 'Please enter your password'
-                },
-                {
-                  type   : 'length[6]',
-                  prompt : 'Your password must be at least 6 characters'
-                }
-              ]
-            }
-          }
-        })
-      ;
-    })
-  ;
-  </script>
+ 
 </head>
 <body>
 
 <div class="ui middle aligned center aligned grid">
   <div class="column">
     <h2 class="ui teal image header">
-      <img src="/resources/imgs/favicon.png" class="image">
+      <img src="img/favicon.png" class="image">
       <div class="content">
-       Sign-Up
+		Sign-Up
       </div>
     </h2>
     <form class="ui large form">
@@ -90,10 +81,7 @@
       <div class="ui error message"></div>
 
     </form>
-
-    <div class="ui message">
-      New to us? <a href="/user/signup">Sign Up</a>
-    </div>
+    
   </div>
 </div>
 

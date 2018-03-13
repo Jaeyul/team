@@ -3,10 +3,10 @@
 <!DOCTYPE html>
 <html>
 <script src="js/jquery-3.3.1.js"></script>
-<script src="css/components/visibility.js"></script>
-<script src="css/components/sidebar.js"></script>
-<script src="css/components/transition.js"></script>
-<script src="css/components/form.js"></script>
+<script src="js/components/visibility.js"></script>
+<script src="js/components/sidebar.js"></script>
+<script src="js/components/transition.js"></script>
+<script src="js/components/form.js"></script>
   
 <link rel="stylesheet" type="text/css" href="css/components/reset.css">
 <link rel="stylesheet" type="text/css" href="css/components/site.css">
@@ -30,6 +30,7 @@
 <link rel="stylesheet" type="text/css" href="css/components/icon.css">
 
 
+
 <head>
 
 
@@ -48,7 +49,6 @@
     }
 </style>
   
-
 
 </head>
 <body style="background-image:url(https://68.media.tumblr.com/57836ee52bc9355ad7c5fed5abf91ccc/tumblr_oiboo6MaRS1slhhf0o1_1280.jpg);">
@@ -82,7 +82,7 @@
     </form>
    
     <div class="ui message">
-      <a href="/user/signup">Sign Up</a>
+      <a href="signup">Sign Up</a>
     </div>
   </div>
 </div>

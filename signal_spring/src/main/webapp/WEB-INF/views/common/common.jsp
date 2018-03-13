@@ -7,9 +7,10 @@
 <c:set var="ver" value="?version=1.0.0"/>
 
 <script src="js/jquery-3.3.1.js"></script>
-<script src="css/components/visibility.js"></script>
-<script src="css/components/sidebar.js"></script>
-<script src="css/components/transition.js"></script>
+<script src="js/components/visibility.js"></script>
+<script src="js/components/sidebar.js"></script>
+<script src="js/components/transition.js"></script>
+<script src="js/components/form.js"></script>
   
 <link rel="stylesheet" type="text/css" href="css/components/reset.css">
 <link rel="stylesheet" type="text/css" href="css/components/site.css">
@@ -21,9 +22,14 @@
 <link rel="stylesheet" type="text/css" href="css/components/divider.css">
 <link rel="stylesheet" type="text/css" href="css/components/dropdown.css">
 <link rel="stylesheet" type="text/css" href="csss/components/segment.css">
+
+<link rel="stylesheet" type="text/css" href="css/components/form.css">
 <link rel="stylesheet" type="text/css" href="css/components/list.css">
 <link rel="stylesheet" type="text/css" href="css/components/icon.css">
 <link rel="stylesheet" type="text/css" href="css/components/sidebar.css">
 <link rel="stylesheet" type="text/css" href="css/components/transition.css">
-  
- 
+<link rel="stylesheet" type="text/css" href="css/components/input.css">
+<link rel="stylesheet" type="text/css" href="css/components/button.css">
+<link rel="stylesheet" type="text/css" href="css/components/message.css">
+<link rel="stylesheet" type="text/css" href="css/components/icon.css">
+
