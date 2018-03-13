@@ -21,8 +21,7 @@
 <link rel="stylesheet" type="text/css" href="css/components/menu.css">
 <link rel="stylesheet" type="text/css" href="css/components/divider.css">
 <link rel="stylesheet" type="text/css" href="css/components/dropdown.css">
-<link rel="stylesheet" type="text/css" href="csss/components/segment.css">
-
+<link rel="stylesheet" type="text/css" href="css/components/segment.css">
 <link rel="stylesheet" type="text/css" href="css/components/form.css">
 <link rel="stylesheet" type="text/css" href="css/components/list.css">
 <link rel="stylesheet" type="text/css" href="css/components/icon.css">
@@ -31,5 +30,4 @@
 <link rel="stylesheet" type="text/css" href="css/components/input.css">
 <link rel="stylesheet" type="text/css" href="css/components/button.css">
 <link rel="stylesheet" type="text/css" href="css/components/message.css">
-<link rel="stylesheet" type="text/css" href="css/components/icon.css">
 
