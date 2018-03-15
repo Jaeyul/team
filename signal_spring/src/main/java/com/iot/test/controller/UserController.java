@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
-public class UrlController {
+@RequestMapping("/user")
+public class UserController {
+	
 	
 	
 	@RequestMapping("/index")
@@ -29,21 +31,11 @@ public class UrlController {
         return "user/signup";
     }
 	
-	@RequestMapping("/video")
-    public String groupcall(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
+	@RequestMapping("/cheat")
+    public String onetoone(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
         model.addAttribute("name", name);
         return "groupcall";
     }
-
-	@RequestMapping("/chat")
-    public String chat(Model model) {
-        
-        return "ws/bs-test";
-    }
-	
-
-	
-	
 
 	
 }
