@@ -17,15 +17,12 @@ public class UrlController {
 	@Autowired
 	private TestTableMapper tm;
 	
-	
-	
 	@RequestMapping("/common")
     public String forCommon(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
         model.addAttribute("name", name);
         return "common/common";
     }
 	
-
 	@RequestMapping("/index")
     public String index(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
         model.addAttribute("name", name);
@@ -47,14 +44,8 @@ public class UrlController {
 	@RequestMapping("/cheat")
     public String onetoone(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
         model.addAttribute("name", name);
-        return "onetoone";
+        return "groupcall";
     }
-	
-	@RequestMapping("/list")
-    public @ResponseBody List<Map<String,Object>> List(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
-		List<Map<String,Object>> uList = tm.selectUserList();
-        return uList;
-    }
-	
+
 	
 }
