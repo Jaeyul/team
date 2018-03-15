@@ -25,15 +25,8 @@ import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
-/**
- * Video call 1 to 1 demo (main).
- *
- * @author Boni Garcia (bgarcia@gsyc.es)
- * @author Micael Gallego (micael.gallego@gmail.com)
- * @since 4.3.1
- */
-@SpringBootApplication
-@EnableWebSocket
+//@SpringBootApplication
+//@EnableWebSocket
 public class One2OneCallApp implements WebSocketConfigurer {
 
   @Bean
@@ -48,7 +41,7 @@ public class One2OneCallApp implements WebSocketConfigurer {
 
   @Bean
   public KurentoClient kurentoClient() {
-    return KurentoClient.create("ws://13.125.108.31:8888/kurento");
+    return KurentoClient.create("wss://13.125.108.31:8433/kurento");
   }
 
   @Override

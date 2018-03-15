@@ -1,12 +1,22 @@
 package com.iot.test.controller;
 
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.iot.test.common.mybatis.mapper.TestTableMapper;
 
 @Controller
 public class UrlController {
+	@Autowired
+	private TestTableMapper tm;
+	
 	
 	
 	@RequestMapping("/common")
@@ -33,5 +43,18 @@ public class UrlController {
         model.addAttribute("name", name);
         return "user/signup";
     }
+	
+	@RequestMapping("/cheat")
+    public String onetoone(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
+        model.addAttribute("name", name);
+        return "onetoone";
+    }
+	
+	@RequestMapping("/list")
+    public @ResponseBody List<Map<String,Object>> List(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
+		List<Map<String,Object>> uList = tm.selectUserList();
+        return uList;
+    }
+	
 	
 }
