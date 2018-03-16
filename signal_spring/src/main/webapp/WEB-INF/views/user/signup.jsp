@@ -4,8 +4,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-
   <style type="text/css">
     body {
       background-color: #DADADA;
@@ -15,14 +13,11 @@
     }
     .image {
       margin-top: -100px;
-      
-      
     }
     .column {
       max-width: 450px;
     }
   </style>
- 
 </head>
 <body>
 
@@ -31,7 +26,6 @@
     <h2 class="ui teal image header">
      	Sign-up
       <img src="/img/favicon.png" class="image">
-     
     </h2>
     <form class="ui large form">
       <div class="ui stacked segment">
@@ -49,11 +43,8 @@
         </div>
         <div class="ui fluid large teal submit button"> Sign-Up</div>
       </div>
-
       <div class="ui error message"></div>
-
     </form>
-    
   </div>
 </div>
 

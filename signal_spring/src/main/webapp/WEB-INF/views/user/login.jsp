@@ -32,11 +32,12 @@ body>.grid {
 			uiId : uiId,
 			uiPwd : uiPwd
 		};
+		console.log(param);
 		var au = new AjaxUtil("user/login", param, null, "post");
 		au.send(test);
 		function test(res) {
 			alert("야호");
-			console(res);
+			console.log(res);
 		}
 	}
 </script>
