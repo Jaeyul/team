@@ -17,7 +17,7 @@
 </body>
     <script type="text/javascript">
         var textarea = document.getElementById("messageWindow");
-        var webSocket = new WebSocket('ws://localhost/alarm');
+        var webSocket = new WebSocket('wss://' + location.host + '/alarm');
         var inputMessage = document.getElementById('inputMessage');
         var targetId = document.getElementById('targetId');
         
@@ -30,6 +30,7 @@
     webSocket.onmessage = function(event) {
       onMessage(event)
     };
+    
     function onMessage(event) {
         textarea.value += "상대 : " + event.data + "\n";
         var msgObj = JSON.parse(event.data);
@@ -38,9 +39,11 @@
     function onOpen(event) {
         textarea.value += "연결 성공\n";
     }
+    
     function onError(event) {
       alert(event.data);
     }
+    
     function send() {
         textarea.value += "나 : " + inputMessage.value + "\n";
         var msg = {"msg":inputMessage.value,"target":targetId.value}
