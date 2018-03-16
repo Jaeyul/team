@@ -10,31 +10,33 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class UrlController {
 
 	@RequestMapping("/welcome")
-	public String index(@RequestParam(name = "name", required = false, defaultValue = "World") String name,
-			Model model) {
-		model.addAttribute("name", name);
+	public String index() {
+
 		return "index";
 	}
 
 	@RequestMapping(value = "/login")
-	public String login(@RequestParam(name = "name", required = false, defaultValue = "World") String name,
-			Model model) {
-		model.addAttribute("name", name);
+	public String login() {
+
 		return "user/login";
 	}
 
 	@RequestMapping("/signup")
-	public String signup(@RequestParam(name = "name", required = false, defaultValue = "World") String name,
-			Model model) {
-		model.addAttribute("name", name);
+	public String signup() {
+
 		return "user/signup";
 	}
 
 	@RequestMapping("/video")
-	public String groupcall(@RequestParam(name = "name", required = false, defaultValue = "World") String name,
-			Model model) {
-		model.addAttribute("name", name);
-		return "groupcall";
+	public String groupcall() {
+
+		return "vchat/groupcall";
+	}
+
+	@RequestMapping("/map")
+	public String map() {
+
+		return "map/map";
 	}
 
 }

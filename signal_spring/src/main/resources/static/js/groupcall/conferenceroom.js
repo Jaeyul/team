@@ -133,7 +133,7 @@ function leaveRoom() {
 
 	document.getElementById('join').style.display = 'block';
 	document.getElementById('room').style.display = 'none';
-
+	location.reload();
 	ws.close();
 }
 
