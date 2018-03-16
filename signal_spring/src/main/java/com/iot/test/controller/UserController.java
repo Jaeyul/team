@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/user")
 public class UserController {
 	
-	@RequestMapping(value="/login", method=RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value="/login", method=RequestMethod.POST)
     public @ResponseBody Map<String,Object> login(@RequestBody Map<String,Object> tMap) {
-		System.out.println(tMap);
+		System.out.println("zzz" + tMap);
         return tMap;
     }
 	

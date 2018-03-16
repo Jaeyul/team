@@ -1,6 +1,7 @@
 
 var AjaxUtil = function (url, params, type, dataType){
 	
+	this.param = JSON.stringify(params);
 	this.url = url;
 	this.type = type?type:"POST";
 	this.dataType = dataType?dataType:"json";
@@ -12,11 +13,11 @@ var AjaxUtil = function (url, params, type, dataType){
 		$.ajax({ 
 	        type     : this.type
 	    ,   url      : this.url
-	    ,   dataType : this.dataType 
+	    
 	    ,   beforeSend: function(xhr) {
 	        xhr.setRequestHeader("Content-Type", "application/json");
 	    }
-	    ,  data : encodeURIComponent(this.param)
+	    ,  data : this.param
 	    ,  success : this.callbackSuccess
 	    ,   error : function(xhr, status, e) {
 		    	alert("에러 : "+xhr.responseText);
