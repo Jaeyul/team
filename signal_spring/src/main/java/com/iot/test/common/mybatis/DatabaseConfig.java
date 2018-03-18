@@ -43,7 +43,7 @@ public class DatabaseConfig {
 		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
 		sqlSessionFactoryBean.setDataSource(dataSource);
 		sqlSessionFactoryBean.setConfigLocation(applicationContext.getResource(mp.getConfigLocation()));
-		sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources(mp.getMapperLocation()));
+		//sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources(mp.getMapperLocation()));
 		return sqlSessionFactoryBean;
 	}
 

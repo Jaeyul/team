@@ -12,7 +12,12 @@
 
 	<typeAliases>
 		<typeAlias alias="LinkedHashMap" type="java.util.LinkedHashMap" />
+		<typeAlias alias="ui" type="com.iot.test.vo.UserInfoVO" />
 	</typeAliases>
+	
+	<mappers>
+		<mapper resource="mybatis/sql/user_info.xml"/>
+	</mappers>
 	
 </configuration>
 

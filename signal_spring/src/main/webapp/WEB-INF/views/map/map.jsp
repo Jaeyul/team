@@ -25,14 +25,12 @@ svg {
 </style>
 
 <body>
-
-	<script>
+<div id="mapTest" style="float: left; width: 49%;"></div>
+<script>
 function getList(str){
 	alert(str);
 }
-	
-	
-var w = 860, h = 870; 
+var w = 600, h = 870; 
 var proj = d3.geo.mercator()
 	.center([128.0, 35.9])
 	.scale(7000)
@@ -40,7 +38,7 @@ var proj = d3.geo.mercator()
 
 var path = d3.geo.path().projection(proj);
 var ids = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16];
-var svg = d3.select("body").append("svg")
+var svg = d3.select("#mapTest").append("svg")
 	.attr("width", w)
 	.attr("height", h);
     
@@ -54,6 +52,10 @@ d3.json("/js/map/provinces-topo-simple.json", function(error, kor) {
 	.attr('style','cursor:pointer;');
     });
 </script>
+<div style="float: right; width: 49%;">
+ <a href="login">한번 시도해봄</a>
+</div>
+
 </body>
 
 </html>

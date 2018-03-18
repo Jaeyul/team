@@ -1,12 +1,13 @@
 package com.iot.test.common.mybatis.mapper;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.iot.test.vo.UserInfoVO;
+
 @Mapper
-public interface TestTableMapper {
+public interface UserInfoMapper {
 	
-	List<Map<String, Object>> selectUserList();
+	List<UserInfoVO> selectUserList(UserInfoVO ui);
 }

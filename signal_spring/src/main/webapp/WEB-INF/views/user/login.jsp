@@ -31,13 +31,14 @@ body>.grid {
 		var param = {
 			uiId : uiId,
 			uiPwd : uiPwd
-		};
-		console.log(param);
+		};		
 		var au = new AjaxUtil("user/login", param, null, "post");
 		au.send(test);
 		function test(res) {
-			alert("야호");
-			console.log(res);
+			alert(res.msg);
+			if(res.biz){
+				document.location.href="welcome";
+			}
 		}
 	}
 </script>

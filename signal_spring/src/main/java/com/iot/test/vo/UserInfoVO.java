@@ -4,8 +4,10 @@ public class UserInfoVO {
 	
 	private int uiNo;
 	private String uiId;
-	private String uiNickName;
 	private String uiPwd;
+	private String uiNickName;
+	private String uiEmail;
+	private String uiRegdate;
 	public int getUiNo() {
 		return uiNo;
 	}
@@ -18,21 +20,34 @@ public class UserInfoVO {
 	public void setUiId(String uiId) {
 		this.uiId = uiId;
 	}
-	public String getUiNickName() {
-		return uiNickName;
-	}
-	public void setUiNickName(String uiNickName) {
-		this.uiNickName = uiNickName;
-	}
 	public String getUiPwd() {
 		return uiPwd;
 	}
 	public void setUiPwd(String uiPwd) {
 		this.uiPwd = uiPwd;
 	}
+	public String getUiNickName() {
+		return uiNickName;
+	}
+	public void setUiNickName(String uiNickName) {
+		this.uiNickName = uiNickName;
+	}
+	public String getUiEmail() {
+		return uiEmail;
+	}
+	public void setUiEmail(String uiEmail) {
+		this.uiEmail = uiEmail;
+	}
+	public String getUiRegdate() {
+		return uiRegdate;
+	}
+	public void setUiRegdate(String uiRegdate) {
+		this.uiRegdate = uiRegdate;
+	}
 	@Override
 	public String toString() {
-		return "UserInfoVO [uiNo=" + uiNo + ", uiId=" + uiId + ", uiNickName=" + uiNickName + ", uiPwd=" + uiPwd + "]";
+		return "UserInfoVO [uiNo=" + uiNo + ", uiId=" + uiId + ", uiPwd=" + uiPwd + ", uiNickName=" + uiNickName
+				+ ", uiEmail=" + uiEmail + ", uiRegdate=" + uiRegdate + "]";
 	}
 	
 }

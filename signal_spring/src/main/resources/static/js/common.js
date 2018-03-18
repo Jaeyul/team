@@ -12,8 +12,7 @@ var AjaxUtil = function (url, params, type, dataType){
 		}
 		$.ajax({ 
 	        type     : this.type
-	    ,   url      : this.url
-	    
+	    ,   url      : this.url	    
 	    ,   beforeSend: function(xhr) {
 	        xhr.setRequestHeader("Content-Type", "application/json");
 	    }
