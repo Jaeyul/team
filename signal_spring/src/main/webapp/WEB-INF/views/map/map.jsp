@@ -23,12 +23,15 @@ svg {
 .municipality:hover {
 	fill: orange;
 }
+
+
 </style>
 
 <body>
 <br>
 <div id="mapTest" style="float: left; border-style: solid;"></div>
 <script>
+var colorConfirm = [];
 function getList(str){	
 	alert(str);
 	$('#regeon').html(str);
@@ -62,9 +65,26 @@ d3.json("/js/map/provinces-topo-simple.json", function(error, kor) {
 	.attr('style','cursor:pointer;');
 });
 
-
-
+function changeBtns(){
+	for(var key in colorConfirm){
+		var id = colorConfirm[key];
+		$('#'+id).addClass("active");
+	}
+}
+function activeJY(id){
+	var idx = colorConfirm.indexOf(id);
+	if(idx==-1){
+		colorConfirm[colorConfirm.length] = id;
+	}else{
+		colorConfirm.splice(idx);
+		$('#'+id).removeClass("active");
+		$('#'+id).blur();
+	}
+	changeBtns();
+	
+}
 </script>
+
 <div id="categoryWindow" style="float: right; width: 51.5%; display : none ">
 <br><br><br><br>
 	<div> 
@@ -74,21 +94,20 @@ d3.json("/js/map/provinces-topo-simple.json", function(error, kor) {
 			</div>
 			<div class="ui segments">
 					<div class="ui segment">
-					  <button class="ui inverted red button">Red</button>
-					  <button class="ui inverted orange button">Orange</button>
-					  <button class="ui inverted yellow button">Yellow</button>
-					  <button class="ui inverted olive button">Olive</button>
-					  <button class="ui inverted green button">Green</button>
-					  <button class="ui inverted teal button">Teal</button>
-					 
+					  <button class="ui inverted red button" id="colorDB2828" onclick="activeJY(id)">Red</button>
+					  <button class="ui inverted orange button" id="colorF2711C" onclick="activeJY(id)">Orange</button>
+					  <button class="ui inverted yellow button" id="colorFBBD08" onclick="activeJY(id)">Yellow</button>
+					  <button class="ui inverted olive button" id="colorB5CC18" onclick="activeJY(id)">Olive</button>
+					  <button class="ui inverted green button" id="color21BA45" onclick="activeJY(id)">Green</button>
+					  <button class="ui inverted teal button" id="color00B5AD" onclick="activeJY(id)">Teal</button>
 					</div>
 			    <div class="ui segment">
 			    	
-			  	 		<button class="ui inverted blue button">Blue</button>
-						<button class="ui inverted violet button">Violet</button>
-						<button class="ui inverted purple button">Purple</button>
-						<button class="ui inverted pink button">Pink</button>
-						<button class="ui inverted brown button">Brown</button>				
+			  	 		<button class="ui inverted blue button" id="color2185D0" onclick="activeJY(id)">Blue</button>
+						<button class="ui inverted violet button" id="color6435C9" onclick="activeJY(id)">Violet</button>
+						<button class="ui inverted purple button" id="colorA333C8" onclick="activeJY(id)">Purple</button>
+						<button class="ui inverted pink button" id="colorE03997" onclick="activeJY(id)">Pink</button>
+						<button class="ui inverted brown button" id="colorA5673F" onclick="activeJY(id)">Brown</button>				
 			    	
 			    </div>
 			    <div class="ui segment">
