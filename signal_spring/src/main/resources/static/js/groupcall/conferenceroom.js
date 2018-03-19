@@ -53,8 +53,34 @@ ws.onmessage = function(message) {
 	}
 }
 
-function register() {
-	name = document.getElementById('name').value;
+function register() {	
+	$.ajax({ 
+        type     : "POST"
+    ,   url      : "user/uiId"	   
+    ,  success : function please(res){		
+		alert("야호 : " + res);
+		name = res;
+		var room = document.getElementById('roomName').value;
+
+		document.getElementById('room-header').innerText = 'ROOM ' + room;
+		document.getElementById('join').style.display = 'none';
+		document.getElementById('room').style.display = 'block';
+
+		var message = {
+			id : 'joinRoom',
+			name : name,
+			room : room,
+		}
+		sendMessage(message);
+	}
+    ,   error : function(xhr, status, e) {
+	    	alert("에러 : "+xhr.responseText);
+	},
+	done : function(e) {
+	}
+	});
+	
+	/*name = document.getElementById('name').value;
 	var room = document.getElementById('roomName').value;
 
 	document.getElementById('room-header').innerText = 'ROOM ' + room;
@@ -66,7 +92,7 @@ function register() {
 		name : name,
 		room : room,
 	}
-	sendMessage(message);
+	sendMessage(message);*/
 }
 
 function onNewParticipant(request) {

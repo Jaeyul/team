@@ -77,7 +77,7 @@ CREATE TABLE note
 CREATE TABLE regeon
 (
 	regeonNo int NOT NULL AUTO_INCREMENT,
-	regeonName varchar(10) NOT NULL,
+	regeonName varchar(30) NOT NULL,
 	PRIMARY KEY (regeonNo),
 	UNIQUE (regeonName)
 );
@@ -165,7 +165,7 @@ ALTER TABLE Friends
 
 
 ALTER TABLE note
-	ADD FOREIGN KEY (uiNo)
+	ADD FOREIGN KEY (targetUiNo)
 	REFERENCES user_info (uiNo)
 	ON UPDATE RESTRICT
 	ON DELETE RESTRICT
@@ -173,7 +173,7 @@ ALTER TABLE note
 
 
 ALTER TABLE note
-	ADD FOREIGN KEY (targetUiNo)
+	ADD FOREIGN KEY (uiNo)
 	REFERENCES user_info (uiNo)
 	ON UPDATE RESTRICT
 	ON DELETE RESTRICT

@@ -5,10 +5,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="styleSheet" href="/css/groupcall/style.css" type="text/css" media="screen">
+<script src="/js/jquery-3.3.1.js"></script>
 <script src="/js/adapter.js"></script>
 <script src="/js/groupcall/conferenceroom.js"></script>
 <script src="/js/groupcall/participant.js"></script>
 <script src="/js/kurento-utils.js"></script>
+
 
 <title>Insert title here</title>
 </head>

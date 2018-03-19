@@ -1,7 +1,9 @@
 
 var AjaxUtil = function (url, params, type, dataType){
-	
-	this.param = JSON.stringify(params);
+	this.param = null;
+	if(params!=null){
+		this.param = JSON.stringify(params);
+	}
 	this.url = url;
 	this.type = type?type:"POST";
 	this.dataType = dataType?dataType:"json";

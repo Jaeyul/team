@@ -2,9 +2,11 @@ package com.iot.test.controller;
 
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
+import javax.websocket.server.HandshakeRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +43,15 @@ public class UserController {
     public String signup(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
         model.addAttribute("name", name);
         return "user/signup";
+    }
+	
+	@RequestMapping(value="/uiId", method=RequestMethod.POST)
+    public @ResponseBody String getUiId(HttpSession hs) {
+		log.info("오긴오냐?");
+		List<UserInfoVO> userList = (List<UserInfoVO>) hs.getAttribute("user");
+		String name = userList.get(0).getUiId();
+		log.info("uiId=>{}",name);
+        return name;
     }
 	
 	
