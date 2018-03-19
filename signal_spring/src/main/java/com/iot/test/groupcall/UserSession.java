@@ -31,6 +31,7 @@ import org.kurento.client.WebRtcEndpoint;
 import org.kurento.jsonrpc.JsonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
@@ -41,6 +42,7 @@ import com.google.gson.JsonObject;
  * @author Ivan Gracia (izanmail@gmail.com)
  * @since 4.3.1
  */
+
 public class UserSession implements Closeable {
 
   private static final Logger log = LoggerFactory.getLogger(UserSession.class);
@@ -54,8 +56,7 @@ public class UserSession implements Closeable {
   private final WebRtcEndpoint outgoingMedia;
   private final ConcurrentMap<String, WebRtcEndpoint> incomingMedia = new ConcurrentHashMap<>();
 
-  public UserSession(final String name, String roomName, final WebSocketSession session,
-      MediaPipeline pipeline) {
+  public UserSession(final String name, String roomName, final WebSocketSession session,MediaPipeline pipeline) {
 
     this.pipeline = pipeline;
     this.name = name;
