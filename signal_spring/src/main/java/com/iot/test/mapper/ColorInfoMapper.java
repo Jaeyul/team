@@ -6,9 +6,8 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface CategoryMapper {	
+public interface ColorInfoMapper {
 	
-	List<Map<String,Object>> selectCategoryList();
-	
+	List<Map<String,Object>> selectColorList();
 
 }

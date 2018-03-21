@@ -4,6 +4,7 @@ SET SESSION FOREIGN_KEY_CHECKS=0;
 
 DROP TABLE IF EXISTS image_file;
 DROP TABLE IF EXISTS bulletin_board;
+DROP TABLE IF EXISTS color_info;
 DROP TABLE IF EXISTS room_info;
 DROP TABLE IF EXISTS category;
 DROP TABLE IF EXISTS expose;
@@ -35,6 +36,23 @@ CREATE TABLE category
 	categoryNo int NOT NULL AUTO_INCREMENT,
 	categoryName varchar(30) NOT NULL,
 	PRIMARY KEY (categoryNo),
+	UNIQUE (categoryName)
+);
+
+
+CREATE TABLE color_info
+(
+	colorNo int unsigned NOT NULL AUTO_INCREMENT,
+	colorCode varchar(100),
+	colorClass varchar(100) NOT NULL,
+	colorName varchar(30) NOT NULL,
+	colorId varchar(100) NOT NULL,
+	categoryName varchar(30) NOT NULL,
+	PRIMARY KEY (colorNo),
+	UNIQUE (colorCode),
+	UNIQUE (colorClass),
+	UNIQUE (colorName),
+	UNIQUE (colorId),
 	UNIQUE (categoryName)
 );
 
@@ -158,6 +176,14 @@ ALTER TABLE image_file
 	REFERENCES bulletin_board (bNo)
 	ON UPDATE CASCADE
 	ON DELETE CASCADE
+;
+
+
+ALTER TABLE color_info
+	ADD FOREIGN KEY (categoryName)
+	REFERENCES category (categoryName)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
 ;
 
 

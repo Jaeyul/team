@@ -24,15 +24,22 @@ svg {
 	fill: orange;
 }
 
+div.mapTest {
+	
+}
+
 
 </style>
 
-<body onload="getData()">
-<br>
-<div id="kMapIcon" style="display:none;">
-	<img src="/img/koreamap.png" class="image" height="50" width="50" onclick="openMap()">
+<body>
+
+<div id="kMapIcon" style="visibility: hidden;">
+	<img src="/img/koreamap.png" class="image" height="45" width="80" onclick="openMap()">
 </div>
-<div id="mapTest" style="float: left; border-style: solid;border-color:#9A91AC ;"></div>
+
+<div class="mapTest" id="mapTest" style="float: left; border-style: solid;border-color:#9A91AC ;"></div>
+
+
 <script>
 var colorConfirm = [];
 var bw = document.body.clientWidth;
@@ -46,11 +53,11 @@ function getList(str){
 	$('#categoryWindow').css("float","none");
 	$('#categoryWindow').css("margin","auto");
 	setTimeout(function(){ 
-		$('#kMapIcon').css("display","");
+		$('#kMapIcon').css("visibility","visible");
 	}, 800);	
 }
 function openMap(){
-	$('#kMapIcon').css("display","none");
+	$('#kMapIcon').css("visibility","hidden");
 	$('#categoryWindow').animate({width: bw-(bw/2.05)}, "slow");
 	$('#categoryWindow').css("float","right");
 	$('#categoryWindow').css("margin","0");	
@@ -58,23 +65,11 @@ function openMap(){
 	
 }
 
-function openWindow(){
-	
-	
+function openWindow(){	
 	$('#categorySelect').dropdown();
 	$('#sizeSelect').dropdown();
 	$('.ui.basic.modal').modal('show');	
 }
-
-function getData(){
-	var au = new AjaxUtil("category/list");
-	au.send(test);
-	function test(res){		
-		console.log(res);		
-	}
-	
-}
-
 
 var w = 600, h = 870; 
 var proj = d3.geo.mercator()
@@ -120,30 +115,35 @@ function activeJY(id){
 
 <div id="categoryWindow" style="float: right; display : none ">
 <br><br><br>
+
 	<div> 
 		<div class="ui segments">
 			<div class="ui segment">
-				<p id="regeon"></p>
+				<p id="regeon">??</p>
 			</div>
 			<div class="ui segments">
 					<div class="ui segment">
-					  <button class="ui inverted red button" id="colorDB2828" onclick="activeJY(id)">Red</button>
-					  <button class="ui inverted orange button" id="colorF2711C" onclick="activeJY(id)">Orange</button>
-					  <button class="ui inverted yellow button" id="colorFBBD08" onclick="activeJY(id)">Yellow</button>
-					  <button class="ui inverted olive button" id="colorB5CC18" onclick="activeJY(id)">Olive</button>
-					  <button class="ui inverted green button" id="color21BA45" onclick="activeJY(id)">Green</button>
-					  <button class="ui inverted teal button" id="color00B5AD" onclick="activeJY(id)">Teal</button>
-					</div>
-					<div class="ui segment">			    	
-			  	 		<button class="ui inverted blue button" id="color2185D0" onclick="activeJY(id)">Blue</button>
-						<button class="ui inverted violet button" id="color6435C9" onclick="activeJY(id)">Violet</button>
-						<button class="ui inverted purple button" id="colorA333C8" onclick="activeJY(id)">Purple</button>
-						<button class="ui inverted pink button" id="colorE03997" onclick="activeJY(id)">Pink</button>
-						<button class="ui inverted brown button" id="colorA5673F" onclick="activeJY(id)">Brown</button>
-						<button class="ui inverted grey button" id="color767676" onclick="activeJY(id)" style="color:#767676">Grey</button>
-					</div>
-			</div>
-						
+						<c:forEach items="${clList}" var="colorList">	
+							<c:choose>
+								<c:when test="${colorList.colorNo eq '7'}">
+									<button class="${colorList.colorClass}" id="${colorList.colorId}" onclick="activeJY(id)">${colorList.categoryName}</button>
+									</div>
+									<div class="ui segment">
+								</c:when>
+								<c:when test="${colorList.colorNo eq '12'}">									
+									<button class="${colorList.colorClass}" id="${colorList.colorId}" onclick="activeJY(id)" style="color:${colorList.colorCode}">${colorList.categoryName}</button>
+								</c:when>
+								<c:when test="${colorList.colorNo eq '13'}">									
+									<button class="${colorList.colorClass}" id="${colorList.colorId}" onclick="activeJY(id)" style="border-color:${colorList.colorCode}; color:#767676">${colorList.categoryName}</button>
+									</div>
+								</c:when>
+								<c:otherwise>
+									<button class="${colorList.colorClass}" id="${colorList.colorId}" onclick="activeJY(id)">${colorList.categoryName}</button>								
+								</c:otherwise>
+							</c:choose>								
+						</c:forEach>						
+					</div>				
+							
 			<div class="ui segment">
 				<div class="ui segment">
 					<br><br><br><br><br><br>
@@ -153,13 +153,14 @@ function activeJY(id){
 			<br><br><br>	
 		</div>
 	</div>
+	
 </div>
 
 <div class="ui basic modal"  style="border-style: solid;">
 	<div class="ui icon header">
 	<i class="archive icon"></i>    
 </div>  
-	<div class="content" style="width:400; margin:auto">
+	<div class="content" style="width:400; margin:auto">	
 		<form>
 	    	방&emsp;이름:&emsp;
 	    	<div class="ui input">
@@ -169,8 +170,8 @@ function activeJY(id){
 	    	카테고리:&emsp; 
 	    	<select name="categoryNo" class="ui dropdown" id="categorySelect" name="">
 			  <option value="">Category</option>			  
-			  <c:forEach items="${list}" var="clist">
-			  	<option value=${clist.categoryNo}>${clist.categoryName}</option>
+			  <c:forEach items="${ctList}" var="cateList">
+			  	<option value=${cateList.categoryNo}>${cateList.categoryName}</option>
 			  </c:forEach>	  	  
 			</select>			
 			<br><br>
@@ -184,6 +185,7 @@ function activeJY(id){
 			  <option value=6>6</option>
 			</select>
 		</form>
+		
 	</div>
   
 	<div class="actions">
@@ -198,7 +200,6 @@ function activeJY(id){
 	</div>
   
 </div>
-
 
 </body>
 

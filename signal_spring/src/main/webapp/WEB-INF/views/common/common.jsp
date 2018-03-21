@@ -10,6 +10,9 @@
 <script src="/js/components/sidebar.js"></script>
 <script src="/js/components/transition.js"></script>
 <script src="/js/components/form.js"></script>
+<script src="/js/components/dropdown.js"></script>
+<script src="/js/components/dimmer.js"></script>
+<script src="/js/components/modal.js"></script>
 <script src="/js/common.js"></script>
 <script src="/js/map/d3.v3.min.js"></script>
 <script src="/js/map/topojson.v0.min.js"></script>
@@ -32,4 +35,6 @@
 <link rel="stylesheet" type="text/css" href="/css/components/input.css">
 <link rel="stylesheet" type="text/css" href="/css/components/button.css">
 <link rel="stylesheet" type="text/css" href="/css/components/message.css">
+<link rel="stylesheet" type="text/css" href="/css/components/dimmer.css">
+<link rel="stylesheet" type="text/css" href="/css/components/modal.css">
 

@@ -1,14 +1,20 @@
 package com.iot.test.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.iot.test.dao.CategoryDAO;
+import com.iot.test.dao.ColorInfoDAO;
 
 @Controller
 public class UrlController {
+	@Autowired
+	private CategoryDAO ctdao;
 
+	@Autowired
+	private ColorInfoDAO cldao;
 	@RequestMapping("/welcome")
 	public String index() {
 
@@ -34,9 +40,14 @@ public class UrlController {
 	}
 
 	@RequestMapping("/map")
-	public String map() {
-
-		return "map/map";
+	public ModelAndView map(ModelAndView mav) {
+			
+		mav.addObject("ctList",ctdao.selectCategoryList());
+		mav.addObject("clList",cldao.selectColorList());
+		
+		mav.setViewName("map/map");
+		
+		return mav;
 	}
 	
 

@@ -5,17 +5,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.UUID;
 
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.iot.test.vo.ImageVO;
 
+@Service
 public class ImageService {
 
-	
 
-	/**
-	 * Multipart File을 파일로 저장하고 DB(를 빙자한 맵)에 업로드 파일 정보 저장, 실패하는 경우 null리
-	 */
 	public ImageVO save(MultipartFile multipartFile) {
 		// UUID로 유일할 것 같은 값 생성.. 낮은 확률로 중복 가능성이 있음 
 		String genId = UUID.randomUUID().toString();

@@ -6,8 +6,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.iot.test.common.mybatis.mapper.CategoryMapper;
 import com.iot.test.dao.CategoryDAO;
+import com.iot.test.mapper.CategoryMapper;
 
 @Repository
 public class CategoryDAOImpl implements CategoryDAO{
