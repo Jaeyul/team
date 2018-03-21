@@ -23,7 +23,7 @@ CREATE TABLE bulletin_board
 (
 	bNo int(15) unsigned NOT NULL AUTO_INCREMENT,
 	bName varchar(300) NOT NULL,
-	bContent varchar(2000) NOT NULL,
+	bContent text NOT NULL,
 	bRegDate datetime NOT NULL,
 	uiNo int unsigned NOT NULL,
 	PRIMARY KEY (bNo)
@@ -67,9 +67,14 @@ CREATE TABLE image_file
 	imgNo int(15) unsigned NOT NULL AUTO_INCREMENT,
 	imgName varchar(150) NOT NULL,
 	imgProtect varchar(1) NOT NULL,
+	imgRegDate datetime NOT NULL,
+	imgId varchar(300) NOT NULL,
+	imgType varchar(30) NOT NULL,
+	imgLength bigint NOT NULL,
 	bNo int(15) unsigned NOT NULL,
 	PRIMARY KEY (imgNo),
-	UNIQUE (imgName)
+	UNIQUE (imgName),
+	UNIQUE (imgId)
 );
 
 
@@ -205,7 +210,7 @@ ALTER TABLE Friends
 
 
 ALTER TABLE note
-	ADD FOREIGN KEY (uiNo)
+	ADD FOREIGN KEY (targetUiNo)
 	REFERENCES user_info (uiNo)
 	ON UPDATE RESTRICT
 	ON DELETE RESTRICT
@@ -213,7 +218,7 @@ ALTER TABLE note
 
 
 ALTER TABLE note
-	ADD FOREIGN KEY (targetUiNo)
+	ADD FOREIGN KEY (uiNo)
 	REFERENCES user_info (uiNo)
 	ON UPDATE RESTRICT
 	ON DELETE RESTRICT

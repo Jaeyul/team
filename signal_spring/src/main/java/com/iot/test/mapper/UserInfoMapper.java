@@ -1,4 +1,4 @@
-package com.iot.test.common.mybatis.mapper;
+package com.iot.test.mapper;
 
 import java.util.List;
 

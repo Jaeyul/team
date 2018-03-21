@@ -39,10 +39,5 @@ public class UrlController {
 		return "map/map";
 	}
 	
-	@RequestMapping("/board")
-	public String board() {
-
-		return "board/board";
-	}
 
 }

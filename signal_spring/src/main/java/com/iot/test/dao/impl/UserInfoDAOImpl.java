@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.iot.test.common.mybatis.mapper.UserInfoMapper;
 import com.iot.test.dao.UserInfoDAO;
+import com.iot.test.mapper.UserInfoMapper;
 import com.iot.test.vo.UserInfoVO;
 
 @Repository
