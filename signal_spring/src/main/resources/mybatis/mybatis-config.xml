@@ -17,6 +17,7 @@
 	
 	<mappers>
 		<mapper resource="mybatis/sql/user_info.xml"/>
+		<mapper resource="mybatis/sql/category.xml"/>
 	</mappers>
 	
 </configuration>
