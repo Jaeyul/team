@@ -1,12 +1,12 @@
 package com.iot.test.controller;
 
-import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,50 +14,63 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.iot.test.common.mybatis.ImageView;
 import com.iot.test.mapper.BoardMapper;
-import com.iot.test.service.ImageService;
+import com.iot.test.mapper.ImgMapper;
+import com.iot.test.service.impl.ImageService;
 import com.iot.test.vo.BoardVO;
 import com.iot.test.vo.ImageVO;
+import com.iot.test.vo.UserInfoVO;
 
 @Controller
 @RequestMapping("/board")
 public class BoardController {
 
-	@Resource(name = "imageView")
+	private static final Logger log = LoggerFactory.getLogger(BoardController.class);
+
+	@Autowired
 	ImageView imageView;
 
 	@Autowired
 	BoardMapper bm;
-
+	@Autowired
+	ImgMapper im;
 	@Autowired
 	ImageService imageService;
 
-	@RequestMapping(value = "/", method = RequestMethod.POST)
-	public String boardPage() {
+	@RequestMapping
+	public String boardListPage() {
 
 		return "board/board";
 	}
 
-	@RequestMapping(value = "/write", method = RequestMethod.POST)
-	public String writeBoard(@RequestBody BoardVO bv) {
-		bm.insertBoard(bv);
+	@RequestMapping("/write")
+	public String writeBoard() {
+		return "board/write";
+	}
+
+	@RequestMapping(value = "/complete", method = RequestMethod.POST)
+	public String uploadImage(@RequestParam("imgFile") MultipartFile img, BoardVO bv, HttpSession hs) {
+		UserInfoVO uiv = (UserInfoVO) hs.getAttribute("user");
+		Integer uiNo = uiv.getUiNo();
+		bv.setUiNo(uiNo);
+		Integer bNo = bm.insertBoard(bv);
+		ImageVO ImageVO = imageService.save(img, bNo);
+		im.insertImg(ImageVO);
+		log.info("ImageVO = {}", bNo);
 		return "board/board";
 	}
 
-	@RequestMapping(value = "/imgupload", method = RequestMethod.POST)
-	public String uploadImage(@RequestParam MultipartFile img, ModelMap modelMap) {
-		ImageVO fileInfo = imageService.save(img);
+	@RequestMapping(value = "/post", method = RequestMethod.GET)
+	public String boardPage(Model model) {
+		int bNo = 15;
+		BoardVO boardVO = bm.selectByNo(bNo);
+		ImageVO imageVO = im.selectByBno(bNo);
+		System.out.println(boardVO);
+		System.out.println(imageVO);
+		log.info("[]", boardVO);
+		log.info("[]", imageVO);
+		model.addAttribute("boardVO", boardVO);
+		model.addAttribute("imageVO", imageVO);
 
-		modelMap.put("imageFile", fileInfo);
-
-		return "board/uploadComplete";
-	}
-
-	@RequestMapping(value = "/image/{imgId}", method = RequestMethod.POST)
-	public String imagePage(@PathVariable String imageId, ModelMap modelMap) {
-//mapper 써서 받아올거임		
-//		ImageVO ImageVO = imageService.get(imageId);
-//		modelMap.put("ImageVO", ImageVO);
-
-		return "board/board";
+		return "board/post";
 	}
 }

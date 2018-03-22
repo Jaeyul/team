@@ -1,13 +1,11 @@
 package com.iot.test.vo;
 
 public class ImageVO {
-	public static final String IMAGE_DIR = "/web/upload_images/";
 	private Integer imgNo;
 	private String imgName;
 	private String imgId;
 	private String imgType;
 	private int imgSize;
-	private char imgProtect;
 	private char imgRegDate;
 	private Integer bNo;
 
@@ -51,14 +49,6 @@ public class ImageVO {
 		this.imgSize = imgSize;
 	}
 
-	public char getImgProtect() {
-		return imgProtect;
-	}
-
-	public void setImgProtect(char imgProtect) {
-		this.imgProtect = imgProtect;
-	}
-
 	public char getImgRegDate() {
 		return imgRegDate;
 	}
@@ -78,8 +68,7 @@ public class ImageVO {
 	@Override
 	public String toString() {
 		return "ImageVO [imgNo=" + imgNo + ", imgName=" + imgName + ", imgId=" + imgId + ", imgType=" + imgType
-				+ ", imgSize=" + imgSize + ", imgProtect=" + imgProtect + ", imgRegDate=" + imgRegDate + ", bNo="
-				+ bNo + "]";
-	}
+				+ ", imgSize=" + imgSize + ",  +imgRegDate=" + imgRegDate + ", bNo=" + bNo + "]";
 
+	}
 }

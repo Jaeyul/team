@@ -1,4 +1,4 @@
-package com.iot.test.service;
+package com.iot.test.service.impl;
 
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
@@ -13,40 +13,44 @@ import com.iot.test.vo.ImageVO;
 @Service
 public class ImageService {
 
+	public static final String IMAGE_DIR = "C:\\Users\\DJA\\git\\team\\signal_spring\\src\\main\\resources\\static\\web\\upload_images\\";
 
-	public ImageVO save(MultipartFile multipartFile) {
-		// UUID로 유일할 것 같은 값 생성.. 낮은 확률로 중복 가능성이 있음 
+	/**
+	 * Multipart File을 파일로 저장하고 DB(를 빙자한 맵)에 업로드 파일 정보 저장, 실패하는 경우 null리
+	 */
+	public ImageVO save(MultipartFile multipartFile, int bNo) {
+		// UUID로 유일할 것 같은 값 생성.. 낮은 확률로 중복 가능성이 있음
 		String genId = UUID.randomUUID().toString();
-		ImageVO ImageVO = null;
 		try {
-			String savedFileName = saveToFile(multipartFile, genId);
-			ImageVO iv = new ImageVO();
-			iv.setImgId(genId);
-			iv.setImgType(multipartFile.getContentType());
-			iv.setImgSize((int) multipartFile.getSize());
-			iv.setImgName(savedFileName);
+			saveToFile(multipartFile, genId);
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return ImageVO;
+		ImageVO iv = new ImageVO();
+		iv.setImgId(genId);
+		iv.setImgType(multipartFile.getContentType());
+		iv.setImgSize((int) multipartFile.getSize());
+		iv.setImgName(multipartFile.getOriginalFilename());
+		iv.setbNo(bNo);
+		return iv;
+
 	}
 
 	/**
 	 * Multipart File의 내용을 파일로 저장, 저장 후 저장된 파일 이름을 반환
 	 */
-	private String saveToFile(MultipartFile src, String id) throws IOException {
+	private void saveToFile(MultipartFile src, String id) throws IOException {
 		String fileName = src.getOriginalFilename();
 		byte[] bytes = src.getBytes();
 		String saveFileName = id + "." + getExtension(fileName);
-		String savePath = ImageVO.IMAGE_DIR + saveFileName;
+		String savePath = IMAGE_DIR + saveFileName;
 
 		/* 파일 쓰기 */
 		BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(savePath));
 		bos.write(bytes);
 		bos.flush();
 		bos.close();
-
-		return saveFileName;
 	}
 
 	/**

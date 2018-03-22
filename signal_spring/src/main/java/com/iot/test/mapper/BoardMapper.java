@@ -17,16 +17,19 @@ public interface BoardMapper {
 	@Select("select bNo, bName, bContent, bRegDate, uiNo from bulletin_board")
 	public List<BoardVO> boardList();
 
-	@Select("select bNo, bName, bContent, bRegDate, uiNo from bulletin_board where bName = #{bName} or bContent = #{bContent} or uiNo = #{uiNo}")
+	@Select("select bNo, bName, bContent, bRegDate, uiNo from bulletin_board where bName = #{bv.bName} or bContent = #{bv.bContent} or uiNo = #{bv.uiNo}")
 	public List<BoardVO> searchBoardList(@Param("bv") BoardVO bv);
 
-	@Insert("insert into bulletin_board(bName, bContent, bRegDate, uiNo) values(#{bName}, #{bContent}, curent_timestamp, #{uiNo})")
+	@Select("select bNo, bName, bContent, bRegDate, uiNo from bulletin_board where bNo = #{bNo}")
+	public BoardVO selectByNo(@Param("bNo") Integer bNo);
+	
+	@Select("call p_board_insertGetNo(#{bv.bName}, #{bv.bContent}, #{bv.uiNo})")
 	public int insertBoard(@Param("bv") BoardVO bv);
 
 	@Delete("delete from bulletin_board where bNo = #{bNo}")
 	public int deleteBoard(@Param("bNo") Integer bNo);
 
-	@Update("update bulletin_board set bName = #{bName}, bContent = #{bContent} where bNo = #{bNo}")
+	@Update("update bulletin_board set bName = #{bv.bName}, bContent = #{bv.bContent} where bNo = #{bv.bNo}")
 	public int updateBoard(@Param("bv") BoardVO bv);
 
 }

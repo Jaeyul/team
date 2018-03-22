@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.AbstractView;
 
+import com.iot.test.service.impl.ImageService;
 import com.iot.test.vo.ImageVO;
 
 @Component("imageView")
@@ -28,7 +29,7 @@ public class ImageView extends AbstractView {
 		res.setContentType(ImageVO.getImgType());
 
 		// 파일로부터 byte를 읽어옵니다.
-		byte[] bytes = readFile(ImageVO.getImgName());
+		byte[] bytes = readFile(ImageVO.getImgName() + "." + ImageVO.getImgType());
 		write(res, bytes);
 	}
 
@@ -36,7 +37,7 @@ public class ImageView extends AbstractView {
 	 * 파일로부터 byte 배열 읽어오기
 	 */
 	private byte[] readFile(String fileName) throws IOException {
-		String path = ImageVO.IMAGE_DIR + fileName;
+		String path = ImageService.IMAGE_DIR + fileName;
 
 		BufferedInputStream bis = new BufferedInputStream(new FileInputStream(path));
 		int length = bis.available();

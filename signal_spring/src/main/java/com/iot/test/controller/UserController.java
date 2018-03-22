@@ -48,8 +48,8 @@ public class UserController {
 	@RequestMapping(value="/uiId", method=RequestMethod.POST)
     public @ResponseBody String getUiId(HttpSession hs) {
 		log.info("오긴오냐?");
-		List<UserInfoVO> userList = (List<UserInfoVO>) hs.getAttribute("user");
-		String name = userList.get(0).getUiId();
+		UserInfoVO uiVO = (UserInfoVO) hs.getAttribute("user");
+		String name = uiVO.getUiId();
 		log.info("uiId=>{}",name);
         return name;
     }
