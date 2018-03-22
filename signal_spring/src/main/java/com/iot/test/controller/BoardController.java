@@ -31,8 +31,10 @@ public class BoardController {
 
 	@Autowired
 	BoardMapper bm;
+	
 	@Autowired
 	ImgMapper im;
+	
 	@Autowired
 	ImageService imageService;
 

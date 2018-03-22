@@ -47,9 +47,9 @@ public class UserController {
 	
 	@RequestMapping(value="/uiId", method=RequestMethod.POST)
     public @ResponseBody String getUiId(HttpSession hs) {
-		log.info("오긴오냐?");
+		
 		UserInfoVO uiVO = (UserInfoVO) hs.getAttribute("user");
-		String name = uiVO.getUiId();
+		String name = uiVO.getUiNickName();
 		log.info("uiId=>{}",name);
         return name;
     }

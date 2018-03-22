@@ -5,6 +5,7 @@ SET SESSION FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS image_file;
 DROP TABLE IF EXISTS bulletin_board;
 DROP TABLE IF EXISTS color_info;
+DROP TABLE IF EXISTS user_in_room;
 DROP TABLE IF EXISTS room_info;
 DROP TABLE IF EXISTS category;
 DROP TABLE IF EXISTS expose;
@@ -27,6 +28,8 @@ CREATE TABLE bulletin_board
 	bContent text NOT NULL,
 	bRegDate datetime NOT NULL,
 	uiNo int unsigned NOT NULL,
+	bRecom int unsigned zerofill,
+	bHit int unsigned zerofill,
 	PRIMARY KEY (bNo)
 );
 
@@ -84,14 +87,12 @@ CREATE TABLE image_file
 (
 	imgNo int(15) unsigned NOT NULL AUTO_INCREMENT,
 	imgName varchar(150) NOT NULL,
-	imgProtect varchar(1) NOT NULL,
 	imgRegDate datetime NOT NULL,
 	imgId varchar(300) NOT NULL,
 	imgType varchar(30) NOT NULL,
-	imgLength bigint NOT NULL,
+	imgSize bigint NOT NULL,
 	bNo int(15) unsigned NOT NULL,
 	PRIMARY KEY (imgNo),
-	UNIQUE (imgName),
 	UNIQUE (imgId)
 );
 
@@ -157,6 +158,15 @@ CREATE TABLE user_info
 );
 
 
+CREATE TABLE user_in_room
+(
+	uiId varchar(30) NOT NULL,
+	rName varchar(50) NOT NULL,
+	UNIQUE (uiId),
+	UNIQUE (rName)
+);
+
+
 CREATE TABLE user_profile
 (
 	ufNo int(15) unsigned NOT NULL AUTO_INCREMENT,
@@ -203,6 +213,14 @@ ALTER TABLE room_info
 ;
 
 
+ALTER TABLE user_in_room
+	ADD FOREIGN KEY (rName)
+	REFERENCES room_info (rName)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+;
+
+
 ALTER TABLE bulletin_board
 	ADD FOREIGN KEY (uiNo)
 	REFERENCES user_info (uiNo)
@@ -236,7 +254,7 @@ ALTER TABLE Friends
 
 
 ALTER TABLE note
-	ADD FOREIGN KEY (targetUiNo)
+	ADD FOREIGN KEY (uiNo)
 	REFERENCES user_info (uiNo)
 	ON UPDATE RESTRICT
 	ON DELETE RESTRICT
@@ -244,8 +262,16 @@ ALTER TABLE note
 
 
 ALTER TABLE note
-	ADD FOREIGN KEY (uiNo)
+	ADD FOREIGN KEY (targetUiNo)
 	REFERENCES user_info (uiNo)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+;
+
+
+ALTER TABLE user_in_room
+	ADD FOREIGN KEY (uiId)
+	REFERENCES user_info (uiId)
 	ON UPDATE RESTRICT
 	ON DELETE RESTRICT
 ;
