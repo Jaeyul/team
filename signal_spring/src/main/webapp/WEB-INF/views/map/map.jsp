@@ -24,9 +24,6 @@ svg {
 	fill: orange;
 }
 
-div.mapTest {
-	
-}
 
 
 </style>
@@ -53,7 +50,8 @@ function getList(str){
 	$('#categoryWindow').css("display","");
 	$('#categoryWindow').animate({width: bw*(4/5)}, "slow");
 	$('#categoryWindow').css("float","none");
-	$('#categoryWindow').css("margin","auto");
+	$('#categoryWindow').css("margin","auto");	
+	
 	setTimeout(function(){ 
 		$('#kMapIcon').css("visibility","visible");
 	}, 800);	
@@ -166,7 +164,51 @@ function activeJY(id){
 							
 			<div class="ui segment">
 				<div class="ui segment">
-					<br><br><br><br><br><br>
+				
+				
+					<div class="ui relaxed divided list">
+					  
+					  <div class="item" style="height:45">
+					    <i class="large github middle aligned icon"></i>
+					    <div class="content">
+					      <a class="header">Semantic-Org/Semantic-UI-Docs</a>
+					      <div class="description">Updated 22 mins ago</div>
+					    </div>
+					  </div>
+					  
+					  <div class="item" style="height:45">
+					    <i class="large github middle aligned icon"></i>
+					    <div class="content">
+					      <a class="header">Semantic-Org/Semantic-UI-Meteor</a>
+					      <div class="description">Updated 34 mins ago</div>
+					    </div>
+					  </div>
+					   <div class="item" style="height:45">
+					    <i class="large github middle aligned icon"></i>
+					    <div class="content">
+					      <a class="header">Semantic-Org/Semantic-UI-Meteor</a>
+					      <div class="description">Updated 34 mins ago</div>
+					    </div>
+					  </div>
+					   <div class="item" style="height:45">
+					    <i class="large github middle aligned icon"></i>
+					    <div class="content">
+					      <a class="header">Semantic-Org/Semantic-UI-Meteor</a>
+					      <div class="description">Updated 34 mins ago</div>
+					    </div>
+					  </div>
+					   <div class="item" style="height:45">
+					    <i class="large github middle aligned icon"></i>
+					    <div class="content">
+					      <a class="header">Semantic-Org/Semantic-UI-Meteor</a>
+					      <div class="description">Updated 34 mins ago</div>
+					    </div>
+					
+					  
+					  
+					</div>
+					
+					
 				</div>
 			</div>
 			<button class="ui primary button" style="float: right;" onclick="openWindow()">Make Room</button>
