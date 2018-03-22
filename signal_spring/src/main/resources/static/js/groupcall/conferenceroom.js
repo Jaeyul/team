@@ -57,13 +57,12 @@ function register() {
 	$.ajax({ 
         type     : "POST"
     ,   url      : "user/uiId"	   
-    ,  success : function please(res){		
-		alert("야호 : " + res);
-		name = res;
-		var room = document.getElementById('roomName').value;
-
-		document.getElementById('room-header').innerText = 'ROOM ' + room;
-		document.getElementById('join').style.display = 'none';
+    ,  success : function please(res){
+    	
+		name = res;				
+		var room = document.getElementById("rName").value;
+		document.getElementById('room-header').innerText = 'ROOM : ' + room;
+		//document.getElementById('join').style.display = 'none';
 		document.getElementById('room').style.display = 'block';
 
 		var message = {
@@ -73,6 +72,7 @@ function register() {
 		}
 		sendMessage(message);
 	}
+	
     ,   error : function(xhr, status, e) {
 	    	alert("에러 : "+xhr.responseText);
 	},
@@ -158,9 +158,9 @@ function leaveRoom() {
 	}
 
 	document.getElementById('join').style.display = 'block';
-	document.getElementById('room').style.display = 'none';
-	location.reload();
+	document.getElementById('room').style.display = 'none';	
 	ws.close();
+	location.reload();
 }
 
 function receiveVideo(sender) {

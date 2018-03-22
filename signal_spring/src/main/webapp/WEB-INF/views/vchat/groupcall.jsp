@@ -11,35 +11,39 @@
 <script src="/js/groupcall/participant.js"></script>
 <script src="/js/kurento-utils.js"></script>
 
-
 <title>Insert title here</title>
 </head>
-<body>
+<body onload="register()">
 <div id="container">
 		<div id="wrapper">
-			<div id="join" class="animate join">
+		
+			<!-- <div id="join" class="animate join">
 				<h1>Join a Room</h1>
 				<form onsubmit="register(); return false;" accept-charset="UTF-8">
 					<p>
 						<input type="text" name="name" value="" id="name"
-							placeholder="Username" required>
+							placeholder="Username" >
 					</p>
 					<p>
 						<input type="text" name="room" value="" id="roomName"
-							placeholder="Room" required>
+							placeholder="Room" >
 					</p>
 					<p class="submit">
 						<input type="submit" name="commit" value="Join!">
 					</p>
 				</form>
-			</div>
+			</div> -->
+			
 			<div id="room" style="display: none;">
 				<h2 id="room-header"></h2>
 				<div id="participants"></div>
-				<input type="button" id="button-leave" onmouseup="leaveRoom();"
-					value="Leave room">
+				<input type="button" id="button-leave" onmouseup="leaveRoom();"	value="Leave room">
 			</div>
+						
+			
 		</div>
 	</div>
+	
+	<input type="hidden" id="rName" value=${roomInfo }>
 </body>
 </html>

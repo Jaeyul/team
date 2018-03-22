@@ -45,8 +45,10 @@ var colorConfirm = [];
 var bw = document.body.clientWidth;
 var bh = document.body.clientHeight;
 
+
 function getList(str){	
 	$("svg").animate({width: 0}, "slow");
+	$('#regeonName').val(str);
 	$('#regeon').html(str);
 	$('#categoryWindow').css("display","");
 	$('#categoryWindow').animate({width: bw*(4/5)}, "slow");
@@ -56,20 +58,36 @@ function getList(str){
 		$('#kMapIcon').css("visibility","visible");
 	}, 800);	
 }
+
 function openMap(){
 	$('#kMapIcon').css("visibility","hidden");
 	$('#categoryWindow').animate({width: bw-(bw/2.05)}, "slow");
 	$('#categoryWindow').css("float","right");
 	$('#categoryWindow').css("margin","0");	
-	$("svg").animate({width: (bw/2.1)}, "slow");	
+	$("svg").animate({width: (bw/2.15)}, "slow");	
 	
 }
 
 function openWindow(){	
-	$('#categorySelect').dropdown();
-	$('#sizeSelect').dropdown();
+	$('#categoryNo').dropdown();
+	$('#rSize').dropdown();
 	$('.ui.basic.modal').modal('show');	
 }
+
+function createRoom(){
+	var rName = $('#rName').val();
+	rNameVal = {rName:rName};	
+	var au = new AjaxUtil("room/check",rNameVal);	
+	au.send(checkCallback);	
+}
+
+function checkCallback(res){		
+	if(res.msg!=null){
+		alert(res.msg);
+	}else{
+		$('#createRoomForm').submit();	
+	}
+}	
 
 var w = 600, h = 870; 
 var proj = d3.geo.mercator()
@@ -122,6 +140,7 @@ function activeJY(id){
 				<p id="regeon">??</p>
 			</div>
 			<div class="ui segments">
+				
 					<div class="ui segment">
 						<c:forEach items="${clList}" var="colorList">	
 							<c:choose>
@@ -141,8 +160,9 @@ function activeJY(id){
 									<button class="${colorList.colorClass}" id="${colorList.colorId}" onclick="activeJY(id)">${colorList.categoryName}</button>								
 								</c:otherwise>
 							</c:choose>								
-						</c:forEach>						
-					</div>				
+						</c:forEach>
+			</div>	
+					
 							
 			<div class="ui segment">
 				<div class="ui segment">
@@ -160,23 +180,25 @@ function activeJY(id){
 	<div class="ui icon header">
 	<i class="archive icon"></i>    
 </div>  
-	<div class="content" style="width:400; margin:auto">	
-		<form>
+	<div class="content" style="width:400; margin:auto">
+		<form action="video" id="createRoomForm">
 	    	방&emsp;이름:&emsp;
 	    	<div class="ui input">
-	  			<input type="text" placeholder="Room Name">
+	  			<input type="text" placeholder="RoomName" id="rName" name="rName" required>
 			</div>
 			<br><br>
+			
 	    	카테고리:&emsp; 
-	    	<select name="categoryNo" class="ui dropdown" id="categorySelect" name="">
+	    	<select name="categoryNo" class="ui dropdown" name="categoryNo" id="categoryNo" required>
 			  <option value="">Category</option>			  
 			  <c:forEach items="${ctList}" var="cateList">
 			  	<option value=${cateList.categoryNo}>${cateList.categoryName}</option>
 			  </c:forEach>	  	  
 			</select>			
 			<br><br>
+			
 			방사이즈:&emsp;
-	    	<select name="rSize" class="ui dropdown" id="sizeSelect">
+	    	<select name="rSize" class="ui dropdown" id="rSize" name="rSize" required>
 			  <option value="">Size</option>
 			  <option value=2>2</option>
 			  <option value=3>3</option>
@@ -184,6 +206,16 @@ function activeJY(id){
 			  <option value=5>5</option>
 			  <option value=6>6</option>
 			</select>
+			<br><br>
+			
+			태&emsp;그&emsp;:&emsp;
+	    	<div class="ui input">
+	  			<input type="text" placeholder="Tag" id="rTag" name="rTag">
+			</div>
+			
+			<input type="hidden" name="regeonName" id="regeonName">
+			
+			
 		</form>
 		
 	</div>
@@ -192,13 +224,13 @@ function activeJY(id){
 		<div class="ui red basic cancel inverted button">
 			<i class="remove icon"></i>
 			No
-		</div>
-		<div class="ui green ok inverted button">
+		</div>		
+		<div class="ui green ok inverted button" onclick="createRoom()">
 			<i class="checkmark icon"></i>
 			Yes
 		</div>
-	</div>
-  
+	</div>  
+	
 </div>
 
 </body>

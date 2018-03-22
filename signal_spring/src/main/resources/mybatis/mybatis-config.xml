@@ -18,6 +18,8 @@
 	<mappers>
 		<mapper resource="mybatis/sql/user_info.xml"/>
 		<mapper resource="mybatis/sql/category.xml"/>
+		<mapper resource="mybatis/sql/regeon.xml"/>
+		<mapper resource="mybatis/sql/room_info.xml"/>
 		<mapper resource="mybatis/sql/color_info.xml"/>
 	</mappers>
 	

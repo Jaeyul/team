@@ -9,5 +9,6 @@ import com.iot.test.vo.UserInfoVO;
 
 @Mapper
 public interface UserInfoMapper {
+
 	List<UserInfoVO> selectUserList(UserInfoVO ui);
 }
