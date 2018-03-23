@@ -59,17 +59,17 @@ function register() {
     ,   url      : "user/uiId"	   
     ,  success : function please(res){
     	
-		name = res;				
+		name = res;	
+		alert(res);
 		var room = document.getElementById("rName").value;
 		document.getElementById('room-header').innerText = 'ROOM : ' + room;
 		//document.getElementById('join').style.display = 'none';
-		document.getElementById('room').style.display = 'block';
-
+		document.getElementById('room').style.display = 'block';		
 		var message = {
 			id : 'joinRoom',
 			name : name,
-			room : room,
-		}
+			room : room
+		}		
 		sendMessage(message);
 	}
 	
@@ -148,6 +148,7 @@ function onExistingParticipants(msg) {
 	msg.data.forEach(receiveVideo);
 }
 
+
 function leaveRoom() {
 	sendMessage({
 		id : 'leaveRoom'
@@ -157,10 +158,11 @@ function leaveRoom() {
 		participants[key].dispose();
 	}
 
-	document.getElementById('join').style.display = 'block';
+	//document.getElementById('join').style.display = 'block';
 	document.getElementById('room').style.display = 'none';	
 	ws.close();
-	location.reload();
+	location.href= "/welcome";
+	
 }
 
 function receiveVideo(sender) {
