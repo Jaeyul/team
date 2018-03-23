@@ -3,17 +3,53 @@ package com.iot.test.service.impl;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.iot.test.mapper.ImgMapper;
+import com.iot.test.service.ImageService;
 import com.iot.test.vo.ImageVO;
 
 @Service
-public class ImageService {
+public class ImageServiceImpl implements ImageService {
+	@Autowired
+	ImgMapper im;
 
 	public static final String IMAGE_DIR = "C:\\Users\\DJA\\git\\team\\signal_spring\\src\\main\\resources\\static\\web\\upload_images\\";
+
+	@Override
+	public List<ImageVO> ImgList() {
+
+		return im.ImgList();
+	}
+
+	@Override
+	public ImageVO selectByBno(int bNo) {
+
+		return im.selectByBno(bNo);
+	}
+
+	@Override
+	public int insertImg(ImageVO img) {
+
+		return im.insertImg(img);
+	}
+
+	@Override
+	public int deleteImg(Integer imgNo) {
+
+		return im.deleteImg(imgNo);
+	}
+
+	@Override
+	public int updateImg(ImageVO img) {
+
+		return im.updateImg(img);
+	}
 
 	/**
 	 * Multipart File을 파일로 저장하고 DB(를 빙자한 맵)에 업로드 파일 정보 저장, 실패하는 경우 null리
@@ -40,7 +76,7 @@ public class ImageService {
 	/**
 	 * Multipart File의 내용을 파일로 저장, 저장 후 저장된 파일 이름을 반환
 	 */
-	private void saveToFile(MultipartFile src, String id) throws IOException {
+	public void saveToFile(MultipartFile src, String id) throws IOException {
 		String fileName = src.getOriginalFilename();
 		byte[] bytes = src.getBytes();
 		String saveFileName = id + "." + getExtension(fileName);
@@ -56,7 +92,7 @@ public class ImageService {
 	/**
 	 * 파일이름으로부터 확장자를 반환하는 메서드 파일이름에 확장자 구분을 위한 . 문자가 없거나. 가장 끝에 있는 경우는 빈문자열 ""을 리턴
 	 */
-	private String getExtension(String fileName) {
+	public String getExtension(String fileName) {
 		int dotPosition = fileName.lastIndexOf('.');
 
 		if (-1 != dotPosition && fileName.length() - 1 > dotPosition) {
@@ -65,4 +101,5 @@ public class ImageService {
 			return "";
 		}
 	}
+
 }

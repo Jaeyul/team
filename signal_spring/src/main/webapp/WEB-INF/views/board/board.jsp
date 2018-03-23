@@ -8,53 +8,36 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<table class="ui five column table">
-		<thead>
-			<tr>
-				<th>번호</th>
-				<th>제목</th>
-				<th>글쓴이</th>
-				<th>날짜</th>
-				<th>조회</th>
-				<th>추천</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>John</td>
-				<td>Approved</td>
-				<td>22</td>
-				<td>Male</td>
-				<td>None</td>
-			</tr>
-			<tr>
-				<td>Jamie</td>
-				<td>Approved</td>
-				<td>32</td>
-				<td>Male</td>
-				<td>Requires call</td>
-			</tr>
-			<tr>
-				<td>Jill</td>
-				<td>Denied</td>
-				<td>22</td>
-				<td>Female</td>
-				<td>None</td>
-			</tr>
-		</tbody>
-		<tfoot>
-			<tr>
-				<th>3 People</th>
-				<th>2 Approved</th>
-				<th></th>
-				<th></th>
-				<th></th>
-			</tr>
-		</tfoot>
-	</table>
-	<button>
-		<a href="/board/write">글쓰기
-	</button>
+	<div class="ui container">
+		<table class="ui definition table center aligned">
+			<thead>
+				<tr>
+					<th class="one wide">번호</th>
+					<th class="six wide">제목</th>
+					<th class="one wide center">글쓴이</th>
+					<th class="two wide">날짜</th>
+					<th class="one wide">조회</th>
+					<th class="one wide">추천</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${boardList}" var="post">
+					<tr>
+						<td>${post.bNo}</td>
+						<td>${post.bName}</td>
+						<td>${post.uiId}</td>
+						<td>${post.bRegDate}</td>
+						<td>${post.bHit}</td>
+						<td>${post.bRecom}</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+		<button class="ui button">
+			<a href="/board/write">글쓰기 
+		</button>
+	</div>
+
 
 </body>
 </html>

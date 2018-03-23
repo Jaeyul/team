@@ -13,30 +13,28 @@
 	});
 </script>
 <body>
-	<form action="/board/complete" method="post"
-		enctype="multipart/form-data">
-		<div class="ui form">
+	<div class="ui container">
+		<form action="/board/board" method="post"
+			enctype="multipart/form-data" class="ui form">
 			<div class="field">
-				<label>Title</label> <input name="bName" width="150" type="text">
+				<label>Title</label> <input name="bName" type="text"
+					class="ui input">
 			</div>
-			<div class="field">
-				<label>Text</label>
-				<textarea name="bContent" rows="100" cols="100"
-					style="height: 300px;">
-					
-				</textarea>
-			</div>
-
+				<div class="field">
+					<label>Text</label>
+					<textarea name="bContent"></textarea>
+				</div>
 			<div class="field">
 				<label>Image Upload</label>
 				<button type="button" id="uploadImg" class="ui button">
 					<i class="upload icon"></i>
 				</button>
 			</div>
+
 			<button class="ui primary button">Save</button>
 			<input id="uploadFile" type="file" name="imgFile"
 				style="visibility: hidden;">
-		</div>
-	</form>
+		</form>
+	</div>
 </body>
 </html>

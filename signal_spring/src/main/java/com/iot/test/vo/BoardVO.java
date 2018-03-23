@@ -1,11 +1,13 @@
 package com.iot.test.vo;
 
 public class BoardVO {
-	public Integer bNo;
-	public String bName;
-	public String bContent;
-	public String bRegDate;
-	public Integer uiNo;
+	private Integer bNo;
+	private String bName;
+	private String bContent;
+	private String bRegDate;
+	private String uiId;
+	private int bHit;
+	private int bRecom;
 
 	public Integer getbNo() {
 		return bNo;
@@ -39,18 +41,34 @@ public class BoardVO {
 		this.bRegDate = bRegDate;
 	}
 
-	public Integer getUiNo() {
-		return uiNo;
+	public String getUiId() {
+		return uiId;
 	}
 
-	public void setUiNo(Integer uiNo) {
-		this.uiNo = uiNo;
+	public void setUiId(String uiId) {
+		this.uiId = uiId;
+	}
+
+	public int getbHit() {
+		return bHit;
+	}
+
+	public void setbHit(int bHit) {
+		this.bHit = bHit;
+	}
+
+	public int getbRecom() {
+		return bRecom;
+	}
+
+	public void setbRecom(int bRecom) {
+		this.bRecom = bRecom;
 	}
 
 	@Override
 	public String toString() {
 		return "BoardVO [bNo=" + bNo + ", bName=" + bName + ", bContent=" + bContent + ", bRegDate=" + bRegDate
-				+ ", uiNo=" + uiNo + "]";
+				+ ", uiId=" + uiId + ", bHit=" + bHit + ", bRecom=" + bRecom + "]";
 	}
 
 }

@@ -37,4 +37,5 @@
 <link rel="stylesheet" type="text/css" href="/css/components/message.css">
 <link rel="stylesheet" type="text/css" href="/css/components/dimmer.css">
 <link rel="stylesheet" type="text/css" href="/css/components/modal.css">
+<link rel="stylesheet" type="text/css" href="/css/components/table.css">
 
