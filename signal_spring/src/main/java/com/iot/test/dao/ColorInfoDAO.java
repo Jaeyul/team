@@ -6,5 +6,7 @@ import java.util.Map;
 public interface ColorInfoDAO {
 	
 	public List<Map<String,Object>> selectColorList();
+	
+	public Map<String,Object> selectCategoryName(String colorId);
 
 }

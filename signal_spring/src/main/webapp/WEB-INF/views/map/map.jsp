@@ -44,6 +44,36 @@ var bh = document.body.clientHeight;
 
 
 function getList(str){	
+	for(var id of colorConfirm){
+		$('#'+id).removeClass("active");	
+		
+	}	
+	colorConfirm = [];
+	
+	var params = {regeonName:str};
+	var au = new AjaxUtil("room/all",params);	
+	au.send(callback)
+	function callback(res){
+		var listStr = "";
+		for(var roomInfo of res){
+			listStr += "<div class='item' style='height:45' id="+ roomInfo.rName + " onmouseover='overTest(id)' onmouseout='outTest(id)'>";
+			listStr += "<div class='right floated content'>" 
+			listStr += "<div class='ui animated button' tabindex='0'>"
+			listStr += "<div class='visible content'>0/" + roomInfo.rSize + "</div>"
+			listStr += "<div class='hidden content'><i class='right arrow icon'></i></div></div></div>"
+			listStr += "<i class='large github middle aligned icon'></i>";
+			listStr += "<div class='content'>";
+			listStr += "<a class='header' id="+ roomInfo.rName +">"+ roomInfo.rName +"</a>";
+			listStr += "<div class='description'>"+ roomInfo.rTag +"</div>"
+			listStr += "</div></div>"			
+		}		
+		
+		$("#roomSearchList").html(listStr);
+		
+	}
+	
+	
+	
 	$("svg").animate({width: 0}, "slow");
 	$('#regeonName').val(str);
 	$('#regeon').html(str);
@@ -116,17 +146,62 @@ function changeBtns(){
 		$('#'+id).addClass("active");
 	}
 }
-function activeJY(id){
+function activeJY(id){	
 	var idx = colorConfirm.indexOf(id);
 	if(idx==-1){
-		colorConfirm[colorConfirm.length] = id;
+		colorConfirm[colorConfirm.length] = id;	
+				
 	}else{
 		colorConfirm.splice(idx);
 		$('#'+id).removeClass("active");
 		$('#'+id).blur();
-	}
-	changeBtns();
+	}	
+	
+	changeBtns();	
+	searchRoom();
 }
+
+function searchRoom(){
+	
+	var regeonName = $('#regeonName').val();
+	var params = {regeonName:regeonName, categoryList: colorConfirm};
+	
+	var au = new AjaxUtil("room/search",params);	
+	
+	au.send(searchCallback);
+	
+	function searchCallback(res){
+		
+		var listStr = "";
+		for(var roomInfo of res){
+			listStr += "<div class='item' style='height:45' id="+ roomInfo.rName + " onmouseover='overTest(id)' onmouseout='outTest(id)'>";
+			listStr += "<div class='right floated content'>" 
+			listStr += "<div class='ui animated button' tabindex='0'>"
+			listStr += "<div class='visible content'>0/" + roomInfo.rSize + "</div>"
+			listStr += "<div class='hidden content'><i class='right arrow icon'></i></div></div></div>"
+			listStr += "<i class='large github middle aligned icon'></i>";
+			listStr += "<div class='content'>";
+			listStr += "<a class='header' id="+ roomInfo.rName +">"+ roomInfo.rName +"</a>";
+			listStr += "<div class='description'>"+ roomInfo.rTag +"</div>"
+			listStr += "</div></div>"			
+		}		
+		
+		$("#roomSearchList").html(listStr);
+		
+	}
+}
+
+function overTest(id){
+	
+	
+}
+
+function outTest(id){	
+	
+}
+
+
+
 </script>
 
 <div id="categoryWindow" style="float: right; display : none ">
@@ -166,57 +241,18 @@ function activeJY(id){
 				<div class="ui segment">
 				
 				
-					<div class="ui relaxed divided list">
+					<div class="ui relaxed divided list" id="roomSearchList">
 					  
-					  <div class="item" style="height:45">
-					    <i class="large github middle aligned icon"></i>
-					    <div class="content">
-					      <a class="header">Semantic-Org/Semantic-UI-Docs</a>
-					      <div class="description">Updated 22 mins ago</div>
-					    </div>
-					  </div>
-					  
-					  <div class="item" style="height:45">
-					    <i class="large github middle aligned icon"></i>
-					    <div class="content">
-					      <a class="header">Semantic-Org/Semantic-UI-Meteor</a>
-					      <div class="description">Updated 34 mins ago</div>
-					    </div>
-					  </div>
-					   <div class="item" style="height:45">
-					    <i class="large github middle aligned icon"></i>
-					    <div class="content">
-					      <a class="header">Semantic-Org/Semantic-UI-Meteor</a>
-					      <div class="description">Updated 34 mins ago</div>
-					    </div>
-					  </div>
-					   <div class="item" style="height:45">
-					    <i class="large github middle aligned icon"></i>
-					    <div class="content">
-					      <a class="header">Semantic-Org/Semantic-UI-Meteor</a>
-					      <div class="description">Updated 34 mins ago</div>
-					    </div>
-					  </div>
-					   <div class="item" style="height:45">
-					    <i class="large github middle aligned icon"></i>
-					    <div class="content">
-					      <a class="header">Semantic-Org/Semantic-UI-Meteor</a>
-					      <div class="description">Updated 34 mins ago</div>
-					    </div>
 					
-					  
-					  
+					
 					</div>
 					
-					
 				</div>
+				<button class="ui primary button" style="float: right;" onclick="openWindow()">Make Room</button>
+				<br><br><br>	
 			</div>
-			<button class="ui primary button" style="float: right;" onclick="openWindow()">Make Room</button>
-			<br><br><br>	
 		</div>
 	</div>
-	
-</div>
 
 <div class="ui basic modal"  style="border-style: solid;">
 	<div class="ui icon header">

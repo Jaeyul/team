@@ -1,5 +1,6 @@
 package com.iot.test.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -21,6 +22,7 @@ public class RoomInfoController {
 	@Autowired
 	RoomInfoService ris;
 	
+	
 	@RequestMapping(value="/check", method=RequestMethod.POST)
 	public @ResponseBody Map<String,Object> checkRoomName(@RequestBody Map<String,Object> rNameMap){
 		
@@ -28,5 +30,25 @@ public class RoomInfoController {
 		
 		return rNameMap;
 	}
+	
+	@RequestMapping(value="/all", method=RequestMethod.POST)
+	public @ResponseBody List<Map<String, Object>> allRoom(@RequestBody Map<String,Object> regeonMap){
+		
+		List<Map<String, Object>> allRoomList = ris.searchAllRoom(regeonMap);
+		
+		return allRoomList;
+	}
+	
+	
+	@RequestMapping(value="/search", method=RequestMethod.POST)
+	public @ResponseBody List<Map<String, Object>> searchRoom(@RequestBody Map<String,Object> roomMap){
+		
+		log.info("test =>{}", roomMap);		
+		
+		List<Map<String, Object>> roomInfoMap = ris.searchRoomInfo(roomMap);		
+		
+		return roomInfoMap;
+	}
+	
 
 }

@@ -22,4 +22,10 @@ public class ColorInfoDAOImpl implements ColorInfoDAO{
 		return colorList;
 	}
 
+	@Override
+	public Map<String, Object> selectCategoryName(String colorId) {
+		Map<String,Object> categoryName = cim.selectCategoryName(colorId);
+		return categoryName;
+	}
+
 }

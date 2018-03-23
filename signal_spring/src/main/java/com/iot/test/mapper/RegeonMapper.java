@@ -10,5 +10,6 @@ public interface RegeonMapper {
 	
 	List<Map<String,Object>> selectRegeonList();	
 	Map<String,Object> selectRegeonNo(String regeonName);
+	
 
 }

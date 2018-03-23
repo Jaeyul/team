@@ -29,5 +29,7 @@ public class RoomInfoDAOImpl implements RoomInfoDAO{
 		int result = rim.insertRoomInfo(rMap);
 		return result;
 	}
+	
+	
 
 }

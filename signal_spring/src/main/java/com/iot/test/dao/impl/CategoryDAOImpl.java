@@ -20,6 +20,14 @@ public class CategoryDAOImpl implements CategoryDAO{
 		List<Map<String,Object>> cList = cm.selectCategoryList();		
 		return cList;
 	}
+
+	@Override
+	public Map<String, Object> selectCategoryNo(Map<String,Object> categoryName) {
+		
+		Map<String, Object> categoryNo = cm.selectCategoryNo(categoryName);
+		
+		return categoryNo;
+	}
 	
 	
 
