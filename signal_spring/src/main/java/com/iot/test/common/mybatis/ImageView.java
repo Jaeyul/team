@@ -56,4 +56,5 @@ public class ImageView extends AbstractView {
 		output.write(bytes);
 		output.flush();
 	}
+
 }
