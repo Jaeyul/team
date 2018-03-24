@@ -12,9 +12,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.iot.test.dao.CategoryDAO;
-import com.iot.test.dao.ColorInfoDAO;
-import com.iot.test.dao.RegeonDAO;
+
+import com.iot.test.mapper.CategoryMapper;
+import com.iot.test.mapper.ColorInfoMapper;
+import com.iot.test.mapper.RegeonMapper;
 import com.iot.test.service.RoomInfoService;
 
 @Controller
@@ -22,14 +23,16 @@ public class UrlController {
 	private static final Logger log = LoggerFactory.getLogger(UrlController.class);
 	
 	
-	@Autowired
-	private CategoryDAO ctdao;
-
-	@Autowired
-	private ColorInfoDAO cldao;
+	
 	
 	@Autowired
-	private RegeonDAO rgdao;
+	private CategoryMapper ctm;
+	
+	@Autowired
+	private ColorInfoMapper clm;	
+	
+	@Autowired
+	private RegeonMapper rgm;
 	
 	@Autowired
 	private RoomInfoService ris;
@@ -59,7 +62,7 @@ public class UrlController {
 		ObjectMapper om = new ObjectMapper();
 		String regeonName = (String) rMap.get("regeonName");
 		rMap.remove("regeonName");		
-		rMap.put("regeonNo", (rgdao.selectRegeonNo(regeonName)).get("regeonNo"));				
+		rMap.put("regeonNo", ((rgm.selectRegeonNo(regeonName)).get("regeonNo")));				
 		ris.insertRoomInfo(rMap);
 		mav.setViewName("vchat/groupcall");	
 		mav.addObject("roomInfo",rMap.get("rName"));	
@@ -69,9 +72,9 @@ public class UrlController {
 	@RequestMapping("/map")
 	public ModelAndView map(ModelAndView mav) {
 			
-		mav.addObject("ctList",ctdao.selectCategoryList());
-		mav.addObject("clList",cldao.selectColorList());
-		mav.addObject("rgList",rgdao.selectRegeonList());
+		mav.addObject("ctList",ctm.selectCategoryList());
+		mav.addObject("clList",clm.selectColorList());
+		mav.addObject("rgList",rgm.selectRegeonList());
 		
 		mav.setViewName("map/map");		
 		return mav;

@@ -161,8 +161,7 @@ function activeJY(id){
 	searchRoom();
 }
 
-function searchRoom(){
-	
+function searchRoom(){	
 	var regeonName = $('#regeonName').val();
 	var params = {regeonName:regeonName, categoryList: colorConfirm};
 	
