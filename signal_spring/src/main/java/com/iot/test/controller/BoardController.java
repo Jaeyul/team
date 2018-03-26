@@ -61,7 +61,7 @@ public class BoardController {
 		return "board/board";
 	}
 
-	@RequestMapping(value = "/post", method = RequestMethod.POST)
+	@RequestMapping(value = "/post", method = RequestMethod.GET)
 	public String boardPage(@RequestParam("bNo") int bNo, Model model) {
 		BoardVO boardVO = boardService.selectByNo(bNo);
 		ImageVO imageVO = imageService.selectByBno(bNo);

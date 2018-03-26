@@ -13,20 +13,21 @@
 	});
 </script>
 <body>
-	<div class="ui container">
+	<div id='content' class="ui container">
+	<br><br><br>
 		<form action="/board/board" method="post"
 			enctype="multipart/form-data" class="ui form">
 			<div class="field">
 				<label>Title</label> <input name="bName" type="text"
 					class="ui input">
 			</div>
-				<div class="field">
-					<label>Text</label>
-					<textarea name="bContent"></textarea>
-				</div>
+			<div class="field">
+				<label>Text</label>
+				<textarea name="bContent"></textarea>
+			</div>
 			<div class="field">
 				<label>Image Upload</label>
-				<button type="button" id="uploadImg" class="ui button">
+				<button type="button" id="uploadImg" class="ui button" style="width: 53;">
 					<i class="upload icon"></i>
 				</button>
 			</div>

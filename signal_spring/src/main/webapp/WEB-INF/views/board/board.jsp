@@ -7,8 +7,20 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
+<script>
+	function goPost(id) {
+		$('#putData').val(id);
+		$('#form').submit();
+	}
+</script>
 <body>
-	<div class="ui container">
+	<form id='form' action='board/post'>
+		<input id='putData' type='hidden' name='bNo'/>
+	</form>
+	<div id='content' class="ui container">
+		<br>
+		<br>
+		<br>
 		<table class="ui definition table center aligned">
 			<thead>
 				<tr>
@@ -22,7 +34,7 @@
 			</thead>
 			<tbody>
 				<c:forEach items="${boardList}" var="post">
-					<tr>
+					<tr id="${post.bNo}" onclick='goPost(id)' style='cursor: pointer;'>
 						<td>${post.bNo}</td>
 						<td>${post.bName}</td>
 						<td>${post.uiId}</td>
@@ -34,10 +46,9 @@
 			</tbody>
 		</table>
 		<button class="ui button">
-			<a href="/board/write">글쓰기 
+			<a href="/board/write">Whrite 
 		</button>
 	</div>
-
 
 </body>
 </html>
