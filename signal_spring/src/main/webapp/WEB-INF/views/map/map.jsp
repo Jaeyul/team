@@ -29,7 +29,7 @@ svg {
 </style>
 
 <body>
-
+<div id="content">
 <div id="kMapIcon" style="visibility: hidden;">
 	<img src="/img/koreamap.png" class="image" height="45" width="80" onclick="openMap()">
 </div>
@@ -55,11 +55,12 @@ function getList(str){
 	au.send(searchCallback)
 	
 	
-	$("svg").animate({width: 0}, "slow");
+	$("svg").animate({width: 0}, 1000);
 	$('#regeonName').val(str);
 	$('#regeon').html(str);
+	$('#categoryWindow').css("width",bw*(1/2));
 	$('#categoryWindow').css("display","");
-	$('#categoryWindow').animate({width: bw*(4/5)}, "slow");
+	$('#categoryWindow').animate({width: bw*(4/5)}, 1000);
 	$('#categoryWindow').css("float","none");
 	$('#categoryWindow').css("margin","auto");	
 	
@@ -108,7 +109,7 @@ var path = d3.geo.path().projection(proj);
 var ids = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16];
 var svg = d3.select("#mapTest").append("svg")
 	.attr("width", bw/2.1)
-	.attr("height", bh/1.05);
+	.attr("height", bh/1.2);
     
 d3.json("/js/map/provinces-topo-simple.json", function(error, kor) {
 	var municipalities = topojson.object(kor, kor.objects['provinces-geo']);
@@ -171,22 +172,18 @@ function searchCallback(res){
 }
 
 function joinRoom(id){
-	
 	alert(id);
 }
-
 </script>
 
 <div id="categoryWindow" style="float: right; display : none ">
-<br><br><br>
 
 	<div> 
 		<div class="ui segments">
 			<div class="ui segment">
-				<p id="regeon">??</p>
+				<p id="regeon"></p>
 			</div>
-			<div class="ui segments">
-				
+		
 					<div class="ui segment">
 						<c:forEach items="${clList}" var="colorList">	
 							<c:choose>
@@ -207,25 +204,20 @@ function joinRoom(id){
 								</c:otherwise>
 							</c:choose>								
 						</c:forEach>
-			</div>	
-					
 							
 			<div class="ui segment">
 				<div class="ui segment">
-				
-				
-					<div class="ui relaxed divided list" id="roomSearchList">
-					  
-					
+					<div class="ui relaxed divided list" id="roomSearchList" style="height:200px; overflow-y: scroll;">
 					
 					</div>
-					
 				</div>
 				<button class="ui primary button" style="float: right;" onclick="openWindow()">Make Room</button>
 				<br><br><br>	
 			</div>
 		</div>
 	</div>
+</div>
+
 
 <div class="ui basic modal"  style="border-style: solid;">
 	<div class="ui icon header">
@@ -270,7 +262,7 @@ function joinRoom(id){
 		</form>
 		
 	</div>
-  
+	
 	<div class="actions">
 		<div class="ui red basic cancel inverted button">
 			<i class="remove icon"></i>
@@ -284,7 +276,4 @@ function joinRoom(id){
 </div>
 
 </body>
-
-
-
 </html>

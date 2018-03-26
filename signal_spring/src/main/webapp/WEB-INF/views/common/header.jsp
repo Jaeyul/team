@@ -118,6 +118,8 @@
 		$('.ui.sidebar').sidebar('attach events', '.toc.item');
 
 		$('#content').appendTo('#header');
+		
+		
 	});
 </script>
 <body>
