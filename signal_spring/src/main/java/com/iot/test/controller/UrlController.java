@@ -61,7 +61,6 @@ public class UrlController {
 	@RequestMapping("/video")
 	public ModelAndView groupcall(@RequestParam Map<String, Object> rMap) throws JsonProcessingException {
 		ModelAndView mav = new ModelAndView();
-		ObjectMapper om = new ObjectMapper();
 		String regeonName = (String) rMap.get("regeonName");
 		rMap.remove("regeonName");
 		rMap.put("regeonNo", ((rgm.selectRegeonNo(regeonName)).get("regeonNo")));

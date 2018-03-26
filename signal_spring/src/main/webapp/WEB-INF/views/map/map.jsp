@@ -280,8 +280,7 @@ function joinRoom(id){
 			<i class="checkmark icon"></i>
 			Yes
 		</div>
-	</div>  
-	
+	</div>
 </div>
 
 </body>

@@ -117,6 +117,7 @@
 		// create sidebar and attach to menu open
 		$('.ui.sidebar').sidebar('attach events', '.toc.item');
 
+		$('#content').appendTo('#header');
 	});
 </script>
 <body>
@@ -144,8 +145,8 @@
 			class="item">Login</a> <a href="/signup" class="item">Signup</a>
 	</div>
 	<!-- Page Contents -->
-	<div class="pusher">
-		<div class="ui inverted vertical masthead center aligned segment"
+		<div id='header'
+			class="ui inverted vertical masthead center aligned segment"
 			style="background-color: #9A91AC">
 
 			<div class="ui container">
@@ -161,7 +162,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
 </body>
 
 
