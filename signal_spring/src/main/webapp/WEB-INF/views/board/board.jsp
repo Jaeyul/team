@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Bulletin_Board</title>
 </head>
 <script>
 	function goPost(id) {
@@ -14,14 +14,9 @@
 	}
 </script>
 <body>
-	<form id='form' action='board/post'>
-		<input id='putData' type='hidden' name='bNo'/>
-	</form>
 	<div id='content' class="ui container">
-		<br>
-		<br>
-		<br>
-		<table class="ui definition table center aligned">
+		<br> <br>
+		<table class="ui selectable padded table center aligned">
 			<thead>
 				<tr>
 					<th class="one wide">번호</th>
@@ -34,7 +29,7 @@
 			</thead>
 			<tbody>
 				<c:forEach items="${boardList}" var="post">
-					<tr id="${post.bNo}" onclick='goPost(id)' style='cursor: pointer;'>
+					<tr id="${post.bNo}" onclick='goPost(id)' style='cursor: pointer'>
 						<td>${post.bNo}</td>
 						<td>${post.bName}</td>
 						<td>${post.uiId}</td>
@@ -45,10 +40,10 @@
 				</c:forEach>
 			</tbody>
 		</table>
-		<button class="ui button">
-			<a href="/board/write">Whrite 
-		</button>
+			<a href="/board/write" class='ui button'>Write</a>
 	</div>
-
+	<form id='form' action='board/post' style="display:none">
+		<input id='putData' name='bNo' type='hidden' />
+	</form>
 </body>
 </html>

@@ -5,15 +5,36 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>업로드 결과 페이지</title>
-
+<title>${boardVO.bName}</title>
 </head>
+<link href='https://fonts.googleapis.com/css?family=Faustina'
+	rel='stylesheet'>
+<link href='https://fonts.googleapis.com/css?family=Fjalla One'
+	rel='stylesheet'>
+<style>
+body p {
+	font-family: 'Faustina';
+	font-size: 22px;
+}
+
+h1 h2 h3 h4 {
+	font-family: 'Fjalla One';
+}
+</style>
+
 <body>
-	<p>파일 ID : ${imageVO.imgId}</p>
-	<p>저장된 파일 이름 : ${imageVO.imgName}</p>
-	<p>파일 길이 : ${imageVO.imgSize}</p>
-	<p>MIME 타입 : ${imageVO.imgType}</p>
-	<img src="/web/upload_images/${imageVO.imgId}.jpg">
+	<div id='content' class="ui segment">
+		<br>
+		<h2 style='font-family: Fjalla one;'
+			class="title ui left floated header">Title : ${boardVO.bName}</h2>
+		<h4 class="ui right floated header">Writer : ${boardVO.uiId}</h4>
+		<div class="ui clearing divider"></div>
+		<img src="/web/upload_images/${imageVO.imgId}.jpg">
+		<p>${boardVO.bContent}</p>
+	</div>
+
 </body>
+
+
 
 </html>
