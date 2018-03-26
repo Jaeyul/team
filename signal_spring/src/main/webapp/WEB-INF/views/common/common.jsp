@@ -39,3 +39,4 @@
 <link rel="stylesheet" type="text/css" href="/css/components/modal.css">
 <link rel="stylesheet" type="text/css" href="/css/components/table.css">
 
+<jsp:include page="/WEB-INF/views/common/header.jsp" />

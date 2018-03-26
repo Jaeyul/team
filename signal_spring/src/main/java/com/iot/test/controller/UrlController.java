@@ -21,27 +21,29 @@ import com.iot.test.service.RoomInfoService;
 @Controller
 public class UrlController {
 	private static final Logger log = LoggerFactory.getLogger(UrlController.class);
-	
-	
-	
-	
+
 	@Autowired
 	private CategoryMapper ctm;
-	
+
 	@Autowired
-	private ColorInfoMapper clm;	
-	
+	private ColorInfoMapper clm;
+
 	@Autowired
 	private RegeonMapper rgm;
-	
+
 	@Autowired
 	private RoomInfoService ris;
-	
-	
+
 	@RequestMapping("/welcome")
 	public String index() {
 
 		return "index";
+	}
+
+	@RequestMapping("/header")
+	public String header() {
+
+		return "common/header";
 	}
 
 	@RequestMapping(value = "/login")
@@ -57,28 +59,27 @@ public class UrlController {
 	}
 
 	@RequestMapping("/video")
-	public ModelAndView groupcall(@RequestParam Map<String,Object> rMap) throws JsonProcessingException {		
+	public ModelAndView groupcall(@RequestParam Map<String, Object> rMap) throws JsonProcessingException {
 		ModelAndView mav = new ModelAndView();
 		ObjectMapper om = new ObjectMapper();
 		String regeonName = (String) rMap.get("regeonName");
-		rMap.remove("regeonName");		
-		rMap.put("regeonNo", ((rgm.selectRegeonNo(regeonName)).get("regeonNo")));				
+		rMap.remove("regeonName");
+		rMap.put("regeonNo", ((rgm.selectRegeonNo(regeonName)).get("regeonNo")));
 		ris.insertRoomInfo(rMap);
-		mav.setViewName("vchat/groupcall");	
-		mav.addObject("roomInfo",rMap.get("rName"));	
+		mav.setViewName("vchat/groupcall");
+		mav.addObject("roomInfo", rMap.get("rName"));
 		return mav;
 	}
 
 	@RequestMapping("/map")
 	public ModelAndView map(ModelAndView mav) {
-			
-		mav.addObject("ctList",ctm.selectCategoryList());
-		mav.addObject("clList",clm.selectColorList());
-		mav.addObject("rgList",rgm.selectRegeonList());
-		
-		mav.setViewName("map/map");		
+
+		mav.addObject("ctList", ctm.selectCategoryList());
+		mav.addObject("clList", clm.selectColorList());
+		mav.addObject("rgList", rgm.selectRegeonList());
+
+		mav.setViewName("map/map");
 		return mav;
 	}
-	
 
 }
