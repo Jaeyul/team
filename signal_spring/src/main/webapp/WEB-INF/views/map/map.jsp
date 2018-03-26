@@ -52,26 +52,7 @@ function getList(str){
 	
 	var params = {regeonName:str};
 	var au = new AjaxUtil("room/all",params);	
-	au.send(callback)
-	function callback(res){
-		var listStr = "";
-		for(var roomInfo of res){
-			listStr += "<div class='item' style='height:45' id="+ roomInfo.rName + " onmouseover='overTest(id)' onmouseout='outTest(id)'>";
-			listStr += "<div class='right floated content'>" 
-			listStr += "<div class='ui animated button' tabindex='0'>"
-			listStr += "<div class='visible content'>0/" + roomInfo.rSize + "</div>"
-			listStr += "<div class='hidden content'><i class='right arrow icon'></i></div></div></div>"
-			listStr += "<i class='large github middle aligned icon'></i>";
-			listStr += "<div class='content'>";
-			listStr += "<a class='header' id="+ roomInfo.rName +">"+ roomInfo.rName +"</a>";
-			listStr += "<div class='description'>"+ roomInfo.rTag +"</div>"
-			listStr += "</div></div>"			
-		}		
-		
-		$("#roomSearchList").html(listStr);
-		
-	}
-	
+	au.send(searchCallback)
 	
 	
 	$("svg").animate({width: 0}, "slow");
@@ -169,37 +150,30 @@ function searchRoom(){
 	
 	au.send(searchCallback);
 	
-	function searchCallback(res){
-		
-		var listStr = "";
-		for(var roomInfo of res){
-			listStr += "<div class='item' style='height:45' id="+ roomInfo.rName + " onmouseover='overTest(id)' onmouseout='outTest(id)'>";
-			listStr += "<div class='right floated content'>" 
-			listStr += "<div class='ui animated button' tabindex='0'>"
-			listStr += "<div class='visible content'>0/" + roomInfo.rSize + "</div>"
-			listStr += "<div class='hidden content'><i class='right arrow icon'></i></div></div></div>"
-			listStr += "<i class='large github middle aligned icon'></i>";
-			listStr += "<div class='content'>";
-			listStr += "<a class='header' id="+ roomInfo.rName +">"+ roomInfo.rName +"</a>";
-			listStr += "<div class='description'>"+ roomInfo.rTag +"</div>"
-			listStr += "</div></div>"			
-		}		
-		
-		$("#roomSearchList").html(listStr);
-		
-	}
-}
-
-function overTest(id){
-	
 	
 }
 
-function outTest(id){	
-	
+function searchCallback(res){	
+	var listStr = "";
+	for(var roomInfo of res){
+		listStr += "<div class='item' style='height:45'>";
+		listStr += "<div class='right floated content'>" 
+		listStr += "<div class='ui animated button' tabindex='0'>"
+		listStr += "<div class='visible content'>0/" + roomInfo.rSize + "</div>"
+		listStr += "<div class='hidden content' id="+ roomInfo.rName +" onclick='joinRoom(id)'><i class='right arrow icon'></i></div></div></div>"
+		listStr += "<i class='large github middle aligned icon'></i>";
+		listStr += "<div class='content'>";
+		listStr += "<a class='header' id="+ roomInfo.rName +">"+ roomInfo.rName +"</a>";
+		listStr += "<div class='description'>"+ roomInfo.rTag +"</div>"
+		listStr += "</div></div>"			
+	}			
+	$("#roomSearchList").html(listStr);	
 }
 
-
+function joinRoom(id){
+	
+	alert(id);
+}
 
 </script>
 
