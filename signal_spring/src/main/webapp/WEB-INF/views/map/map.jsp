@@ -26,9 +26,10 @@ svg {
 
 
 
+
 </style>
 
-<body>
+<body onresize="resizeW()">
 <div id="content">
 <div id="kMapIcon" style="visibility: hidden;">
 	<img src="/img/koreamap.png" class="image" height="45" width="80" onclick="openMap()">
@@ -41,9 +42,14 @@ svg {
 var colorConfirm = [];
 var bw = document.body.clientWidth;
 var bh = document.body.clientHeight;
-
+var idx = 0;
 
 function getList(str){	
+	idx=1;
+	
+	var bw = document.body.clientWidth;
+	var bh = document.body.clientHeight;
+	
 	for(var id of colorConfirm){
 		$('#'+id).removeClass("active");	
 		
@@ -70,15 +76,20 @@ function getList(str){
 }
 
 function openMap(){
+	idx=2;
+	
+	var bw = document.body.clientWidth;
+	var bh = document.body.clientHeight;
+	
 	$('#kMapIcon').css("visibility","hidden");
-	$('#categoryWindow').animate({width: bw-(bw/2.05)}, "slow");
+	$('#categoryWindow').animate({width: bw-(bw/2.7)}, "slow");
 	$('#categoryWindow').css("float","right");
 	$('#categoryWindow').css("margin","0");	
-	$("svg").animate({width: (bw/2.15)}, "slow");	
+	$("svg").animate({width: (bw/2.8)}, "slow");	
 	
 }
 
-function openWindow(){	
+function openWindow(){
 	$('#categoryNo').dropdown();
 	$('#rSize').dropdown();
 	$('.ui.basic.modal').modal('show');	
@@ -99,18 +110,22 @@ function checkCallback(res){
 	}
 }	
 
-var w = 600, h = 870; 
+
+var w = 600, h = 580; 
 var proj = d3.geo.mercator()
-	.center([127.0, 35.9])	
-	.scale(bw*8.5/2.3)
-	.translate([(w/2.1), (h/2)]);
+	.center([136, 34.0])	
+	.scale(2300);
+	
 
 var path = d3.geo.path().projection(proj);
 var ids = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16];
+
 var svg = d3.select("#mapTest").append("svg")
-	.attr("width", bw/2.1)
-	.attr("height", bh/1.2);
-    
+	.attr("width", bw/2.8)
+	.attr("height", h)
+	.attr("preserveAspectRatio", "xMinYMin meet")
+	.attr("viewBox", "0 0 300 300");
+	
 d3.json("/js/map/provinces-topo-simple.json", function(error, kor) {
 	var municipalities = topojson.object(kor, kor.objects['provinces-geo']);
 	svg.selectAll('path').data(municipalities.geometries).enter().append('path')
@@ -120,6 +135,25 @@ d3.json("/js/map/provinces-topo-simple.json", function(error, kor) {
 	.attr('onclick', 'getList(id)')	
 	.attr('style','cursor:pointer;');
 });
+
+function resizeW(){
+	var bw = document.body.clientWidth;
+	var bh = document.body.clientHeight;
+	
+	if(idx==0){
+		$('svg').width(bw/2.8);
+		$('svg').height(bw/2.8);
+	}
+	
+	if(idx==1){
+		$('#categoryWindow').css("width",bw*(4/5));
+	}
+	else if(idx==2){
+		$('#categoryWindow').css("width", bw-(bw/2.7));
+		$('svg').css("width", (bw/2.8));
+	}
+}
+
 
 
 function changeBtns(){
@@ -176,8 +210,8 @@ function joinRoom(id){
 }
 </script>
 
+<br>
 <div id="categoryWindow" style="float: right; display : none ">
-
 	<div> 
 		<div class="ui segments">
 			<div class="ui segment">

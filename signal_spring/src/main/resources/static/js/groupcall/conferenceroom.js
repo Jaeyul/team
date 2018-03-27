@@ -15,7 +15,9 @@
  *
  */
 
+
 var ws = new WebSocket('wss://' + location.host + '/groupcall');
+
 var participants = {};
 var name;
 
@@ -54,31 +56,34 @@ ws.onmessage = function(message) {
 }
 
 function register() {	
-	$.ajax({ 
-        type     : "POST"
-    ,   url      : "user/uiId"	   
-    ,  success : function please(res){
-    	
-		name = res;	
-		alert(res);
-		var room = document.getElementById("rName").value;
-		document.getElementById('room-header').innerText = 'ROOM : ' + room;
-		//document.getElementById('join').style.display = 'none';
-		document.getElementById('room').style.display = 'block';		
-		var message = {
-			id : 'joinRoom',
-			name : name,
-			room : room
-		}		
-		sendMessage(message);
-	}
+	setTimeout(function(){
+		$.ajax({ 
+	        type     : "POST"
+	    ,   url      : "user/uiId"
+	    ,  success : function please(res){    	
+			name = res;	
+			alert(res);		
+			var room = document.getElementById("rName").value;
+			document.getElementById('room-header').innerText = 'ROOM : ' + room;
+			//document.getElementById('join').style.display = 'none';
+			document.getElementById('room').style.display = 'block';		
+			var message = {
+				id : 'joinRoom',
+				name : name,
+				room : room
+			}		
+			sendMessage(message);
+		}
+		
+	    ,   error : function(xhr, status, e) {
+		    	alert("에러 : "+xhr.responseText);
+		},
+		done : function(e) {
+		}
+		});
+		
+	}, 1500)
 	
-    ,   error : function(xhr, status, e) {
-	    	alert("에러 : "+xhr.responseText);
-	},
-	done : function(e) {
-	}
-	});
 	
 	/*name = document.getElementById('name').value;
 	var room = document.getElementById('roomName').value;
@@ -150,19 +155,41 @@ function onExistingParticipants(msg) {
 
 
 function leaveRoom() {
-	sendMessage({
-		id : 'leaveRoom'
-	});
-
-	for ( var key in participants) {
-		participants[key].dispose();
-	}
-
-	//document.getElementById('join').style.display = 'block';
-	document.getElementById('room').style.display = 'none';	
-	ws.close();
-	location.href= "/welcome";
 	
+	var rName = $("#rName").val();
+	var uiId = $("#uiId").val();
+	var leaveParam = {rName:rName,uiId:uiId};	
+	leaveParam = JSON.stringify(leaveParam);
+	
+	$.ajax({ 
+        type     : "POST"
+    ,   url      : "uir/leave"	   
+    ,	data	: leaveParam	
+    ,   beforeSend: function(xhr) {
+        xhr.setRequestHeader("Content-Type", "application/json");
+    }
+    ,   success : function(res){ 
+	    	
+	    	sendMessage({
+	    		id : 'leaveRoom'
+	    	});
+	    	for ( var key in participants) {
+	    		participants[key].dispose();
+	    	}
+	    	document.getElementById('room').style.display = 'none';	
+	    	
+	    	ws.close();
+	    	location.href= "/welcome";
+
+	}
+	
+    ,   error : function(xhr, status, e) {
+	    	alert("에러 : "+xhr.responseText);
+	}	
+	});
+	
+	
+	//document.getElementById('join').style.display = 'block';	
 }
 
 function receiveVideo(sender) {

@@ -44,6 +44,7 @@
 		</div>
 	</div>
 	
-	<input type="hidden" id="rName" value=${roomInfo }>
+	<input type="hidden" id="rName" value=${rName }>
+	<input type="hidden" id="uiId" value=${uiId }>
 </body>
 </html>

@@ -2,6 +2,8 @@ package com.iot.test.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +13,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import com.iot.test.mapper.CategoryMapper;
 import com.iot.test.mapper.ColorInfoMapper;
 import com.iot.test.mapper.RegeonMapper;
 import com.iot.test.service.RoomInfoService;
+import com.iot.test.service.UserInRoomService;
+import com.iot.test.vo.UserInfoVO;
 
 @Controller
 public class UrlController {
@@ -33,6 +35,9 @@ public class UrlController {
 
 	@Autowired
 	private RoomInfoService ris;
+	
+	@Autowired
+	private UserInRoomService uirs;
 
 	@RequestMapping("/welcome")
 	public String index() {
@@ -59,14 +64,17 @@ public class UrlController {
 	}
 
 	@RequestMapping("/video")
-	public ModelAndView groupcall(@RequestParam Map<String, Object> rMap) throws JsonProcessingException {
+	public ModelAndView groupcall(@RequestParam Map<String, Object> rMap, HttpSession hs) throws JsonProcessingException {
 		ModelAndView mav = new ModelAndView();
 		String regeonName = (String) rMap.get("regeonName");
 		rMap.remove("regeonName");
 		rMap.put("regeonNo", ((rgm.selectRegeonNo(regeonName)).get("regeonNo")));
-		ris.insertRoomInfo(rMap);
+		ris.insertRoomInfo(rMap);		
+		rMap.put("uiId", ((UserInfoVO) hs.getAttribute("user")).getUiId());
+		uirs.insertUserInRoomWhenCreateRoom(rMap);
 		mav.setViewName("vchat/groupcall");
-		mav.addObject("roomInfo", rMap.get("rName"));
+		mav.addObject("rName", rMap.get("rName"));
+		mav.addObject("uiId", rMap.get("uiId"));
 		return mav;
 	}
 
