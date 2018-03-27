@@ -1,6 +1,8 @@
 package com.iot.test.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.iot.test.mapper.RoomInfoMapper;
 import com.iot.test.mapper.UserInRoomMapper;
 import com.iot.test.vo.UserInRoomVO;
 
@@ -22,21 +25,20 @@ public class UserInRoomController {
 	
 	@Autowired
 	UserInRoomMapper uirm;
+	
+	@Autowired
+	RoomInfoMapper rim;
 
 	@RequestMapping(value="/leave", method=RequestMethod.POST)
 	public @ResponseBody Map<String,Object> boardListPage(@RequestBody UserInRoomVO uirv) {
 		Map<String,Object> rMap = new HashMap<String,Object>();
 		
 		log.info("UserInRoomVO =>{}", uirv);
-		
-		int result = uirm.deleteUserInRoom(uirv);
-		
-		rMap.put("msg", "실패");
-		if(result==1) {
-			rMap.put("msg", "성공");
+		uirm.deleteUserInRoom(uirv);
+		List<UserInRoomVO> uirvList = uirm.selectUserInRoomForRName(uirv);
+		if(uirvList.size()==0) {
+			int result = rim.deleteRoomInfo(uirv);			
 		}
-		
-		
 		return rMap;
 	}
 

@@ -16,7 +16,7 @@ public class UserInRoomServiceImpl implements UserInRoomService{
 	UserInRoomMapper uirm;
 
 	@Override
-	public int insertUserInRoomWhenCreateRoom(Map<String, Object> rMap) {
+	public int insertUserInRoom(Map<String, Object> rMap) {
 		
 		UserInRoomVO uirv = new UserInRoomVO();
 		uirv.setrName((String) rMap.get("rName")); 

@@ -206,7 +206,8 @@ function searchCallback(res){
 }
 
 function joinRoom(id){
-	alert(id);
+	$("#giveRName").val(id);	
+	$("#joinRoomForm").submit();	
 }
 </script>
 
@@ -308,6 +309,10 @@ function joinRoom(id){
 		</div>
 	</div>
 </div>
+
+<form action="join" id="joinRoomForm">
+	<input type="hidden" id="giveRName" name="rName">
+</form>
 
 </body>
 </html>

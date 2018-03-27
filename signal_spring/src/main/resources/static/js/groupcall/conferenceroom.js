@@ -22,6 +22,7 @@ var participants = {};
 var name;
 
 window.onbeforeunload = function() {
+	leaveRoom();
 	ws.close();
 };
 
@@ -82,7 +83,7 @@ function register() {
 		}
 		});
 		
-	}, 1500)
+	}, 500)
 	
 	
 	/*name = document.getElementById('name').value;

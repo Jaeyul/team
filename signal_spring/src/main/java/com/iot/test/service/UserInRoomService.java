@@ -4,6 +4,6 @@ import java.util.Map;
 
 public interface UserInRoomService {
 	
-	public int insertUserInRoomWhenCreateRoom(Map<String,Object> rMap);
+	public int insertUserInRoom(Map<String,Object> rMap);
 
 }
