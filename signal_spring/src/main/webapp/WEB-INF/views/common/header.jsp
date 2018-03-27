@@ -114,6 +114,10 @@
 			}
 		});
 
+		$('#myPage').on('click', function() {
+			$('#myPage').dropdown();
+		});
+
 		// create sidebar and attach to menu open
 		$('.ui.sidebar').sidebar('attach events', '.toc.item');
 
@@ -148,26 +152,27 @@
 			class="item">Login</a> <a href="/signup" class="item">Signup</a>
 	</div>
 	<!-- Page Contents -->
-
-	<div id='header'
-		class="ui inverted vertical masthead center aligned segment"
-		style="background-color: #9A91AC">
-		<div class="ui container">
-			<div class="ui large secondary inverted pointing menu"
-				style="border-style: none">
-				<a class="toc item"> <i class="sidebar icon"></i>
-				</a> <a href='/welcome' class="active item">Home</a> <a href='/map'
-					class="item">Map</a> <a class="item">Random</a> <a href='/board'
-					class="item">Board</a>
-				<div class="right item">
-					<a href="/login" class="ui inverted button">Log in</a> <a
-						href="/signup" class="ui inverted button">Sign Up</a>
-					<div class="ui inverted dropdown button">
-						<div class="text">My Page</div>
-						<div class="menu">
-							<div class="header">Choice 1</div>
-							<div class="header">Choice 2</div>
-							<div class="header">Choice 3</div>
+	<div class='pusher'>
+		<div id='header'
+			class="ui inverted vertical masthead center aligned segment"
+			style="background-img: /img/">
+			<div class="ui container">
+				<div class="ui large secondary inverted pointing menu"
+					style="border-style: none">
+					<a class="toc item"> <i class="sidebar icon"></i>
+					</a> <a href='/welcome' class="active item">Home</a> <a href='/map'
+						class="item">Map</a> <a class="item">Random</a> <a href='/board'
+						class="item">Board</a>
+					<div class="right item">
+						<a href="/login" class="ui inverted button">Log in</a> <a
+							href="/signup" class="ui inverted button">Sign Up</a>
+						<div id='myPage' class="ui inverted dropdown button">
+							<div class="text">My Page</div>
+							<div class="menu">
+								<div class="header">Choice 1</div>
+								<div class="header">Choice 2</div>
+								<div class="header">Choice 3</div>
+							</div>
 						</div>
 					</div>
 				</div>

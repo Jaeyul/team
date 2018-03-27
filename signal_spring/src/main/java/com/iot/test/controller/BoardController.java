@@ -67,8 +67,8 @@ public class BoardController {
 		ImageVO imageVO = imageService.selectByBno(bNo);
 		System.out.println(boardVO);
 		System.out.println(imageVO);
-		log.info("[]", boardVO);
-		log.info("[]", imageVO);
+		log.info("{}", boardVO);
+		log.info("{}", imageVO);
 		model.addAttribute("boardVO", boardVO);
 		model.addAttribute("imageVO", imageVO);
 

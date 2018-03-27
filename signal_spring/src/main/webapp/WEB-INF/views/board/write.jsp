@@ -15,7 +15,7 @@
 <body>
 	<div id='content' class="ui container">
 	<br><br><br>
-		<form action="/board/board" method="post"
+		<form action="/board/complete" method="post"
 			enctype="multipart/form-data" class="ui form">
 			<div class="field">
 				<label>Title</label> <input name="bName" type="text"

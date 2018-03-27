@@ -19,7 +19,7 @@ public class ImageServiceImpl implements ImageService {
 	@Autowired
 	ImgMapper im;
 
-	public static final String IMAGE_DIR = "C:\\Users\\DJA\\git\\team\\signal_spring\\src\\main\\resources\\static\\web\\upload_images\\";
+	public static final String IMAGE_DIR = "D:\\iot-study\\workspace\\git\\team\\signal_spring\\src\\main\\resources\\static\\web\\upload_images\\";
 
 	@Override
 	public List<ImageVO> ImgList() {
