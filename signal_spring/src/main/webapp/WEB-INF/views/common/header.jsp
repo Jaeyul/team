@@ -114,25 +114,35 @@
 			}
 		});
 
-		$('#myPage').on('click', function() {
-			$('#myPage').dropdown();
+		$('.dropdown').mouseenter(function() {
+			$('.dropdown').dropdown({
+				// you can use any ui transition
+				transition : 'drop'
+			});
 		});
 
 		// create sidebar and attach to menu open
 		$('.ui.sidebar').sidebar('attach events', '.toc.item');
 
-		$('#content').appendTo('#header');
+		$('#content').appendTo('#headerContent');
 		$('.vertical').appendTo('.pusher');
-
+		var page = window.location.pathname;
+		for(var menuA of $('.ui.menu a')){
+			var text = menuA.text.toLowerCase();
+		if(page.indexOf(text)!=-1){
+			$("a[href='/"+text+"'").addClass('active');
+		}
+		};
 	});
 </script>
 <body>
 
 	<!-- Following Menu -->
-	<div class="ui large top fixed hidden menu">
+	<div id='headerMenu' class="ui large top fixed hidden menu">
 		<div class="ui container">
-			<a class="active item">Home</a> <a class="item">Work</a> <a
-				class="item">Company</a> <a class="item">Careers</a>
+			<a href="/home" class="item">Home</a> <a href="/map" class="item">Map</a>
+			<a href="/random" class="item">Random</a> <a href="/board"
+				class="item">Board</a>
 			<div class="right menu">
 				<div class="item">
 					<a class="ui button">Log in</a>
@@ -146,27 +156,29 @@
 
 
 	<!-- Sidebar Menu -->
-	<div class="ui vertical inverted sidebar menu">
-		<a class="active item">Home</a> <a class="item">Work</a> <a
-			class="item">Company</a> <a class="item">Careers</a> <a href="/login"
-			class="item">Login</a> <a href="/signup" class="item">Signup</a>
+	<div id="headerMenu" class="ui vertical inverted sidebar menu">
+		<a href="/home" class="item">Home</a> <a href="/map" class="item">Map</a>
+		<a href="/random" class="item">Random</a> <a href="/board"
+			class="item">Board</a> <a href="/login" class="item">Login</a> <a
+			href="/signup" class="item">Signup</a>
 	</div>
 	<!-- Page Contents -->
 	<div class='pusher'>
-		<div id='header'
+		<div id="headerContent"
 			class="ui inverted vertical masthead center aligned segment"
-			style="background-img: /img/">
+			style="background-image: url('/img/purple.jpg')">
 			<div class="ui container">
-				<div class="ui large secondary inverted pointing menu"
+				<div id='headerMenu'
+					class="ui large secondary inverted pointing menu"
 					style="border-style: none">
 					<a class="toc item"> <i class="sidebar icon"></i>
-					</a> <a href='/welcome' class="active item">Home</a> <a href='/map'
-						class="item">Map</a> <a class="item">Random</a> <a href='/board'
+					</a> <a href="/home" class="item">Home</a> <a href="/map" class="item">Map</a>
+					<a href="/random" class="item">Random</a> <a href="/board"
 						class="item">Board</a>
 					<div class="right item">
 						<a href="/login" class="ui inverted button">Log in</a> <a
 							href="/signup" class="ui inverted button">Sign Up</a>
-						<div id='myPage' class="ui inverted dropdown button">
+						<div id="myPage" class="ui inverted dropdown button">
 							<div class="text">My Page</div>
 							<div class="menu">
 								<div class="header">Choice 1</div>

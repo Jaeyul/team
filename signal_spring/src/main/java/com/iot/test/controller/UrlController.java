@@ -39,7 +39,7 @@ public class UrlController {
 	@Autowired
 	private UserInRoomService uirs;
 
-	@RequestMapping("/welcome")
+	@RequestMapping("/home")
 	public String index() {
 
 		return "index";

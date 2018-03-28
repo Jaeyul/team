@@ -24,9 +24,6 @@ svg {
 	fill: orange;
 }
 
-
-
-
 </style>
 
 <body onresize="resizeW()">
@@ -184,17 +181,15 @@ function searchRoom(){
 	var au = new AjaxUtil("room/search",params);	
 	
 	au.send(searchCallback);
-	
-	
 }
 
 function searchCallback(res){	
 	var listStr = "";
 	for(var roomInfo of res){
-		listStr += "<div class='item' style='height:45'>";
+		listStr += "<div class='item' style='height:45' id="+ roomInfo.rName +" ondblclick='joinRoom(id)'>";
 		listStr += "<div class='right floated content'>" 
 		listStr += "<div class='ui animated button' tabindex='0'>"
-		listStr += "<div class='visible content'>0/" + roomInfo.rSize + "</div>"
+		listStr += "<div class='visible content'>"+ roomInfo.currentAttendee + "/" + roomInfo.rSize + "</div>"
 		listStr += "<div class='hidden content' id="+ roomInfo.rName +" onclick='joinRoom(id)'><i class='right arrow icon'></i></div></div></div>"
 		listStr += "<i class='large github middle aligned icon'></i>";
 		listStr += "<div class='content'>";
@@ -209,6 +204,8 @@ function joinRoom(id){
 	$("#giveRName").val(id);	
 	$("#joinRoomForm").submit();	
 }
+
+
 </script>
 
 <br>
@@ -242,9 +239,11 @@ function joinRoom(id){
 							
 			<div class="ui segment">
 				<div class="ui segment">
-					<div class="ui relaxed divided list" id="roomSearchList" style="height:200px; overflow-y: scroll;">
+				
+					<div class="ui relaxed selection divided list" id="roomSearchList" style="height:200px; overflow-y: scroll;">
 					
 					</div>
+					
 				</div>
 				<button class="ui primary button" style="float: right;" onclick="openWindow()">Make Room</button>
 				<br><br><br>	
@@ -311,7 +310,7 @@ function joinRoom(id){
 </div>
 
 <form action="join" id="joinRoomForm">
-	<input type="hidden" id="giveRName" name="rName">
+	<input type="hidden" id="giveRName" name="rName">	
 </form>
 
 </body>

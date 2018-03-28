@@ -1,6 +1,7 @@
 package com.iot.test.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -20,5 +21,7 @@ public interface UserInRoomMapper {
 	
 	@Select("select rName from user_in_room where rName=#{rName}")
 	List<UserInRoomVO> selectUserInRoomForRName(UserInRoomVO uirv);
-
+	
+	@Select("select Count(1) as currentAttendee from user_in_room where rName=#{rName}")
+	int selectUserInRoomCount(Map<String,Object> subRoomMap);
 }

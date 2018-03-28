@@ -15,14 +15,17 @@
  *
  */
 
-
 var ws = new WebSocket('wss://' + location.host + '/groupcall');
 
 var participants = {};
 var name;
+var leaveIdx = 0;
 
 window.onbeforeunload = function() {
-	leaveRoom();
+	if(leaveIdx == 0 ){
+		leaveIdx--;
+		leaveRoom();
+	}	
 	ws.close();
 };
 
@@ -44,61 +47,59 @@ ws.onmessage = function(message) {
 		receiveVideoResponse(parsedMessage);
 		break;
 	case 'iceCandidate':
-		participants[parsedMessage.name].rtcPeer.addIceCandidate(parsedMessage.candidate, function (error) {
-	        if (error) {
-		      console.error("Error adding candidate: " + error);
-		      return;
-	        }
-	    });
-	    break;
+		participants[parsedMessage.name].rtcPeer.addIceCandidate(
+				parsedMessage.candidate, function(error) {
+					if (error) {
+						console.error("Error adding candidate: " + error);
+						return;
+					}
+				});
+		break;
 	default:
 		console.error('Unrecognized message', parsedMessage);
 	}
 }
 
-function register() {	
-	setTimeout(function(){
-		$.ajax({ 
-	        type     : "POST"
-	    ,   url      : "user/uiId"
-	    ,  success : function please(res){    	
-			name = res;	
-			alert(res);		
-			var room = document.getElementById("rName").value;
-			document.getElementById('room-header').innerText = 'ROOM : ' + room;
-			//document.getElementById('join').style.display = 'none';
-			document.getElementById('room').style.display = 'block';		
-			var message = {
-				id : 'joinRoom',
-				name : name,
-				room : room
-			}		
-			sendMessage(message);
-		}
-		
-	    ,   error : function(xhr, status, e) {
-		    	alert("에러 : "+xhr.responseText);
-		},
-		done : function(e) {
-		}
+function register() {
+	setTimeout(function() {
+		$.ajax({
+			type : "POST",
+			url : "user/uiId",
+			success : function please(res) {
+				name = res;
+				var room = document.getElementById("rName").value;
+				document.getElementById('room-header').innerText = 'ROOM : '
+						+ room;
+				// document.getElementById('join').style.display = 'none';
+				document.getElementById('room').style.display = 'block';
+				var message = {
+					id : 'joinRoom',
+					name : name,
+					room : room
+				}
+				sendMessage(message);
+			}
+			,
+			error : function(xhr, status, e) {
+				alert("에러 : " + xhr.responseText);
+			},
+			done : function(e) {
+			}
 		});
-		
+
 	}, 500)
-	
-	
-	/*name = document.getElementById('name').value;
-	var room = document.getElementById('roomName').value;
 
-	document.getElementById('room-header').innerText = 'ROOM ' + room;
-	document.getElementById('join').style.display = 'none';
-	document.getElementById('room').style.display = 'block';
-
-	var message = {
-		id : 'joinRoom',
-		name : name,
-		room : room,
-	}
-	sendMessage(message);*/
+	/*
+	 * name = document.getElementById('name').value; var room =
+	 * document.getElementById('roomName').value;
+	 * 
+	 * document.getElementById('room-header').innerText = 'ROOM ' + room;
+	 * document.getElementById('join').style.display = 'none';
+	 * document.getElementById('room').style.display = 'block';
+	 * 
+	 * var message = { id : 'joinRoom', name : name, room : room, }
+	 * sendMessage(message);
+	 */
 }
 
 function onNewParticipant(request) {
@@ -106,8 +107,10 @@ function onNewParticipant(request) {
 }
 
 function receiveVideoResponse(result) {
-	participants[result.name].rtcPeer.processAnswer (result.sdpAnswer, function (error) {
-		if (error) return console.error (error);
+	participants[result.name].rtcPeer.processAnswer(result.sdpAnswer, function(
+			error) {
+		if (error)
+			return console.error(error);
 	});
 }
 
@@ -116,8 +119,9 @@ function callResponse(message) {
 		console.info('Call not accepted by peer. Closing call');
 		stop();
 	} else {
-		webRtcPeer.processAnswer(message.sdpAnswer, function (error) {
-			if (error) return console.error (error);
+		webRtcPeer.processAnswer(message.sdpAnswer, function(error) {
+			if (error)
+				return console.error(error);
 		});
 	}
 }
@@ -139,58 +143,62 @@ function onExistingParticipants(msg) {
 	var video = participant.getVideoElement();
 
 	var options = {
-	      localVideo: video,
-	      mediaConstraints: constraints,
-	      onicecandidate: participant.onIceCandidate.bind(participant)
-	    }
-	participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendonly(options,
-		function (error) {
-		  if(error) {
-			  return console.error(error);
-		  }
-		  this.generateOffer (participant.offerToReceiveVideo.bind(participant));
-	});
+		localVideo : video,
+		mediaConstraints : constraints,
+		onicecandidate : participant.onIceCandidate.bind(participant)
+	}
+	participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendonly(
+			options, function(error) {
+				if (error) {
+					return console.error(error);
+				}
+				this.generateOffer(participant.offerToReceiveVideo
+						.bind(participant));
+			});
 
 	msg.data.forEach(receiveVideo);
 }
 
-
 function leaveRoom() {
-	
+	leaveIdx++;
 	var rName = $("#rName").val();
 	var uiId = $("#uiId").val();
-	var leaveParam = {rName:rName,uiId:uiId};	
+	var leaveParam = {
+		rName : rName,
+		uiId : uiId
+	};
 	leaveParam = JSON.stringify(leaveParam);
-	
-	$.ajax({ 
-        type     : "POST"
-    ,   url      : "uir/leave"	   
-    ,	data	: leaveParam	
-    ,   beforeSend: function(xhr) {
-        xhr.setRequestHeader("Content-Type", "application/json");
-    }
-    ,   success : function(res){ 
-	    	
-	    	sendMessage({
-	    		id : 'leaveRoom'
-	    	});
-	    	for ( var key in participants) {
-	    		participants[key].dispose();
-	    	}
-	    	document.getElementById('room').style.display = 'none';	
-	    	
-	    	ws.close();
-	    	location.href= "/welcome";
 
-	}
-	
-    ,   error : function(xhr, status, e) {
-	    	alert("에러 : "+xhr.responseText);
-	}	
+	$.ajax({
+		type : "POST",
+		url : "uir/leave",
+		data : leaveParam,
+		beforeSend : function(xhr) {
+			xhr.setRequestHeader("Content-Type", "application/json");
+		},
+		success : function(res) {
+
+			sendMessage({
+				id : 'leaveRoom'
+			});
+			for ( var key in participants) {
+				participants[key].dispose();
+			}
+			document.getElementById('room').style.display = 'none';
+
+			ws.close();			
+			location.href = "/map";
+			
+
+		}
+
+		,
+		error : function(xhr, status, e) {
+			alert("에러 : " + xhr.responseText);
+		}
 	});
-	
-	
-	//document.getElementById('join').style.display = 'block';	
+
+	// document.getElementById('join').style.display = 'block';
 }
 
 function receiveVideo(sender) {
@@ -199,17 +207,19 @@ function receiveVideo(sender) {
 	var video = participant.getVideoElement();
 
 	var options = {
-      remoteVideo: video,
-      onicecandidate: participant.onIceCandidate.bind(participant)
-    }
+		remoteVideo : video,
+		onicecandidate : participant.onIceCandidate.bind(participant)
+	}
 
-	participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerRecvonly(options,
-			function (error) {
-			  if(error) {
-				  return console.error(error);
-			  }
-			  this.generateOffer (participant.offerToReceiveVideo.bind(participant));
-	});;
+	participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerRecvonly(
+			options, function(error) {
+				if (error) {
+					return console.error(error);
+				}
+				this.generateOffer(participant.offerToReceiveVideo
+						.bind(participant));
+			});
+	;
 }
 
 function onParticipantLeft(request) {

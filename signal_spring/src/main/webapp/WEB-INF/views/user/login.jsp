@@ -37,7 +37,7 @@ body>.grid {
 		function test(res) {
 			alert(res.msg);
 			if(res.biz){
-				document.location.href="welcome";
+				document.location.href="home";
 			}
 		}
 	}

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.iot.test.mapper.UserInRoomMapper;
 import com.iot.test.service.RoomInfoService;
 
 @Controller
@@ -21,6 +22,9 @@ public class RoomInfoController {
 	
 	@Autowired
 	RoomInfoService ris;
+	
+	@Autowired
+	UserInRoomMapper uirm;
 	
 	
 	@RequestMapping(value="/check", method=RequestMethod.POST)
@@ -36,6 +40,11 @@ public class RoomInfoController {
 		
 		List<Map<String, Object>> allRoomList = ris.searchAllRoom(regeonMap);
 		
+		for(Map<String, Object> subRoomMap : allRoomList) {
+			int result = uirm.selectUserInRoomCount(subRoomMap);
+			subRoomMap.put("currentAttendee", result);
+		}
+		
 		return allRoomList;
 	}
 	
@@ -46,6 +55,11 @@ public class RoomInfoController {
 		log.info("test =>{}", roomMap);		
 		
 		List<Map<String, Object>> roomInfoMap = ris.searchRoomInfo(roomMap);		
+		
+		for(Map<String, Object> subRoomMap : roomInfoMap) {
+			int result = uirm.selectUserInRoomCount(subRoomMap);
+			subRoomMap.put("currentAttendee", result);
+		}
 		
 		return roomInfoMap;
 	}
