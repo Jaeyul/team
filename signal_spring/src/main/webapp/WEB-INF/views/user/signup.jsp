@@ -114,6 +114,10 @@ function signup(){
 
 function idValidation(){
 	var uiId = $("#uiId").val().trim();
+	if(uiId==""){		
+		alert("아이디를 입력해주세요.");
+		return;
+	}	
 	var idParam ={uiId:uiId};
 	
 	var au = new AjaxUtil("user/check", idParam);
