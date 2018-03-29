@@ -155,6 +155,7 @@
 	</div>
 
 
+
 	<!-- Sidebar Menu -->
 	<div id="headerMenu" class="ui vertical inverted sidebar menu">
 		<a href="/home" class="item">Home</a> <a href="/map" class="item">Map</a>
