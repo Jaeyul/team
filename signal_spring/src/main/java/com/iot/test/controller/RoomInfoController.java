@@ -52,17 +52,25 @@ public class RoomInfoController {
 	@RequestMapping(value="/search", method=RequestMethod.POST)
 	public @ResponseBody List<Map<String, Object>> searchRoom(@RequestBody Map<String,Object> roomMap){
 		
-		log.info("test =>{}", roomMap);		
+		log.info("roomMap =>{}", roomMap);		
 		
-		List<Map<String, Object>> roomInfoMap = ris.searchRoomInfo(roomMap);		
+		List categoryList = (List) roomMap.get("categoryList");
 		
+		if(categoryList.size()==0) {
+			List<Map<String, Object>> allRoomList = ris.searchAllRoom(roomMap);			
+			for(Map<String, Object> subRoomMap : allRoomList) {
+				int result = uirm.selectUserInRoomCount(subRoomMap);
+				subRoomMap.put("currentAttendee", result);
+			}
+			return allRoomList;
+		}
+		
+		List<Map<String, Object>> roomInfoMap = ris.searchRoomInfo(roomMap);
 		for(Map<String, Object> subRoomMap : roomInfoMap) {
 			int result = uirm.selectUserInRoomCount(subRoomMap);
 			subRoomMap.put("currentAttendee", result);
-		}
+		}			
+		return roomInfoMap;	
 		
-		return roomInfoMap;
 	}
-	
-
 }

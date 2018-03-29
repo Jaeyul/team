@@ -48,8 +48,7 @@ function getList(str){
 	var bh = document.body.clientHeight;
 	
 	for(var id of colorConfirm){
-		$('#'+id).removeClass("active");	
-		
+		$('#'+id).removeClass("active");		
 	}	
 	colorConfirm = [];
 	

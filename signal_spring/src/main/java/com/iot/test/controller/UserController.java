@@ -2,11 +2,9 @@ package com.iot.test.controller;
 
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
-import javax.websocket.server.HandshakeRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,10 +38,24 @@ public class UserController {
     }
 	
 	@RequestMapping("/signup")
-    public String signup(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
-        model.addAttribute("name", name);
-        return "user/signup";
+    public @ResponseBody Map<String,Object> signup(@RequestBody UserInfoVO uiv) {
+		log.info("UserInfoVO=>{}", uiv);
+		Map<String,Object> resultMap = uis.insertUserInfo(uiv);
+		
+        return resultMap;
     }
+	
+	@RequestMapping("/check")
+    public @ResponseBody Map<String,Object> checkId(@RequestBody UserInfoVO uiv) {
+		log.info("UserInfoVO=>{}", uiv);
+		
+		Map<String,Object> checkMap = uis.checkUiId(uiv);
+		
+        return checkMap;
+    }
+	
+	
+	
 	
 	@RequestMapping(value="/uiId", method=RequestMethod.POST)
     public @ResponseBody String getUiId(HttpSession hs) {

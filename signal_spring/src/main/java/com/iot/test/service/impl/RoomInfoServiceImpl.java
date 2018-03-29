@@ -51,6 +51,7 @@ public class RoomInfoServiceImpl implements RoomInfoService {
 		Map<String,Object> regeonNo =  rgm.selectRegeonNo(regeonName);
 		
 		List<Map<String, Object>> allRoomList = rim.selectAllRoomList(regeonNo);
+		
 		return allRoomList;
 	}
 	
