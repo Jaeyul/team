@@ -40,9 +40,9 @@
 				</c:forEach>
 			</tbody>
 		</table>
-			<a href="/board/write" class='ui button'>Write</a>
+			<a href="/board/write" class='ui labeled Inverted button icon'><i class="pencil alternate icon"> </i>Write</a>
 	</div>
-	<form id='form' action='board/post' style="display:none">
+	<form id='form' action='/board/post' style="display:none">
 		<input id='putData' name='bNo' type='hidden' />
 	</form>
 </body>

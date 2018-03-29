@@ -21,7 +21,7 @@ public interface ImageService {
 
 	public ImageVO save(MultipartFile multipartFile, int bNo);
 
-	public void saveToFile(MultipartFile src, String id) throws IOException;
+	public String saveToFile(MultipartFile src, String id) throws IOException;
 
 	public String getExtension(String fileName);
 

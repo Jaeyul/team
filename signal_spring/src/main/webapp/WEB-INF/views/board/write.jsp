@@ -18,20 +18,20 @@
 		<form action="/board/complete" method="post"
 			enctype="multipart/form-data" class="ui form">
 			<div class="field">
-				<label>Title</label> <input name="bName" type="text"
+				<h3 class="ui dividing inverted header">Title</h3> <input name="bName" type="text"
 					class="ui input">
 			</div>
 			<div class="field">
-				<label>Text</label>
+				<h3 class="ui dividing inverted header">Text</h3>
 				<textarea name="bContent"></textarea>
 			</div>
 			<div class="field">
-				<label>Image Upload</label>
+				<h3 class="ui dividing inverted header">Image Upload</h3>
 				<button type="button" id="uploadImg" class="ui button" style="width: 53;">
 					<i class="upload icon"></i>
 				</button>
 			</div>
-
+			
 			<button class="ui primary button">Save</button>
 			<input id="uploadFile" type="file" name="imgFile"
 				style="visibility: hidden;">

@@ -19,7 +19,7 @@ public class ImageServiceImpl implements ImageService {
 	@Autowired
 	ImgMapper im;
 
-	public static final String IMAGE_DIR = "D:\\iot-study\\workspace\\git\\team\\signal_spring\\src\\main\\resources\\static\\web\\upload_images\\";
+	public static final String IMAGE_DIR = "src/main/resources/static/web/upload_images\\";
 
 	@Override
 	public List<ImageVO> ImgList() {
@@ -40,9 +40,9 @@ public class ImageServiceImpl implements ImageService {
 	}
 
 	@Override
-	public int deleteImg(Integer imgNo) {
+	public int deleteImg(Integer bNo) {
 
-		return im.deleteImg(imgNo);
+		return im.deleteImg(bNo);
 	}
 
 	@Override
@@ -57,14 +57,15 @@ public class ImageServiceImpl implements ImageService {
 	public ImageVO save(MultipartFile multipartFile, int bNo) {
 		// UUID로 유일할 것 같은 값 생성.. 낮은 확률로 중복 가능성이 있음
 		String genId = UUID.randomUUID().toString();
+		String imgId = null;
 		try {
-			saveToFile(multipartFile, genId);
+			imgId = saveToFile(multipartFile, genId);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		ImageVO iv = new ImageVO();
-		iv.setImgId(genId);
+		iv.setImgId(imgId);
 		iv.setImgType(multipartFile.getContentType());
 		iv.setImgSize((int) multipartFile.getSize());
 		iv.setImgName(multipartFile.getOriginalFilename());
@@ -76,7 +77,7 @@ public class ImageServiceImpl implements ImageService {
 	/**
 	 * Multipart File의 내용을 파일로 저장, 저장 후 저장된 파일 이름을 반환
 	 */
-	public void saveToFile(MultipartFile src, String id) throws IOException {
+	public String saveToFile(MultipartFile src, String id) throws IOException {
 		String fileName = src.getOriginalFilename();
 		byte[] bytes = src.getBytes();
 		String saveFileName = id + "." + getExtension(fileName);
@@ -87,6 +88,7 @@ public class ImageServiceImpl implements ImageService {
 		bos.write(bytes);
 		bos.flush();
 		bos.close();
+		return saveFileName;
 	}
 
 	/**
