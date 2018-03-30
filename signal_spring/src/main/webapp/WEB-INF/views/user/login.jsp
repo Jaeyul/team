@@ -32,12 +32,12 @@ body>.grid {
 			uiId : uiId,
 			uiPwd : uiPwd
 		};		
-		var au = new AjaxUtil("user/login", param, null, "post");
+		var au = new AjaxUtil("/user/login", param, null, "post");
 		au.send(test);
 		function test(res) {
 			alert(res.msg);
 			if(res.biz){
-				document.location.href="home";
+				document.location.href="/home";
 			}
 		}
 	}

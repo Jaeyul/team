@@ -5,6 +5,9 @@
 <c:set var="root" value="${pageContext.request.contextPath}" />
 <c:set var="ver" value="?version=1.0.0" />
 
+<c:set var="isLogin" value="${(empty sessionScope.user)?false:true}"/>
+<c:set var="Log" value="${(empty sessionScope.user)?'login':'logout'}"/>
+
 <script src="/js/jquery-3.3.1.js"></script>
 <script src="/js/components/visibility.js"></script>
 <script src="/js/components/sidebar.js"></script>
@@ -13,6 +16,7 @@
 <script src="/js/components/dropdown.js"></script>
 <script src="/js/components/dimmer.js"></script>
 <script src="/js/components/modal.js"></script>
+<script src="/js/components/accordion.js"></script>
 <script src="/js/common.js"></script>
 <script src="/js/map/d3.v3.min.js"></script>
 <script src="/js/map/topojson.v0.min.js"></script>
@@ -45,5 +49,6 @@
 <link rel="stylesheet" type="text/css" href="/css/components/dimmer.css">
 <link rel="stylesheet" type="text/css" href="/css/components/modal.css">
 <link rel="stylesheet" type="text/css" href="/css/components/table.css">
+<link rel="stylesheet" type="text/css" href="/css/components/accordion.css">
 
 <%@ include file="/WEB-INF/views/common/header.jsp"%>

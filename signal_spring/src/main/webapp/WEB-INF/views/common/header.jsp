@@ -1,3 +1,4 @@
+<%@page import="com.iot.test.vo.UserInfoVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -6,6 +7,17 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
+
+<%
+String uri = request.getRequestURI();
+UserInfoVO user = (UserInfoVO)session.getAttribute("user");
+if(uri.indexOf("login")==-1 && uri.indexOf("signup")==-1 && user==null){
+	response.sendRedirect("/login");
+}
+%>
+
+
+
 <style type="text/css">
 .hidden.menu {
 	display: none;
@@ -102,7 +114,15 @@
 </style>
 <script>
 	$(document).ready(function() {
+		
+		/* $('.ui.accordion')
+		  .accordion()
+		;
+ */
+		$('.ui.inverted.dropdown.button').dropdown();
+ 
 
+ 
 		// fix menu when passed
 		$('.masthead').visibility({
 			once : false,
@@ -113,13 +133,16 @@
 				$('.fixed.menu').transition('fade out');
 			}
 		});
+			
 
-		$('.dropdown').mouseenter(function() {
+		/* $('.dropdown').mouseenter(function() {
 			$('.dropdown').dropdown({
 				// you can use any ui transition
 				transition : 'drop'
 			});
-		});
+		}); */
+		
+		
 
 		// create sidebar and attach to menu open
 		$('.ui.sidebar').sidebar('attach events', '.toc.item');
@@ -134,6 +157,8 @@
 		}
 		};
 	});
+	
+	
 </script>
 <body>
 
@@ -154,13 +179,11 @@
 		</div>
 	</div>
 
-
-
 	<!-- Sidebar Menu -->
 	<div id="headerMenu" class="ui vertical inverted sidebar menu">
 		<a href="/home" class="item">Home</a> <a href="/map" class="item">Map</a>
 		<a href="/random" class="item">Random</a> <a href="/board"
-			class="item">Board</a> <a href="/login" class="item">Login</a> <a
+			class="item">Board</a> <a href="${(Log=='login')? '/login':'/user/logout'}" class="item">${(Log=='login')?'Login':'Logout'}</a> <a
 			href="/signup" class="item">Signup</a>
 	</div>
 	<!-- Page Contents -->
@@ -177,21 +200,29 @@
 					<a href="/random" class="item">Random</a> <a href="/board"
 						class="item">Board</a>
 					<div class="right item">
-						<a href="/login" class="ui inverted button">Log in</a> <a
-							href="/signup" class="ui inverted button">Sign Up</a>
-						<div id="myPage" class="ui inverted dropdown button">
+						<a href="${(Log=='login')? '/login':'/user/logout'}" class="ui inverted button">${(Log=='login')?'Log in':'Log out'}</a> 
+						<a href="/signup" class="ui inverted button" style="display:${(Log=='login')?'':'none'}">Sign up</a>	
+						
+						
+						<div id="myPage" class="ui inverted dropdown button" style="display:${(Log=='login')?'none':''}">
 							<div class="text">My Page</div>
 							<div class="menu">
-								<div class="header">Choice 1</div>
-								<div class="header">Choice 2</div>
-								<div class="header">Choice 3</div>
+								<div class="item">Choice 1</div>
+								<div class="item">Choice 2</div>
+								<div class="item">Choice 3</div>
 							</div>
 						</div>
-					</div>
+												
+						
+					</div>	
 				</div>
 			</div>
 		</div>
 	</div>
+	
+	
+	
+	
 </body>
 
 

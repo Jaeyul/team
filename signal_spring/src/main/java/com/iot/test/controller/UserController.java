@@ -37,6 +37,13 @@ public class UserController {
         return rMap;
     }
 	
+	@RequestMapping(value="/logout", method=RequestMethod.GET)
+    public String logout(HttpSession hs) {
+		hs.removeAttribute("user");
+        return "/user/login";
+    }
+	
+	
 	@RequestMapping("/signup")
     public @ResponseBody Map<String,Object> signup(@RequestBody UserInfoVO uiv) {
 		log.info("UserInfoVO=>{}", uiv);
