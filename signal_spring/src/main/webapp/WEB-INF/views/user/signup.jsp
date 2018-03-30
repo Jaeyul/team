@@ -151,9 +151,8 @@ function reChCursor(){
 <br><br><br><br><br>
 <div class="ui middle aligned center aligned grid">
   <div class="column">
-    <h2 class="ui teal image header">
-     	Sign-up
-      <img src="/img/favicon.png" class="image">
+    <h2 class="ui pink image header">
+     	Sign-up      
     </h2>    
     
     <form class="ui large form">
@@ -196,7 +195,7 @@ function reChCursor(){
           </div>          
          </div>
         
-        <div class="ui fluid large teal submit button" onclick="signup()"> Sign-Up</div>
+        <div class="ui fluid large pink submit button" onclick="signup()"> Sign-Up</div>
       </div>      
       
     </form>

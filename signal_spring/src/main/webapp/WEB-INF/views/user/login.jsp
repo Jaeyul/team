@@ -51,8 +51,8 @@ body>.grid {
 <br><br><br><br><br>
 	<div class="ui middle aligned center aligned grid">
 		<div class="column">
-			<h2 class="ui teal image header">
-				<img src="/img/favicon.png" class="image">
+			<h2 class="ui pink image header">
+				
 				<div class="content">Log-in to your account</div>
 			</h2>
 
@@ -70,7 +70,7 @@ body>.grid {
 								placeholder="Password" id="uiPwd">
 						</div>
 					</div>
-					<div class="ui fluid large teal button" onclick="login()">Login</div>
+					<div class="ui fluid large pink button" onclick="login()">Login</div>
 				</div>
 				<div class="ui error message"></div>
 			</div>

@@ -116,9 +116,8 @@ if(uri.indexOf("login")==-1 && uri.indexOf("signup")==-1 && user==null){
 	$(document).ready(function() {
 		
 		/* $('.ui.accordion')
-		  .accordion()
-		;
- */
+		  .accordion();
+		*/
 		$('.ui.inverted.dropdown.button').dropdown();
  
 
@@ -132,30 +131,39 @@ if(uri.indexOf("login")==-1 && uri.indexOf("signup")==-1 && user==null){
 			onBottomPassedReverse : function() {
 				$('.fixed.menu').transition('fade out');
 			}
-		});
-			
-
-		/* $('.dropdown').mouseenter(function() {
-			$('.dropdown').dropdown({
-				// you can use any ui transition
-				transition : 'drop'
-			});
-		}); */
-		
-		
+		});		
 
 		// create sidebar and attach to menu open
 		$('.ui.sidebar').sidebar('attach events', '.toc.item');
 
 		$('#content').appendTo('#headerContent');
 		$('.vertical').appendTo('.pusher');
+		
 		var page = window.location.pathname;
 		for(var menuA of $('.ui.menu a')){
 			var text = menuA.text.toLowerCase();
-		if(page.indexOf(text)!=-1){
-			$("a[href='/"+text+"'").addClass('active');
-		}
+			if(page.indexOf(text)!=-1){
+				$("a[href='/"+text+"'").addClass('active');
+			}		
 		};
+		
+		for(var dropBt of $("#dropBt div.item")){
+			var forWrite = dropBt.innerText;	
+			var inText = dropBt.innerText;				
+			if(inText.indexOf(" ")!=-1){
+				inText = inText.replace(" ","");			
+			} 
+			inText = inText.toLowerCase();
+			if(page.indexOf(inText)!=-1){
+				$("#myPageBt").html(forWrite);
+			}	
+			
+			
+			
+		}
+		
+		
+		
 	});
 	
 	
@@ -202,27 +210,23 @@ if(uri.indexOf("login")==-1 && uri.indexOf("signup")==-1 && user==null){
 					<div class="right item">
 						<a href="${(Log=='login')? '/login':'/user/logout'}" class="ui inverted button">${(Log=='login')?'Log in':'Log out'}</a> 
 						<a href="/signup" class="ui inverted button" style="display:${(Log=='login')?'':'none'}">Sign up</a>	
-						
-						
-						<div id="myPage" class="ui inverted dropdown button" style="display:${(Log=='login')?'none':''}">
-							<div class="text">My Page</div>
-							<div class="menu">
-								<div class="item">Choice 1</div>
-								<div class="item">Choice 2</div>
-								<div class="item">Choice 3</div>
-							</div>
-						</div>
 												
+						<div id="myPage" class="ui inverted dropdown button" style="display:${(Log=='login')?'none':''};">
+							<div class="text" id="myPageBt">My Page</div>
+							<div class="menu" id="dropBt">
+								<div class="item">My Profile</div>
+								<div class="item" >My Friends</div>
+								<div class="item">My Post</div>
+								<div class="item">History</div>
+							</div>							
+						</div>	
+						
 						
 					</div>	
 				</div>
 			</div>
 		</div>
 	</div>
-	
-	
-	
-	
 </body>
 
 

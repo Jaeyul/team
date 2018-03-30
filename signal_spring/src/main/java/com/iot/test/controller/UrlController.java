@@ -102,5 +102,18 @@ public class UrlController {
 		mav.setViewName("map/map");
 		return mav;
 	}
+	
+	@RequestMapping("/myfriends")
+	public String goMyFriends() {
+		
+		return "mypage/myfriends";
+		
+	}
+	@RequestMapping("/myprofile")
+	public String goMyProfile() {
+		
+		return "mypage/myprofile";
+		
+	}
 
 }
