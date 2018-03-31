@@ -53,14 +53,16 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = "/complete", method = RequestMethod.POST)
-	public ModelAndView uploadImage(@RequestParam("imgFile") MultipartFile img, BoardVO bv, HttpSession hs,
+	public ModelAndView uploadImage(@RequestParam("filedata") List<MultipartFile> images, BoardVO bv, HttpSession hs,
 			ModelAndView mav) {
 		UserInfoVO uiv = (UserInfoVO) hs.getAttribute("user");
 		String uiName = uiv.getUiId();
 		bv.setUiId(uiName);
 		Integer bNo = boardService.insertBoard(bv);
-		ImageVO ImageVO = imageService.save(img, bNo);
-		imageService.insertImg(ImageVO);
+		for (MultipartFile img : images) {
+			ImageVO ImageVO = imageService.save(img, bNo);
+			imageService.insertImg(ImageVO);
+		}
 		List<BoardVO> boardList = boardService.boardList();
 		mav.addObject("boardList", boardList);
 		mav.setViewName("board/board");
@@ -76,7 +78,7 @@ public class BoardController {
 	public ModelAndView deleteBoard(@RequestBody ImageVO iv, ModelAndView mav) {
 		int bNo = iv.getbNo();
 		String imgId = iv.getImgId();
-		log.info("{} {}", bNo,imgId);
+		log.info("{} {}", bNo, imgId);
 		boardService.deleteBoard(bNo);
 		File imgF = new File(ImageServiceImpl.IMAGE_DIR, imgId);
 		imgF.delete();
@@ -90,14 +92,12 @@ public class BoardController {
 	@RequestMapping(value = "/post", method = RequestMethod.GET)
 	public String boardPage(@RequestParam("bNo") Integer bNo, Model model, HttpSession hs) {
 		BoardVO boardVO = boardService.selectByNo(bNo);
-		ImageVO imageVO = imageService.selectByBno(bNo);
+		List<ImageVO> imageVOList = imageService.selectByBno(bNo);
 		UserInfoVO uiv = (UserInfoVO) hs.getAttribute("user");
-		System.out.println(boardVO);
-		System.out.println(imageVO);
 		log.info("{}", boardVO);
-		log.info("{}", imageVO);
+		log.info("{}", imageVOList);
 		model.addAttribute("boardVO", boardVO);
-		model.addAttribute("imageVO", imageVO);
+		model.addAttribute("imageVOList", imageVOList);
 		if (uiv != null) {
 			model.addAttribute("loginUiId", uiv.getUiId());
 		}

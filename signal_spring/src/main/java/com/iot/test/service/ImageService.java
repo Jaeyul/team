@@ -11,7 +11,7 @@ import com.iot.test.vo.ImageVO;
 public interface ImageService {
 	public List<ImageVO> ImgList();
 
-	public ImageVO selectByBno(@Param("bNo") int bNo);
+	public List<ImageVO> selectByBno(@Param("bNo") int bNo);
 
 	public int insertImg(@Param("img") ImageVO img);
 

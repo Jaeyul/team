@@ -28,7 +28,7 @@ public class ImageServiceImpl implements ImageService {
 	}
 
 	@Override
-	public ImageVO selectByBno(int bNo) {
+	public List<ImageVO> selectByBno(int bNo) {
 
 		return im.selectByBno(bNo);
 	}

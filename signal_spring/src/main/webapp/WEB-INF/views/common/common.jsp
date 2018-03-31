@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="root" value="${pageContext.request.contextPath}" />
 <c:set var="ver" value="?version=1.0.0" />
 
-<c:set var="isLogin" value="${(empty sessionScope.user)?false:true}"/>
-<c:set var="Log" value="${(empty sessionScope.user)?'login':'logout'}"/>
+<c:set var="isLogin" value="${(empty sessionScope.user)?false:true}" />
+<c:set var="Log" value="${(empty sessionScope.user)?'login':'logout'}" />
 
 <script src="/js/jquery-3.3.1.js"></script>
 <script src="/js/components/visibility.js"></script>
@@ -49,6 +49,7 @@
 <link rel="stylesheet" type="text/css" href="/css/components/dimmer.css">
 <link rel="stylesheet" type="text/css" href="/css/components/modal.css">
 <link rel="stylesheet" type="text/css" href="/css/components/table.css">
-<link rel="stylesheet" type="text/css" href="/css/components/accordion.css">
+<link rel="stylesheet" type="text/css"
+	href="/css/components/accordion.css">
 
 <%@ include file="/WEB-INF/views/common/header.jsp"%>

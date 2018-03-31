@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@include file="/WEB-INF/views/common/common.jsp"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -12,12 +13,12 @@
 		alert("Update Complete");
 		location.href = "/board";
 	}
-	
+
 	function deleteCall(res) {
 		alert("Delete Complete");
 		location.href = "/board";
 	}
-	
+
 	function updateBoard(bNo, imgId) {
 		var param = {
 			bNo : bNo,
@@ -26,7 +27,7 @@
 		var ajax = new AjaxUtil("/board/update", param);
 		ajax.send(updateCall);
 	}
-	
+
 	function deleteBoard(bNo, imgId) {
 		var param = {
 			bNo : bNo,
@@ -35,7 +36,6 @@
 		var ajax = new AjaxUtil("/board/delete", param);
 		ajax.send(deleteCall);
 	}
-	
 </script>
 <link href='https://fonts.googleapis.com/css?family=Faustina'
 	rel='stylesheet'>
@@ -70,8 +70,14 @@ h1 h2 h3 h4 {
 				<i class="edit outline alternate icon"></i>Update
 			</button>
 		</c:if>
+		
 		<div class="ui clearing divider"></div>
-		<img class="ui spaced image" src="/web/upload_images/${imageVO.imgId}">
+		
+		<c:forEach items="${imageVOList}" var="imageVO">
+			<img class="ui spaced image"
+				src="/web/upload_images/${imageVO.imgId}">
+		</c:forEach>
+		
 		<p>${boardVO.bContent}</p>
 	</div>
 

@@ -18,7 +18,7 @@ public interface ImgMapper {
 	public List<ImageVO> ImgList();
 
 	@Select("select imgNo, imgName, imgId, imgType, imgSize, imgRegDate, bNo from image_file where bNo = #{bNo}")
-	public ImageVO selectByBno(@Param("bNo") int bNo);
+	public List<ImageVO> selectByBno(@Param("bNo") int bNo);
 
 	@Insert("insert into image_file(imgName, imgId, imgRegDate, imgType, imgSize, bNo) "
 			+ "values(#{img.imgName}, #{img.imgId}, current_timestamp, #{img.imgType}, #{img.imgSize}, #{img.bNo})")
