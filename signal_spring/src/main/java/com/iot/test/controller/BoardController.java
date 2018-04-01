@@ -70,8 +70,21 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String updateBoard() {
-		return "board/write";
+	public ModelAndView updateBoard(int bNo, ModelAndView mav) {
+		List<ImageVO> imageVOList = imageService.selectByBno(bNo);
+		mav.addObject("imageVOList",imageVOList);
+		mav.setViewName("board/update");
+		return mav;
+	}
+	@RequestMapping(value = "/updateComplete", method = RequestMethod.POST)
+	public ModelAndView updateComplete(@RequestParam("filedata") List<MultipartFile> images, BoardVO bv, HttpSession hs,
+			ModelAndView mav) {
+		int bNo = bv.getbNo();
+		List<ImageVO> imageVOList = imageService.selectByBno(bNo);
+		List<BoardVO> boardList = boardService.boardList();
+		mav.addObject("boardList", boardList);
+		mav.setViewName("board/board");
+		return mav;
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
@@ -90,17 +103,18 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = "/post", method = RequestMethod.GET)
-	public String boardPage(@RequestParam("bNo") Integer bNo, Model model, HttpSession hs) {
+	public ModelAndView boardPage(@RequestParam("bNo") Integer bNo, ModelAndView mav, HttpSession hs) {
 		BoardVO boardVO = boardService.selectByNo(bNo);
 		List<ImageVO> imageVOList = imageService.selectByBno(bNo);
 		UserInfoVO uiv = (UserInfoVO) hs.getAttribute("user");
 		log.info("{}", boardVO);
 		log.info("{}", imageVOList);
-		model.addAttribute("boardVO", boardVO);
-		model.addAttribute("imageVOList", imageVOList);
+		mav.addObject("boardVO", boardVO);
+		mav.addObject("imageVOList", imageVOList);
 		if (uiv != null) {
-			model.addAttribute("loginUiId", uiv.getUiId());
+			mav.addObject("loginUiId", uiv.getUiId());
 		}
-		return "board/post";
+		mav.setViewName("board/post");
+		return mav;
 	}
 }

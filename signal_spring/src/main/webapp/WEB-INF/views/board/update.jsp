@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <style>
-#preview img {
+.thumbnail {
 	width: 100px;
 	height: 100px;
 }
@@ -26,8 +26,19 @@
 }
 </style>
 <script>
-	var files = {};
-	var previewIndex = 0;
+var files = {};
+var previewIndex = 0;
+var forEachIndex = 0;
+	function updateCall(res) {
+	}
+	function updateBoard(bNo, imgId) {
+		var param = {
+			bNo : bNo,
+			imgId : imgId
+		};
+		var ajax = new AjaxUtil("/board/write");
+		ajax.send(updateCall);
+	}
 	$(document).ready(function() {
 		$('#attach input[type=file]').change(function() {
 			addPreview($(this)); //preview form 추가하기
@@ -74,8 +85,9 @@
 	//preview 영역에서 삭제 버튼 클릭시 해당 미리보기이미지 영역 삭제
 	function deletePreview(obj) {
 		var imgNum = obj.attributes['value'].value;
+		alert(imgNum);
 		delete files[imgNum];
-		$("#preview .preview-box[value=" + imgNum + "]").remove();
+		$(".preview-box[value=" + imgNum + "]").remove();
 	}
 
 	//client-side validation
@@ -88,8 +100,8 @@
 		if (!((fileNameExtension === 'jpg') || (fileNameExtension === 'gif') || (fileNameExtension === 'png'))) {
 			alert('Sorry, Only jpg, gif, png can be uploaded.');
 			return true;
-		} else if (size > 2000000) {
-			alert('Sorry, The img size must be less than 2MB');
+		} else if (size > 200000) {
+			alert('Sorry, The img size must be less than 200KB');
 			return true;
 		} else if (count > 5) {
 			alert("Please upload less than 6 imgs");
@@ -102,17 +114,18 @@
 <body>
 	<div id='content' class="ui container">
 		<br> <br> <br>
-		<form id="uploadForm" action="/board/complete" method="post"
+		<form id="uploadForm" action="/board/updateComplete" method="post"
 			enctype="multipart/form-data" class="ui form">
 
 			<div class="field">
 				<h3 class="ui dividing inverted header">Title</h3>
-				<input name="bName" type="text" class="ui input">
+				<input name="bName" class="ui input" value="${param.bName}">
 			</div>
 
 			<div class="field">
 				<h3 class="ui dividing inverted header">Text</h3>
-				<textarea name="bContent"></textarea>
+				<textarea name="bContent">${param.bContent}</textarea>
+
 			</div>
 
 			<!-- 첨부 버튼 -->
@@ -125,8 +138,15 @@
 			<br>
 			<!-- 미리보기 영역 -->
 			<div id="preview" class="content"></div>
-
-			<br>
+			<c:forEach items="${imageVOList}"  var="imageVO" varStatus="status">
+				<div class="preview-box" value="${status.index}">
+					<img class="thumbnail" src="/web/upload_images/${imageVO.imgId}" />
+					<p class="ui grey inverted header">${imageVO.imgName}</p>
+					<a class="ui negative button" href="\#" value="${status.index}"
+						onclick="deletePreview(this)"> Delete </a>
+				</div>
+				</c:forEach>
+			<input type="hidden" value="${param.bNo}" /> <br>
 			<button class="ui primary button">Save</button>
 		</form>
 	</div>
