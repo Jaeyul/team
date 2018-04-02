@@ -11,13 +11,15 @@ import com.iot.test.vo.ImageVO;
 public interface ImageService {
 	public List<ImageVO> ImgList();
 
-	public ImageVO selectByBno(@Param("bNo") int bNo);
+	public List<ImageVO> selectByBno(int bNo);
 
-	public int insertImg(@Param("img") ImageVO img);
+	public int insertImg(ImageVO img);
 
-	public int deleteImg(@Param("imgNo") Integer imgNo);
+	public int deleteImgByBNo(Integer imgNo);
 
-	public int updateImg(@Param("img") ImageVO img);
+	public int deleteImgByImgId(String imgId);
+
+	public int updateImg(ImageVO img);
 
 	public ImageVO save(MultipartFile multipartFile, int bNo);
 

@@ -13,7 +13,7 @@ public interface BoardService {
 
 	public int insertBoard(BoardVO bv);
 
-	public int deleteBoard(Integer bNo);
+	public int deleteBoard(Integer bcNo);
 
 	public int updateBoard(BoardVO bv);
 }

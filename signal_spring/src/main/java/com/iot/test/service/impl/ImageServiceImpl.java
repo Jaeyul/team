@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,7 +29,7 @@ public class ImageServiceImpl implements ImageService {
 	}
 
 	@Override
-	public ImageVO selectByBno(int bNo) {
+	public List<ImageVO> selectByBno(int bNo) {
 
 		return im.selectByBno(bNo);
 	}
@@ -40,9 +41,14 @@ public class ImageServiceImpl implements ImageService {
 	}
 
 	@Override
-	public int deleteImg(Integer bNo) {
+	public int deleteImgByBNo(Integer bNo) {
 
-		return im.deleteImg(bNo);
+		return im.deleteImgByBNo(bNo);
+	}
+	
+
+	public int deleteImgByImgId(String imgId) {
+		return im.deleteImgByImgId(imgId);
 	}
 
 	@Override
