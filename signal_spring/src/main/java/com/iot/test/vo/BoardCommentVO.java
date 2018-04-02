@@ -5,6 +5,7 @@ public class BoardCommentVO {
 	private String bcText;
 	private String uiId;
 	private Integer bNo;
+	private String bcRegDate;
 	public Integer getBcNo() {
 		return bcNo;
 	}
@@ -29,8 +30,15 @@ public class BoardCommentVO {
 	public void setbNo(Integer bNo) {
 		this.bNo = bNo;
 	}
+	public String getBcRegDate() {
+		return bcRegDate;
+	}
+	public void setBcRegDate(String bcRegDate) {
+		this.bcRegDate = bcRegDate;
+	}
 	@Override
 	public String toString() {
-		return "BoardComentVO [bcNo=" + bcNo + ", bcText=" + bcText + ", uiId=" + uiId + ", bNo=" + bNo + "]";
+		return "BoardCommentVO [bcNo=" + bcNo + ", bcText=" + bcText + ", uiId=" + uiId + ", bNo=" + bNo
+				+ ", bcRegDate=" + bcRegDate + "]";
 	}
 }

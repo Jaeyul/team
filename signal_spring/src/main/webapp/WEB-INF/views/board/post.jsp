@@ -12,9 +12,20 @@
 	function goUpdateBoard() {
 		$("#goUpdate").click();
 	}
+	
+	function commentCall() {
+		location.reload(true);
+	}
+	
 	function deleteCall(res) {
 		alert("Delete Complete");
 		location.href = "/board";
+	}
+	
+	function reconmmandCall(res){
+		if(res.msg){
+			alert(res.msg);
+		}
 	}
 
 	function deleteBoard(bNo) {
@@ -23,6 +34,26 @@
 		};
 		var ajax = new AjaxUtil("/board/delete", param);
 		ajax.send(deleteCall);
+	}
+
+	function addComment(bNo, uiNickName) {
+		var bcText = $("#commentText").text();
+		var param = {
+			bNo : bNo,
+			bcText : bcText,
+			uiNickName : uiNickName
+		};
+		var ajax = new AjaxUtil("/board/comment", param);
+		ajax.send(commentCall);
+	}
+	
+	function thumbsUp(bNo,uiNo){
+		var param = {
+			bNo : bNo,
+			uiNo : uiNo
+		};
+		var ajax = new AjaxUtil("/board/reconmmand", param);
+		ajax.send(reconmmandCall);
 	}
 </script>
 <link href='https://fonts.googleapis.com/css?family=Faustina'
@@ -41,7 +72,7 @@ h1 h2 h3 h4 {
 </style>
 <body>
 	<div id='content' class="ui segment">
-		<h4 style='font-family: Fjalla one;'
+		<h4 id="bNo" style='font-family: Fjalla one;'
 			class="title ui left floated purple header">Number :
 			${boardVO.bNo}</h4>
 		<h2 style='font-family: Fjalla one;'
@@ -70,6 +101,14 @@ h1 h2 h3 h4 {
 		</c:forEach>
 
 		<p>${boardVO.bContent}</p>
+		<br>
+		<br>
+		<button class="ui labeled basic button icon" onclick="thumbsUp('${boardVO.bNo}','${UserInfoVO.uiNo}')">
+			<i class="thumbs up outline icon"></i>Thumbs Up
+		</button>
+		<button class="ui labeled inverted yellow button icon" onclick="boardExpose()">
+			<i class="exclamation icon"></i>Expose
+		</button>
 	</div>
 	<form action="/board/update" method="post"
 		enctype="multipart/form-data" style="display: none">
@@ -82,30 +121,36 @@ h1 h2 h3 h4 {
 	<div id='content' class="ui segment">
 		<div class="ui comments">
 			<h3 class="ui dividing header">Comments</h3>
-			<div class="comment">
-				<a class="ui avatar threaded image"> <img
-					src="/img/basic_user.png">
-				</a>
-				<div class="content">
-					<a class="author">Matt</a>
-					<div class="metadata"><span class="date">Today at 5:42PM</span>
+			<c:if test="${comentList}!=NULL">
+				<c:forEach items="${comentList}" var="comment">
+					<div class="comment">
+						<a class="ui avatar threaded image"> <img
+							src="/img/basic_user.png">
+						</a>
+						<div class="content">
+							<a class="author">nickName</a>
+							<div class="metadata">
+								<span class="date">${comment.bcRegDate}</span>
+							</div>
+							<div class="text">${comment.bcText}</div>
+							<div class="actions">
+								<a class="reply">Reply</a>
+							</div>
+						</div>
 					</div>
-					<div class="text">How artistic!</div>
-					<div class="actions">
-						<a class="reply">Reply</a>
-					</div>
-				</div>
-			</div>
+				</c:forEach>
+			</c:if>
 		</div>
 
-		<form class="ui reply form">
+		<div class="ui reply form">
 			<div class="field">
-				<textarea></textarea>
+				<textarea id="commentText"></textarea>
 			</div>
-			<div class="ui blue labeled submit icon button">
+			<button id="addComment" class="ui blue labeled submit icon button"
+				onclick="addComment('${boardVO.bNo}','${uiNickName}')">
 				<i class="icon edit"></i> Add Reply
-			</div>
-		</form>
+			</button>
+		</div>
 	</div>
 
 </body>

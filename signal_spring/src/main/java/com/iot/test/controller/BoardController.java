@@ -145,6 +145,7 @@ public class BoardController {
 		mav.addObject("boardVO", boardVO);
 		mav.addObject("imageVOList", imageVOList);
 		mav.addObject("comentList", comentList);
+		mav.addObject("UserInfoVO", uiv);
 		if (uiv != null) {
 			mav.addObject("loginUiId", uiv.getUiId());
 		}
