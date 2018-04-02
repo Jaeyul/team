@@ -2,6 +2,7 @@ SET SESSION FOREIGN_KEY_CHECKS=0;
 
 /* Drop Tables */
 
+DROP TABLE IF EXISTS board_comment;
 DROP TABLE IF EXISTS image_file;
 DROP TABLE IF EXISTS bulletin_board;
 DROP TABLE IF EXISTS color_info;
@@ -21,16 +22,28 @@ DROP TABLE IF EXISTS user_info;
 
 /* Create Tables */
 
+CREATE TABLE board_comment
+(
+	bcNo int(15) unsigned NOT NULL AUTO_INCREMENT,
+	bcText varchar(1000) NOT NULL,
+	bNo int(15) unsigned NOT NULL,
+	uiId varchar(30) NOT NULL,
+	PRIMARY KEY (bcNo),
+	UNIQUE (uiId)
+);
+
+
 CREATE TABLE bulletin_board
 (
 	bNo int(15) unsigned NOT NULL AUTO_INCREMENT,
 	bName varchar(300) NOT NULL,
 	bContent text NOT NULL,
 	bRegDate datetime NOT NULL,
-	uiNo int unsigned NOT NULL,
 	bRecom int unsigned zerofill,
 	bHit int unsigned zerofill,
-	PRIMARY KEY (bNo)
+	uiId varchar(30) NOT NULL,
+	PRIMARY KEY (bNo),
+	UNIQUE (uiId)
 );
 
 
@@ -160,10 +173,11 @@ CREATE TABLE user_info
 
 CREATE TABLE user_in_room
 (
+	uirNo int unsigned NOT NULL AUTO_INCREMENT,
 	uiId varchar(30) NOT NULL,
 	rName varchar(50) NOT NULL,
-	UNIQUE (uiId),
-	UNIQUE (rName)
+	PRIMARY KEY (uirNo),
+	UNIQUE (uiId)
 );
 
 
@@ -180,6 +194,14 @@ CREATE TABLE user_profile
 
 
 /* Create Foreign Keys */
+
+ALTER TABLE board_comment
+	ADD FOREIGN KEY (bNo)
+	REFERENCES bulletin_board (bNo)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+;
+
 
 ALTER TABLE image_file
 	ADD FOREIGN KEY (bNo)
@@ -221,7 +243,23 @@ ALTER TABLE user_in_room
 ;
 
 
+ALTER TABLE board_comment
+	ADD FOREIGN KEY (uiId)
+	REFERENCES user_info (uiId)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+;
+
+
 ALTER TABLE bulletin_board
+	ADD FOREIGN KEY (uiId)
+	REFERENCES user_info (uiId)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+;
+
+
+ALTER TABLE expose
 	ADD FOREIGN KEY (uiNo)
 	REFERENCES user_info (uiNo)
 	ON UPDATE RESTRICT
@@ -231,14 +269,6 @@ ALTER TABLE bulletin_board
 
 ALTER TABLE expose
 	ADD FOREIGN KEY (targetUiNo)
-	REFERENCES user_info (uiNo)
-	ON UPDATE RESTRICT
-	ON DELETE RESTRICT
-;
-
-
-ALTER TABLE expose
-	ADD FOREIGN KEY (uiNo)
 	REFERENCES user_info (uiNo)
 	ON UPDATE RESTRICT
 	ON DELETE RESTRICT
@@ -254,7 +284,7 @@ ALTER TABLE Friends
 
 
 ALTER TABLE note
-	ADD FOREIGN KEY (uiNo)
+	ADD FOREIGN KEY (targetUiNo)
 	REFERENCES user_info (uiNo)
 	ON UPDATE RESTRICT
 	ON DELETE RESTRICT
@@ -262,7 +292,7 @@ ALTER TABLE note
 
 
 ALTER TABLE note
-	ADD FOREIGN KEY (targetUiNo)
+	ADD FOREIGN KEY (uiNo)
 	REFERENCES user_info (uiNo)
 	ON UPDATE RESTRICT
 	ON DELETE RESTRICT

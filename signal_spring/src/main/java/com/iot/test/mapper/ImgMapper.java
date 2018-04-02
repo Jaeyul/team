@@ -24,9 +24,12 @@ public interface ImgMapper {
 			+ "values(#{img.imgName}, #{img.imgId}, current_timestamp, #{img.imgType}, #{img.imgSize}, #{img.bNo})")
 	public int insertImg(@Param("img") ImageVO img);
 
-	@Delete("delete from image_file where imgNo = #{imgNo}")
-	public int deleteImg(@Param("imgNo") Integer imgNo);
-
+	@Delete("delete from image_file where bNo = #{bNo}")
+	public int deleteImgByBNo(@Param("bNo") Integer bNo);
+	
+	@Delete("delete from image_file where imgId = #{imgId}")
+	public int deleteImgByImgId(@Param("imgId") String imgId);
+	
 	@Update("update image_file set imgName = #{imgName}, bNo =#{bNo} where imgNo = #{imgNo}")
 	public int updateImg(@Param("img") ImageVO img);
 }

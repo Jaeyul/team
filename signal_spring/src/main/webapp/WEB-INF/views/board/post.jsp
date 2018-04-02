@@ -17,10 +17,9 @@
 		location.href = "/board";
 	}
 
-	function deleteBoard(bNo, imgId) {
+	function deleteBoard(bNo) {
 		var param = {
-			bNo : bNo,
-			imgId : imgId
+			bNo : bNo
 		};
 		var ajax = new AjaxUtil("/board/delete", param);
 		ajax.send(deleteCall);
@@ -53,7 +52,7 @@ h1 h2 h3 h4 {
 		<c:if test="${loginUiId == boardVO.uiId}">
 			<button id="delete"
 				class="title ui right floated negative labeled button icon"
-				onclick="deleteBoard('${boardVO.bNo}','${imageVO.imgId}')">
+				onclick="deleteBoard('${boardVO.bNo}')">
 				<i class="trash alternate icon"></i>Delete
 			</button>
 			<button id="update"
@@ -78,8 +77,37 @@ h1 h2 h3 h4 {
 			value="${boardVO.bName}" /><input name="bContent"
 			value="${boardVO.bContent}" />
 		<button id="goUpdate"></button>
-
 	</form>
+
+	<div id='content' class="ui segment">
+		<div class="ui comments">
+			<h3 class="ui dividing header">Comments</h3>
+			<div class="comment">
+				<a class="ui avatar threaded image"> <img
+					src="/img/basic_user.png">
+				</a>
+				<div class="content">
+					<a class="author">Matt</a>
+					<div class="metadata"><span class="date">Today at 5:42PM</span>
+					</div>
+					<div class="text">How artistic!</div>
+					<div class="actions">
+						<a class="reply">Reply</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<form class="ui reply form">
+			<div class="field">
+				<textarea></textarea>
+			</div>
+			<div class="ui blue labeled submit icon button">
+				<i class="icon edit"></i> Add Reply
+			</div>
+		</form>
+	</div>
+
 </body>
 
 
