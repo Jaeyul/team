@@ -27,6 +27,7 @@ import com.iot.test.vo.UserInfoVO;
 public class BunnySocket {	
 
 	private static final Logger log = LoggerFactory.getLogger(BunnySocket.class);
+	
 	private static Map<String,Session> sessionMap = Collections
 			.synchronizedMap(new HashMap<String,Session>());
 	
@@ -52,6 +53,8 @@ public class BunnySocket {
 				}
 			}
 		}
+		
+		
 	}
 	
 	private String getSessionKey(Session session) {

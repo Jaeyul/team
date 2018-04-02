@@ -1,6 +1,5 @@
 package com.iot.test.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.iot.test.mapper.RoomInfoMapper;
 import com.iot.test.mapper.UserInRoomMapper;
+import com.iot.test.service.UserInRoomService;
 import com.iot.test.vo.UserInRoomVO;
 
 @Controller
@@ -28,9 +28,12 @@ public class UserInRoomController {
 	
 	@Autowired
 	RoomInfoMapper rim;
+	
+	@Autowired
+	UserInRoomService uirs;
 
 	@RequestMapping(value="/leave", method=RequestMethod.POST)
-	public @ResponseBody Map<String,Object> boardListPage(@RequestBody UserInRoomVO uirv) {
+	public @ResponseBody Map<String,Object> leaveRoom(@RequestBody UserInRoomVO uirv) {
 		Map<String,Object> rMap = new HashMap<String,Object>();
 		
 		log.info("UserInRoomVO =>{}", uirv);
@@ -42,6 +45,18 @@ public class UserInRoomController {
 		return rMap;
 	}
 
+	@RequestMapping(value="/check", method=RequestMethod.POST)
+	public @ResponseBody Map<String,Object> checkCurrentAttendee(@RequestBody Map<String,Object> rMap){		
+				
+		int riResult = rim.selectRSizeForRName(rMap);
+		int uirResult = uirm.selectUserInRoomCount(rMap);
+		rMap.put("rSize", riResult);	
+		rMap.put("currentAttendee", uirResult);			
+		
+		return rMap;
+	}
+	
+	
 	
 }
 

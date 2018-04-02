@@ -23,6 +23,7 @@ public class UserInRoomServiceImpl implements UserInRoomService{
 		uirv.setUiId((String) rMap.get("uiId"));				
 		return uirm.insertUserInRoom(uirv);
 	}
+
 	
 
 

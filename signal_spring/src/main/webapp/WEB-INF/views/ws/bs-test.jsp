@@ -17,7 +17,7 @@
 </body>
     <script type="text/javascript">
         var textarea = document.getElementById("messageWindow");
-        var webSocket = new WebSocket('wss://' + location.host + '/alarm');
+      //  var webSocket = new WebSocket('wss://' + location.host + '/alarm');
         var inputMessage = document.getElementById('inputMessage');
         var targetId = document.getElementById('targetId');
         
@@ -36,6 +36,7 @@
         var msgObj = JSON.parse(event.data);
         alert(msgObj.msg);
     }
+    
     function onOpen(event) {
         textarea.value += "연결 성공\n";
     }

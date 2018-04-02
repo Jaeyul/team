@@ -24,4 +24,7 @@ public interface UserInRoomMapper {
 	
 	@Select("select Count(1) as currentAttendee from user_in_room where rName=#{rName}")
 	int selectUserInRoomCount(Map<String,Object> subRoomMap);
+	
+	@Select("select uiId from user_in_room where rName=#{rName}")
+	List<String> selectUserInRoomUiIdForRName(String rName);
 }

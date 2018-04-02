@@ -29,35 +29,41 @@ window.onbeforeunload = function() {
 	ws.close();
 };
 
-ws.onmessage = function(message) {
+ws.onmessage = function(message) {	
+	
 	var parsedMessage = JSON.parse(message.data);
 	console.info('Received message: ' + message.data);
-
-	switch (parsedMessage.id) {
-	case 'existingParticipants':
-		onExistingParticipants(parsedMessage);
-		break;
-	case 'newParticipantArrived':
-		onNewParticipant(parsedMessage);
-		break;
-	case 'participantLeft':
-		onParticipantLeft(parsedMessage);
-		break;
-	case 'receiveVideoAnswer':
-		receiveVideoResponse(parsedMessage);
-		break;
-	case 'iceCandidate':
-		participants[parsedMessage.name].rtcPeer.addIceCandidate(
-				parsedMessage.candidate, function(error) {
-					if (error) {
-						console.error("Error adding candidate: " + error);
-						return;
-					}
-				});
-		break;
-	default:
-		console.error('Unrecognized message', parsedMessage);
+		
+	switch (parsedMessage.id) {	
+		case 'existingParticipants':
+			onExistingParticipants(parsedMessage);
+			break;
+		case 'newParticipantArrived':
+			onNewParticipant(parsedMessage);
+			break;
+		case 'participantLeft':
+			onParticipantLeft(parsedMessage);
+			break;
+		case 'receiveVideoAnswer':
+			receiveVideoResponse(parsedMessage);
+			break;
+		case 'iceCandidate':
+			participants[parsedMessage.name].rtcPeer.addIceCandidate(
+					parsedMessage.candidate, function(error) {
+						if (error) {
+							console.error("Error adding candidate: " + error);
+							return;
+						}
+					});
+			break;
+		default:
+			console.error('Unrecognized message', parsedMessage);
+	}		
+	if(parsedMessage.msg){
+		var textarea = document.getElementById("messageWindow");    
+		textarea.value += parsedMessage.uiNickName + " : " + parsedMessage.msg + "\n";	
 	}
+	
 }
 
 function register() {
@@ -69,8 +75,7 @@ function register() {
 				name = res;
 				var room = document.getElementById("rName").value;
 				document.getElementById('room-header').innerText = 'ROOM : '
-						+ room;
-				// document.getElementById('join').style.display = 'none';
+						+ room;				
 				document.getElementById('room').style.display = 'block';
 				var message = {
 					id : 'joinRoom',
@@ -179,7 +184,9 @@ function leaveRoom() {
 		success : function(res) {
 
 			sendMessage({
-				id : 'leaveRoom'
+				id : 'leaveRoom',
+				uiId : uiId
+				
 			});
 			for ( var key in participants) {
 				participants[key].dispose();

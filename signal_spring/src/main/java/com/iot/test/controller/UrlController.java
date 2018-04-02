@@ -71,23 +71,25 @@ public class UrlController {
 		rMap.put("regeonNo", ((rgm.selectRegeonNo(regeonName)).get("regeonNo")));
 		ris.insertRoomInfo(rMap);		
 		rMap.put("uiId", ((UserInfoVO) hs.getAttribute("user")).getUiId());
+		rMap.put("uiNickName", ((UserInfoVO) hs.getAttribute("user")).getUiNickName());
 		uirs.insertUserInRoom(rMap);
 		mav.setViewName("vchat/groupcall");
 		mav.addObject("rName", rMap.get("rName"));
 		mav.addObject("uiId", rMap.get("uiId"));
+		mav.addObject("uiNickName", rMap.get("uiNickName"));
 		return mav;
 	}
 	
 	@RequestMapping("/join")
 	public ModelAndView joinRoom(@RequestParam Map<String, Object> rMap, HttpSession hs) throws JsonProcessingException {
-		ModelAndView mav = new ModelAndView();
-		log.info("rMap=>{}", rMap);
+		ModelAndView mav = new ModelAndView();	
 		rMap.put("uiId", ((UserInfoVO) hs.getAttribute("user")).getUiId()); 
-		log.info("rMap=>{}", rMap);		
+		rMap.put("uiNickName", ((UserInfoVO) hs.getAttribute("user")).getUiNickName());			
 		uirs.insertUserInRoom(rMap);
 		mav.setViewName("vchat/groupcall");
 		mav.addObject("rName", rMap.get("rName"));
 		mav.addObject("uiId", rMap.get("uiId"));
+		mav.addObject("uiNickName", rMap.get("uiNickName"));
 		return mav;
 	}
 	

@@ -18,6 +18,10 @@
 package com.iot.test.groupcall;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import org.kurento.client.IceCandidate;
 import org.slf4j.Logger;
@@ -31,6 +35,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.iot.test.mapper.UserInRoomMapper;
 
 /**
  * 
@@ -41,20 +46,32 @@ public class CallHandler extends TextWebSocketHandler {
 
   private static final Logger log = LoggerFactory.getLogger(CallHandler.class);
 
-  private static final Gson gson = new GsonBuilder().create();
-
+  private static final Gson gson = new GsonBuilder().create();  
+  
+  private static Map<String,WebSocketSession> sessionMap = new HashMap<String,WebSocketSession>(); 
+    
   @Autowired
   private RoomManager roomManager;
 
   @Autowired
   private UserRegistry registry;
+  
+  @Autowired
+  private UserInRoomMapper uirm;
 
   @Override
   public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-    final JsonObject jsonMessage = gson.fromJson(message.getPayload(), JsonObject.class);
+    final JsonObject jsonMessage = gson.fromJson(message.getPayload(), JsonObject.class);    
 
-    final UserSession user = registry.getBySession(session);
+    final UserSession user = registry.getBySession(session);       
 
+	Map<String,String> map = gson.fromJson(message.getPayload(), Map.class);	
+	if(map.get("uiId")!=null) {
+		if(sessionMap.get(map.get("uiId"))==null) {
+			sessionMap.put(map.get("uiId"), session);		
+		}		
+	}
+		
     if (user != null) {
       log.debug("Incoming message from user '{}': {}", user.getName(), jsonMessage);
     } else {
@@ -72,17 +89,33 @@ public class CallHandler extends TextWebSocketHandler {
         user.receiveVideoFrom(sender, sdpOffer);
         break;
       case "leaveRoom":
+    	sessionMap.remove(map.get("uiId"));
         leaveRoom(user);
         break;
       case "onIceCandidate":
         JsonObject candidate = jsonMessage.get("candidate").getAsJsonObject();
-
         if (user != null) {
           IceCandidate cand = new IceCandidate(candidate.get("candidate").getAsString(),
               candidate.get("sdpMid").getAsString(), candidate.get("sdpMLineIndex").getAsInt());
           user.addCandidate(cand, jsonMessage.get("name").getAsString());
         }
         break;
+        
+      case "sendMessage":   
+    	  
+    	  List<String> userList = uirm.selectUserInRoomUiIdForRName(map.get("name")); 
+    	  final Iterator<String> it = sessionMap.keySet().iterator();
+    	  while(it.hasNext()) {    		
+    		final String key = it.next();
+    		for(String uiId : userList) {
+    			if(key.equals(uiId)) {
+    				WebSocketSession ss = sessionMap.get(key);
+            	  	ss.sendMessage(new TextMessage(message.getPayload()));  
+    			}
+    		}		  
+    	  }    	  
+    	break; 
+    	
       default:
         break;
     }

@@ -199,9 +199,25 @@ function searchCallback(res){
 	$("#roomSearchList").html(listStr);	
 }
 
-function joinRoom(id){
-	$("#giveRName").val(id);	
-	$("#joinRoomForm").submit();	
+function joinRoom(id){	
+	$("#giveRName").val(id);
+	
+	var params = {rName: id};	
+	var au = new AjaxUtil("uir/check",params);	
+	au.send(sizeCheckCallback);
+	
+	function sizeCheckCallback(res){		
+		if(res.currentAttendee < res.rSize){
+			$("#joinRoomForm").submit();			
+		}else{			
+			alert("방의 인원이 다 찼습니다. ")
+		}		
+				
+	}
+	
+	
+	
+	
 }
 
 

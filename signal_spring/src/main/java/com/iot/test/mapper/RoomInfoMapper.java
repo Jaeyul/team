@@ -20,7 +20,14 @@ public interface RoomInfoMapper {
 	
 	@Select("select rName, rSize, rTag from room_info where categoryNo=#{categoryNo} and regeonNo=#{regeonNo}")
 	List<Map<String, Object>> selectRoomList(Map<String,Object> roomInfo);
+	
+	@Select("select rSize from room_info where rName=#{rName}")
+	int selectRSizeForRName(Map<String,Object> rMap);
+	
 		
 	@Delete("delete from room_info where rName=#{rName}")
 	int deleteRoomInfo(UserInRoomVO uirv);
+	
+	
+	
 }
