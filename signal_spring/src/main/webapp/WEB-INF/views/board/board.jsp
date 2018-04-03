@@ -32,7 +32,7 @@
 					<tr id="${post.bNo}" onclick='goPost(id)' style='cursor: pointer'>
 						<td>${post.bNo}</td>
 						<td>${post.bName}</td>
-						<td>${post.uiId}</td>
+						<td>${post.uiNickName}</td>
 						<td>${post.bRegDate}</td>
 						<td>${post.bHit}</td>
 						<td>${post.bRecom}</td>

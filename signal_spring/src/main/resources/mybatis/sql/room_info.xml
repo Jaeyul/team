@@ -6,8 +6,8 @@
 	</select>
 	
 	<insert id="insertRoomInfo" parameterType="map">
-	insert into room_info(rName,rSize,rTag,rRegDate,categoryNo,regeonNo)
-	values(#{rName},#{rSize},#{rTag},current_timestamp(),#{categoryNo},#{regeonNo})
+	insert into room_info(rName,rSize,rTag,rRegDate,categoryNo,regeonNo,iconName)
+	values(#{rName},#{rSize},#{rTag},current_timestamp(),#{categoryNo},#{regeonNo},#{iconName})
 	
 	</insert>
 </mapper>

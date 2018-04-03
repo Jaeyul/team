@@ -3,6 +3,8 @@ SET SESSION FOREIGN_KEY_CHECKS=0;
 /* Drop Tables */
 
 DROP TABLE IF EXISTS board_comment;
+DROP TABLE IF EXISTS board_hit_session;
+DROP TABLE IF EXISTS board_recommand_uino;
 DROP TABLE IF EXISTS image_file;
 DROP TABLE IF EXISTS bulletin_board;
 DROP TABLE IF EXISTS color_info;
@@ -11,11 +13,12 @@ DROP TABLE IF EXISTS room_info;
 DROP TABLE IF EXISTS category;
 DROP TABLE IF EXISTS expose;
 DROP TABLE IF EXISTS Friends;
-DROP TABLE IF EXISTS menu;
 DROP TABLE IF EXISTS note;
-DROP TABLE IF EXISTS regeon;
 DROP TABLE IF EXISTS user_profile;
 DROP TABLE IF EXISTS user_info;
+DROP TABLE IF EXISTS icon_info;
+DROP TABLE IF EXISTS menu;
+DROP TABLE IF EXISTS regeon;
 
 
 
@@ -27,9 +30,28 @@ CREATE TABLE board_comment
 	bcNo int(15) unsigned NOT NULL AUTO_INCREMENT,
 	bcText varchar(1000) NOT NULL,
 	bNo int(15) unsigned NOT NULL,
-	uiId varchar(30) NOT NULL,
+	bcRegDate datetime NOT NULL,
+	uiNickName varchar(100) NOT NULL,
 	PRIMARY KEY (bcNo),
-	UNIQUE (uiId)
+	UNIQUE (uiNickName)
+);
+
+
+CREATE TABLE board_hit_session
+(
+	hNo int(15) unsigned NOT NULL AUTO_INCREMENT,
+	hSessionId varchar(100) NOT NULL,
+	bNo int(15) unsigned NOT NULL,
+	PRIMARY KEY (hNo)
+);
+
+
+CREATE TABLE board_recommand_uino
+(
+	rNo int(15) unsigned NOT NULL AUTO_INCREMENT,
+	bNo int(15) unsigned NOT NULL,
+	uiNo int unsigned NOT NULL,
+	PRIMARY KEY (rNo)
 );
 
 
@@ -41,9 +63,9 @@ CREATE TABLE bulletin_board
 	bRegDate datetime NOT NULL,
 	bRecom int unsigned zerofill,
 	bHit int unsigned zerofill,
-	uiId varchar(30) NOT NULL,
+	uiNickName varchar(100) NOT NULL,
 	PRIMARY KEY (bNo),
-	UNIQUE (uiId)
+	UNIQUE (uiNickName)
 );
 
 
@@ -93,6 +115,17 @@ CREATE TABLE Friends
 	FId varchar(30) NOT NULL,
 	uiNo int unsigned NOT NULL,
 	PRIMARY KEY (FNo)
+);
+
+
+CREATE TABLE icon_info
+(
+	iconNo int unsigned NOT NULL AUTO_INCREMENT,
+	iconName varchar(30) NOT NULL,
+	iconCode varchar(300) NOT NULL,
+	PRIMARY KEY (iconNo),
+	UNIQUE (iconName),
+	UNIQUE (iconCode)
 );
 
 
@@ -153,6 +186,7 @@ CREATE TABLE room_info
 	rRegDate datetime,
 	categoryNo int NOT NULL,
 	regeonNo int NOT NULL,
+	iconName varchar(30) NOT NULL,
 	PRIMARY KEY (rNo),
 	UNIQUE (rName)
 );
@@ -163,11 +197,13 @@ CREATE TABLE user_info
 	uiNo int unsigned NOT NULL AUTO_INCREMENT,
 	uiId varchar(30) NOT NULL,
 	uiPwd varchar(100) NOT NULL,
-	uiNickName varchar(100),
+	uiNickName varchar(100) NOT NULL,
 	uiEmail varchar(300),
 	uiRegDate datetime NOT NULL,
+	iconName varchar(30) NOT NULL,
 	PRIMARY KEY (uiNo),
-	UNIQUE (uiId)
+	UNIQUE (uiId),
+	UNIQUE (uiNickName)
 );
 
 
@@ -203,6 +239,22 @@ ALTER TABLE board_comment
 ;
 
 
+ALTER TABLE board_hit_session
+	ADD FOREIGN KEY (bNo)
+	REFERENCES bulletin_board (bNo)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+;
+
+
+ALTER TABLE board_recommand_uino
+	ADD FOREIGN KEY (bNo)
+	REFERENCES bulletin_board (bNo)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+;
+
+
 ALTER TABLE image_file
 	ADD FOREIGN KEY (bNo)
 	REFERENCES bulletin_board (bNo)
@@ -228,6 +280,22 @@ ALTER TABLE room_info
 
 
 ALTER TABLE room_info
+	ADD FOREIGN KEY (iconName)
+	REFERENCES icon_info (iconName)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+;
+
+
+ALTER TABLE user_info
+	ADD FOREIGN KEY (iconName)
+	REFERENCES icon_info (iconName)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+;
+
+
+ALTER TABLE room_info
 	ADD FOREIGN KEY (regeonNo)
 	REFERENCES regeon (regeonNo)
 	ON UPDATE RESTRICT
@@ -244,22 +312,14 @@ ALTER TABLE user_in_room
 
 
 ALTER TABLE board_comment
-	ADD FOREIGN KEY (uiId)
-	REFERENCES user_info (uiId)
+	ADD FOREIGN KEY (uiNickName)
+	REFERENCES user_info (uiNickName)
 	ON UPDATE RESTRICT
 	ON DELETE RESTRICT
 ;
 
 
-ALTER TABLE bulletin_board
-	ADD FOREIGN KEY (uiId)
-	REFERENCES user_info (uiId)
-	ON UPDATE RESTRICT
-	ON DELETE RESTRICT
-;
-
-
-ALTER TABLE expose
+ALTER TABLE board_recommand_uino
 	ADD FOREIGN KEY (uiNo)
 	REFERENCES user_info (uiNo)
 	ON UPDATE RESTRICT
@@ -267,8 +327,24 @@ ALTER TABLE expose
 ;
 
 
+ALTER TABLE bulletin_board
+	ADD FOREIGN KEY (uiNickName)
+	REFERENCES user_info (uiNickName)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+;
+
+
 ALTER TABLE expose
 	ADD FOREIGN KEY (targetUiNo)
+	REFERENCES user_info (uiNo)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+;
+
+
+ALTER TABLE expose
+	ADD FOREIGN KEY (uiNo)
 	REFERENCES user_info (uiNo)
 	ON UPDATE RESTRICT
 	ON DELETE RESTRICT

@@ -26,6 +26,8 @@ var idCheck = 0;
 var pwdCheck = 0;
 var nickCheck = 0;
 var emailCheck = 0;
+var iconCheck = 0;
+
 
 var checkIdOk = 0;
 
@@ -41,8 +43,9 @@ function Validation(){
 	var uiPwd = $("#uiPwd").val().trim();
 	var uiNickName = $("#uiNickName").val().trim();
 	var uiEmail = $("#uiEmail").val().trim();
+	var iconName = $("#iconName").val().trim();
 	
-	param = {uiId:uiId,uiPwd:uiPwd,uiNickName:uiNickName,uiEmail:uiEmail};	
+	param = {uiId:uiId,uiPwd:uiPwd,uiNickName:uiNickName,uiEmail:uiEmail,iconName:iconName};	
 	
 	if(uiId.length < 5){		
 		idCheck++;
@@ -66,9 +69,14 @@ function Validation(){
 		return true;
 	}else if(uiEmail.length < 7){	
 		emailCheck++;
-		alert("uiEmail을 다시 입력하세요.");
+		alert("Email을 다시 입력하세요.");
+		return true;
+	}else if(iconName==""){	
+		iconCheck++;
+		alert("아이콘을 선택해주세요.");
 		return true;
 	}	
+	
 	return false;	
 }
 
@@ -87,10 +95,14 @@ function signup(){
 			nickCheck--;	
 			$("#uiNickName").focus();
 		}
-		else if(emailCheck==1){			
+		else if(iconName==1){			
 			emailCheck--;
 			$("#uiEmail").focus();
+		}else if(iconCheck==1){			
+			iconCheck--;
+			$("#iconCheck").focus();
 		}
+		
 		return;		
 	}	
 	
@@ -142,11 +154,67 @@ function chCursor(){
 }
 
 function reChCursor(){
-	
 	$("#checkyUp").css("cursor","");
 }
+
+function openIconBox(){
+	$('.ui.modal').modal('show');	
+}
+
+function getIcon(){
+	var params = {};
+	var au = new AjaxUtil("icon/get",params);
+	au.send(iconCallback);
+		
+}
+function iconCallback(res){
+	var iconStr = "";
+	
+	for(var iconMap of res){
+		if((iconMap.iconNo)%10 == 0){
+			iconStr += "<i class='"+ iconMap.iconCode +"' id="+ iconMap.iconName +" onclick='selectIcon(id)' onmouseover='transitionPulse(id)'></i><br>"
+			
+		}else{
+			iconStr += "<i class='"+ iconMap.iconCode +"' id="+ iconMap.iconName +" onclick='selectIcon(id)' onmouseover='transitionPulse(id)'></i>"
+		}		
+	}	
+	
+	$("#iconBox").html(iconStr);	
+}
+
+function selectIcon(id){
+	var className = $('#'+id).attr('class');	
+	if(className.indexOf("animating")!= -1){
+		className = className.substring(0, className.indexOf("animating"));
+		console.log(className);		
+	}
+	$('#iconConfirm').attr('class', className);		
+	className = className.substring(0, className.indexOf("icon"));	
+	$('#iconName').val(className);
+	
+	$('#iconConfirm').css('color', 'red');	
+	$('.ui.modal').modal('hide');
+	
+}
+
+//onmouseover transition
+function transitionPulse(id){
+	$('#' + id).transition('jiggle');
+	
+	
+}
+
+function checkVal(id){
+	if(id=="no"){
+		$('#iconName').val("");		
+		$('#iconConfirm').css('color', '');	
+		$('#iconConfirm').attr('class', 'hand point right outline icon');
+	}
+}
+
+
 </script>
-<body>
+<body onload="getIcon()">
 <div id="content">
 <br><br><br><br><br>
 <div class="ui middle aligned center aligned grid">
@@ -190,17 +258,67 @@ function reChCursor(){
          <div class="field">
           <div class="ui left icon input">
             <i class="at icon"></i>
-            <input type="text" id="uiEmail" name="uiEmail" placeholder="Email">
-              
+            <input type="text" id="uiEmail" name="uiEmail" placeholder="Email">              
           </div>          
          </div>
+         
+         <div class="field">
+          <div class="ui left icon input">
+            <i class="hand point right outline icon" id="iconConfirm"></i>
+            <input type="text" id="iconName" name="iconName" placeholder="Icon" disabled>
+            
+            <div class="ui basic button right icon input" style="width:50px" id="iconCheck" onclick="openIconBox()" onmouseover="chCursor()" onmouseout="reChCursor">
+            <i class="large hand point up outline icon" id="iconCheck"></i>
+            </div>
+          </div>          
+        </div>
+         
+         
+         
         
         <div class="ui fluid large pink submit button" onclick="signup()"> Sign-Up</div>
       </div>      
       
-    </form>
+    </form>    
   </div>
+  
+  
+  
+  
+  
+  
+  
 </div>
+
+<div class="ui modal" > 
+  
+  <div class="header">
+    Icon Choice
+  </div>
+  
+  <div class="image content">
+  
+    <div class="ui image" style="width:250px">      
+    </div>
+    
+    <div class="description">
+      <div class="ui header" id="iconBox">     	   
+      
+	  </div>	
+    </div>
+    
+  </div>  
+  
+  <div class="actions">
+    
+    <div class="ui black deny button" id="no" onclick="checkVal(id)">
+      Nope
+    </div>   
+  </div>  
+</div>
+
+
+
 </div>
 </body>
 

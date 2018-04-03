@@ -190,7 +190,7 @@ function searchCallback(res){
 		listStr += "<div class='ui animated button' tabindex='0'>"
 		listStr += "<div class='visible content'>"+ roomInfo.currentAttendee + "/" + roomInfo.rSize + "</div>"
 		listStr += "<div class='hidden content' id="+ roomInfo.rName +" onclick='joinRoom(id)'><i class='right arrow icon'></i></div></div></div>"
-		listStr += "<i class='large github middle aligned icon'></i>";
+		listStr += "<i class='large "+ roomInfo.iconName + " middle aligned icon'></i>";
 		listStr += "<div class='content'>";
 		listStr += "<a class='header' id="+ roomInfo.rName +">"+ roomInfo.rName +"</a>";
 		listStr += "<div class='description'>"+ roomInfo.rTag +"</div>"

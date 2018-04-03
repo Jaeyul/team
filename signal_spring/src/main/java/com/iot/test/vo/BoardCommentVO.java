@@ -1,9 +1,12 @@
 package com.iot.test.vo;
 
+import javax.inject.Named;
+
+@Named
 public class BoardCommentVO {
 	private Integer bcNo;
 	private String bcText;
-	private String uiId;
+	private String uiNickName;
 	private Integer bNo;
 	private String bcRegDate;
 	public Integer getBcNo() {
@@ -18,11 +21,11 @@ public class BoardCommentVO {
 	public void setBcText(String bcText) {
 		this.bcText = bcText;
 	}
-	public String getUiId() {
-		return uiId;
+	public String getUiNickName() {
+		return uiNickName;
 	}
-	public void setUiId(String uiId) {
-		this.uiId = uiId;
+	public void setUiNickName(String uiNickName) {
+		this.uiNickName = uiNickName;
 	}
 	public Integer getbNo() {
 		return bNo;
@@ -38,7 +41,8 @@ public class BoardCommentVO {
 	}
 	@Override
 	public String toString() {
-		return "BoardCommentVO [bcNo=" + bcNo + ", bcText=" + bcText + ", uiId=" + uiId + ", bNo=" + bNo
+		return "BoardCommentVO [bcNo=" + bcNo + ", bcText=" + bcText + ", uiNickName=" + uiNickName + ", bNo=" + bNo
 				+ ", bcRegDate=" + bcRegDate + "]";
 	}
+	
 }

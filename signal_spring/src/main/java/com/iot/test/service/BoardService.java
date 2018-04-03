@@ -16,4 +16,8 @@ public interface BoardService {
 	public int deleteBoard(Integer bcNo);
 
 	public int updateBoard(BoardVO bv);
+
+	public int updateBoardHit(int bNo);
+
+	public int updateBoardRecommand(int bNo);
 }

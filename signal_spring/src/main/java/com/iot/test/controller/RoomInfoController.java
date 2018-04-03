@@ -39,6 +39,7 @@ public class RoomInfoController {
 	public @ResponseBody List<Map<String, Object>> allRoom(@RequestBody Map<String,Object> regeonMap){
 		
 		List<Map<String, Object>> allRoomList = ris.searchAllRoom(regeonMap);
+		log.info("확인보장아하하하=>",allRoomList);
 		
 		for(Map<String, Object> subRoomMap : allRoomList) {
 			int result = uirm.selectUserInRoomCount(subRoomMap);
@@ -54,8 +55,7 @@ public class RoomInfoController {
 		
 		log.info("roomMap =>{}", roomMap);		
 		
-		List categoryList = (List) roomMap.get("categoryList");
-		
+		List categoryList = (List) roomMap.get("categoryList");		
 		if(categoryList.size()==0) {
 			List<Map<String, Object>> allRoomList = ris.searchAllRoom(roomMap);			
 			for(Map<String, Object> subRoomMap : allRoomList) {

@@ -38,9 +38,15 @@ public class UrlController {
 	
 	@Autowired
 	private UserInRoomService uirs;
+	
+	@RequestMapping("/")
+	public String index() {
+
+		return "index";
+	}			
 
 	@RequestMapping("/home")
-	public String index() {
+	public String home() {
 
 		return "index";
 	}
@@ -69,14 +75,15 @@ public class UrlController {
 		String regeonName = (String) rMap.get("regeonName");
 		rMap.remove("regeonName");
 		rMap.put("regeonNo", ((rgm.selectRegeonNo(regeonName)).get("regeonNo")));
+		rMap.put("iconName", ((UserInfoVO) hs.getAttribute("user")).getIconName());		
 		ris.insertRoomInfo(rMap);		
 		rMap.put("uiId", ((UserInfoVO) hs.getAttribute("user")).getUiId());
-		rMap.put("uiNickName", ((UserInfoVO) hs.getAttribute("user")).getUiNickName());
+		rMap.put("uiNickName", ((UserInfoVO) hs.getAttribute("user")).getUiNickName());		
 		uirs.insertUserInRoom(rMap);
 		mav.setViewName("vchat/groupcall");
 		mav.addObject("rName", rMap.get("rName"));
 		mav.addObject("uiId", rMap.get("uiId"));
-		mav.addObject("uiNickName", rMap.get("uiNickName"));
+		mav.addObject("uiNickName", rMap.get("uiNickName"));		
 		return mav;
 	}
 	
@@ -90,6 +97,7 @@ public class UrlController {
 		mav.addObject("rName", rMap.get("rName"));
 		mav.addObject("uiId", rMap.get("uiId"));
 		mav.addObject("uiNickName", rMap.get("uiNickName"));
+		
 		return mav;
 	}
 	

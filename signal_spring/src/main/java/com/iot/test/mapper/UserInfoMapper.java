@@ -14,7 +14,11 @@ public interface UserInfoMapper {
 	
 	List<UserInfoVO> selectUserList(UserInfoVO ui);
 	
-	@Select("select uiNo,uiId,uiPwd,uiNickName,uiEmail,uiRegDate "
+//	@Select("select uiNo,uiId,uiPwd,uiNickName,uiEmail,uiRegDate "
+//			+ "from user_info where uiId = #{uiv.uiId} and uiPwd = #{uiv.uiPwd}")
+//	UserInfoVO selectUserForLogin(@Param("uiv")UserInfoVO uiv);
+	
+	@Select("select uiNo,uiId,uiPwd,uiNickName,uiEmail,uiRegDate, iconName "
 			+ "from user_info where uiId = #{uiv.uiId} and uiPwd = #{uiv.uiPwd}")
 	UserInfoVO selectUserForLogin(@Param("uiv")UserInfoVO uiv);
 	
@@ -22,8 +26,8 @@ public interface UserInfoMapper {
 	UserInfoVO selectUiId(@Param("uiv")UserInfoVO uiv);
 	
 	
-	@Insert("insert into user_info(uiId,uiPwd,uiNickName,uiEmail,uiRegdate) "
-			+ "values(#{uiId},#{uiPwd},#{uiNickName},#{uiEmail},current_timestamp)")
+	@Insert("insert into user_info(uiId,uiPwd,uiNickName,uiEmail,uiRegdate,iconName) "
+			+ "values(#{uiId},#{uiPwd},#{uiNickName},#{uiEmail},current_timestamp,#{iconName})")
 	int insertUserInfo(UserInfoVO uiv);
 			
 }

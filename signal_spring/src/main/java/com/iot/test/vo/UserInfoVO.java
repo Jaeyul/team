@@ -8,6 +8,15 @@ public class UserInfoVO {
 	private String uiNickName;
 	private String uiEmail;
 	private String uiRegdate;
+	private String iconName;
+	
+	
+	public String getIconName() {
+		return iconName;
+	}
+	public void setIconName(String iconName) {
+		this.iconName = iconName;
+	}
 	public int getUiNo() {
 		return uiNo;
 	}
@@ -47,7 +56,10 @@ public class UserInfoVO {
 	@Override
 	public String toString() {
 		return "UserInfoVO [uiNo=" + uiNo + ", uiId=" + uiId + ", uiPwd=" + uiPwd + ", uiNickName=" + uiNickName
-				+ ", uiEmail=" + uiEmail + ", uiRegdate=" + uiRegdate + "]";
+				+ ", uiEmail=" + uiEmail + ", uiRegdate=" + uiRegdate + ", iconName=" + iconName + "]";
 	}
+	
+	
+	
 	
 }

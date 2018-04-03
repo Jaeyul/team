@@ -9,21 +9,27 @@
 <title>${boardVO.bName}</title>
 </head>
 <script>
+	$(document).ready(function() {
+		var ajax = new AjaxUtil("/board/hit",<%=sessionId%>);
+		ajax.send();
+	})
+
+	
 	function goUpdateBoard() {
 		$("#goUpdate").click();
 	}
-	
+
 	function commentCall() {
 		location.reload(true);
 	}
-	
+
 	function deleteCall(res) {
 		alert("Delete Complete");
 		location.href = "/board";
 	}
-	
-	function reconmmandCall(res){
-		if(res.msg){
+
+	function reconmmandCall(res) {
+		if (res.msg) {
 			alert(res.msg);
 		}
 	}
@@ -46,8 +52,8 @@
 		var ajax = new AjaxUtil("/board/comment", param);
 		ajax.send(commentCall);
 	}
-	
-	function thumbsUp(bNo,uiNo){
+
+	function thumbsUp(bNo, uiNo) {
 		var param = {
 			bNo : bNo,
 			uiNo : uiNo
@@ -78,9 +84,9 @@ h1 h2 h3 h4 {
 		<h2 style='font-family: Fjalla one;'
 			class="title ui left floated header">Title : ${boardVO.bName}</h2>
 		<h4 class="ui right floated header">
-			<i class="user circle icon"></i>Writer : ${boardVO.uiId}
+			<i class="user circle icon"></i>Writer : ${boardVO.uiNickName}
 		</h4>
-		<c:if test="${loginUiId == boardVO.uiId}">
+		<c:if test="${loginUiNickName == boardVO.uiNickName}">
 			<button id="delete"
 				class="title ui right floated negative labeled button icon"
 				onclick="deleteBoard('${boardVO.bNo}')">
@@ -101,12 +107,13 @@ h1 h2 h3 h4 {
 		</c:forEach>
 
 		<p>${boardVO.bContent}</p>
-		<br>
-		<br>
-		<button class="ui labeled basic button icon" onclick="thumbsUp('${boardVO.bNo}','${UserInfoVO.uiNo}')">
-			<i class="thumbs up outline icon"></i>Thumbs Up
+		<br> <br>
+		<button class="ui labeled basic button icon"
+			onclick="thumbsUp('${boardVO.bNo}','${UserInfoVO.uiNo}')">
+			<i class="thumbs up outline icon"></i>Thumbs Up : ${boardVO.bRecom}
 		</button>
-		<button class="ui labeled inverted yellow button icon" onclick="boardExpose()">
+		<button class="ui labeled inverted yellow button icon"
+			onclick="boardExpose()">
 			<i class="exclamation icon"></i>Expose
 		</button>
 	</div>
@@ -147,7 +154,7 @@ h1 h2 h3 h4 {
 				<textarea id="commentText"></textarea>
 			</div>
 			<button id="addComment" class="ui blue labeled submit icon button"
-				onclick="addComment('${boardVO.bNo}','${uiNickName}')">
+				onclick="addComment('${boardVO.bNo}','${boardVO.uiNickName}')">
 				<i class="icon edit"></i> Add Reply
 			</button>
 		</div>

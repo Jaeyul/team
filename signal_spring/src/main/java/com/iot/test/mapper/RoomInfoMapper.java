@@ -15,10 +15,10 @@ public interface RoomInfoMapper {
 	List<Map<String,Object>> selectRoomInfoList(Map<String,Object> rNameMap);
 	int insertRoomInfo(Map<String,Object> rMap);
 	
-	@Select("select rName, rSize, rTag from room_info where regeonNo=#{regeonNo}")
+	@Select("select rName, rSize, rTag, iconName from room_info where regeonNo=#{regeonNo}")
 	List<Map<String, Object>> selectAllRoomList(Map<String,Object> regeonNo);
 	
-	@Select("select rName, rSize, rTag from room_info where categoryNo=#{categoryNo} and regeonNo=#{regeonNo}")
+	@Select("select rName, rSize, rTag, iconName from room_info where categoryNo=#{categoryNo} and regeonNo=#{regeonNo}")
 	List<Map<String, Object>> selectRoomList(Map<String,Object> roomInfo);
 	
 	@Select("select rSize from room_info where rName=#{rName}")

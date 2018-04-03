@@ -5,6 +5,10 @@
 <c:set var="root" value="${pageContext.request.contextPath}" />
 <c:set var="ver" value="?version=1.0.0" />
 
+<%
+	String sessionId = (String)session.getId();
+%>
+
 <c:set var="isLogin" value="${(empty sessionScope.user)?false:true}" />
 <c:set var="Log" value="${(empty sessionScope.user)?'login':'logout'}" />
 
@@ -50,12 +54,12 @@
 <link rel="stylesheet" type="text/css" href="/css/components/dimmer.css">
 <link rel="stylesheet" type="text/css" href="/css/components/modal.css">
 <link rel="stylesheet" type="text/css" href="/css/components/table.css">
-<<<<<<< HEAD
+
 <link rel="stylesheet" type="text/css" href="/css/components/accordion.css">
 <link rel="stylesheet" type="text/css" href="/css/components/shape.css">
-=======
+
 <link rel="stylesheet" type="text/css"
 	href="/css/components/accordion.css">
->>>>>>> branch 'master' of https://github.com/Jaeyul/team.git
+
 
 <%@ include file="/WEB-INF/views/common/header.jsp"%>

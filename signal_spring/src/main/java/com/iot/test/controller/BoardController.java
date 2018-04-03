@@ -17,10 +17,14 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.iot.test.service.impl.BoardCommentServiceImpl;
+import com.iot.test.service.impl.BoardHitServiceImpl;
+import com.iot.test.service.impl.BoardRecommandServiceImpl;
 import com.iot.test.service.impl.BoardServiceImpl;
 import com.iot.test.service.impl.ImageServiceImpl;
 import com.iot.test.service.impl.UserInfoServiceImpl;
 import com.iot.test.vo.BoardCommentVO;
+import com.iot.test.vo.BoardHitVO;
+import com.iot.test.vo.BoardRecommandVO;
 import com.iot.test.vo.BoardVO;
 import com.iot.test.vo.ImageVO;
 import com.iot.test.vo.UserInfoVO;
@@ -39,9 +43,15 @@ public class BoardController {
 
 	@Autowired
 	UserInfoServiceImpl userService;
-	
+
 	@Autowired
 	BoardCommentServiceImpl boardComentService;
+	
+	@Autowired
+	BoardHitServiceImpl boardHitService;
+	
+	@Autowired
+	BoardRecommandServiceImpl boardRecommandService;
 
 	@RequestMapping
 	public ModelAndView boardListPage(ModelAndView mav) {
@@ -61,9 +71,9 @@ public class BoardController {
 	public ModelAndView uploadImage(@RequestParam("filedata") List<MultipartFile> images, BoardVO bv, HttpSession hs,
 			ModelAndView mav) {
 		UserInfoVO uiv = (UserInfoVO) hs.getAttribute("user");
-		String uiId = uiv.getUiId();
-		bv.setUiId(uiId);
-		Integer bNo = boardService.insertBoard(bv);
+		String uiNickName = uiv.getUiNickName();
+		bv.setUiNickName(uiNickName);;
+		int bNo = boardService.insertBoard(bv);
 		for (MultipartFile img : images) {
 			ImageVO ImageVO = imageService.save(img, bNo);
 			imageService.insertImg(ImageVO);
@@ -108,18 +118,17 @@ public class BoardController {
 		mav.setViewName("board/board");
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/coment", method = RequestMethod.POST)
-	public void writeComent(@RequestBody BoardCommentVO bcv, HttpSession hs,
-			ModelAndView mav) {
+	public void writeComent(@RequestBody BoardCommentVO bcv, HttpSession hs, ModelAndView mav) {
 		UserInfoVO uiv = (UserInfoVO) hs.getAttribute("user");
-		String uiId = uiv.getUiId();
-		bcv.setUiId(uiId);
+		String uiNickName = uiv.getUiNickName();
+		bcv.setUiNickName(uiNickName);
 		boardComentService.insertComent(bcv);
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public ModelAndView deleteBoard(@RequestBody Integer bNo, ModelAndView mav) {
+	public ModelAndView deleteBoard(@RequestBody int bNo, ModelAndView mav) {
 		List<ImageVO> imageList = imageService.selectByBno(bNo);
 		for (ImageVO image : imageList) {
 			String imgId = image.getImgId();
@@ -135,7 +144,7 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = "/post", method = RequestMethod.GET)
-	public ModelAndView boardPage(@RequestParam("bNo") Integer bNo, ModelAndView mav, HttpSession hs) {
+	public ModelAndView boardPage(@RequestParam("bNo") int bNo, ModelAndView mav, HttpSession hs) {
 		BoardVO boardVO = boardService.selectByNo(bNo);
 		List<ImageVO> imageVOList = imageService.selectByBno(bNo);
 		UserInfoVO uiv = (UserInfoVO) hs.getAttribute("user");
@@ -147,9 +156,37 @@ public class BoardController {
 		mav.addObject("comentList", comentList);
 		mav.addObject("UserInfoVO", uiv);
 		if (uiv != null) {
-			mav.addObject("loginUiId", uiv.getUiId());
+			mav.addObject("loginUiNickName", uiv.getUiNickName());
 		}
 		mav.setViewName("board/post");
 		return mav;
+	}
+
+	@RequestMapping("/hit")
+	public void hitBoard(BoardHitVO bhv) {
+		String rSessionId = bhv.gethSessionId();
+		List<String> hitrSessionIdList = boardHitService.hitSessionIdList(bhv.getbNo());
+		for(String sessionId : hitrSessionIdList) {
+			if(rSessionId.equals(sessionId)) {
+				return;
+			}
+		}
+		boardHitService.insertHit(bhv);
+		boardService.updateBoardHit(bhv.getbNo());
+
+	}
+
+	@RequestMapping("/recommand")
+	public void recommandBoard(BoardRecommandVO brv) {
+		int uiNo = brv.getUiNo();
+		List<Integer> recommandUiNoList = boardRecommandService.recommandUiIdList(brv.getbNo());
+		for(int rUiNo : recommandUiNoList) {
+			if(uiNo==rUiNo) {
+				return;
+			}
+		}
+		boardRecommandService.insertRecommand(brv);
+		boardService.updateBoardRecommand(brv.getbNo());
+
 	}
 }

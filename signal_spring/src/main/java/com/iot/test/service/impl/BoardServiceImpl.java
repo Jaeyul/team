@@ -50,4 +50,16 @@ public class BoardServiceImpl implements BoardService {
 		return bm.updateBoard(bv);
 	}
 
+	@Override
+	public int updateBoardHit(int bNo) {
+		
+		return bm.updateBoardHit(bNo);
+	}
+
+	@Override
+	public int updateBoardRecommand(int bNo) {
+		
+		return bm.updateBoardRecom(bNo);
+	}
+
 }
