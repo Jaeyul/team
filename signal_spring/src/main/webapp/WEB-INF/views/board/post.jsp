@@ -10,15 +10,17 @@
 </head>
 <script>
 	$(document).ready(function() {
-		var ajax = new AjaxUtil("/board/hit",<%=sessionId%>);
+		var param = {
+				hSessionId:"<%=sessionId%>"
+		};
+		var ajax = new AjaxUtil("/board/hit",param);
 		ajax.send();
+
 	})
 
-	
 	function goUpdateBoard() {
 		$("#goUpdate").click();
 	}
-
 	function commentCall() {
 		location.reload(true);
 	}

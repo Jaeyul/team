@@ -126,6 +126,14 @@ public class BoardController {
 		bcv.setUiNickName(uiNickName);
 		boardComentService.insertComent(bcv);
 	}
+	
+	@RequestMapping(value = "/coment/delete", method = RequestMethod.POST)
+	public void deleteComent(@RequestBody BoardCommentVO bcv, HttpSession hs, ModelAndView mav) {
+		UserInfoVO uiv = (UserInfoVO) hs.getAttribute("user");
+		String uiNickName = uiv.getUiNickName();
+		bcv.setUiNickName(uiNickName);
+		boardComentService.insertComent(bcv);
+	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public ModelAndView deleteBoard(@RequestBody int bNo, ModelAndView mav) {
