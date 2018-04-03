@@ -60,8 +60,11 @@ ws.onmessage = function(message) {
 			console.error('Unrecognized message', parsedMessage);
 	}		
 	if(parsedMessage.msg){
-		var textarea = document.getElementById("messageWindow");    
+		var textarea = document.getElementById("messageWindow");
 		textarea.value += parsedMessage.uiNickName + " : " + parsedMessage.msg + "\n";	
+		$("#chatingBox").scrollTop($("#chatingBox")[0].scrollHeight);
+		$("#messageWindow").scrollTop($("#messageWindow")[0].scrollHeight);
+		
 	}
 	
 }

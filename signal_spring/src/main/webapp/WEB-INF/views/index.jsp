@@ -27,7 +27,7 @@
 		<h2>Do whatever you want when you want to.</h2>
 		<div class="ui huge primary button" onclick="goMap()"
 			style="background-color: purple">
-			Get Started <i class="right arrow icon"></i>
+			Let's Chat <i class="right arrow icon"></i>
 		</div>
 	</div>
 

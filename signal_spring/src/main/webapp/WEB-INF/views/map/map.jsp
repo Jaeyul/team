@@ -12,28 +12,32 @@
 
 <style>
 svg {
-	background-color: lightskyblue;
+	/* background-color: lightskyblue; */
 }
 
 .municipality {
-	fill: #eee;
-	stroke: #999;
+	fill: #ffffff;
+	stroke: #800080;
 }
 
 .municipality:hover {
-	fill: orange;
+	fill: #800080;
 }
 
 </style>
 
 <body onresize="resizeW()">
 <div id="content">
-<div id="kMapIcon" style="visibility: hidden;">
+
+
+<div class="mapTest" id="mapTest" style="float: left;margin-top:60 "></div>
+
+<div id="kMapIcon" style="display: none;float: left;margin-top:60 ">
+<div style="vertical-align: middle;">
 	<img src="/img/koreamap.png" class="image" height="45" width="80" onclick="openMap()">
 </div>
 
-<div class="mapTest" id="mapTest" style="float: left; border-style: solid;border-color:#9A91AC ;"></div>
-
+</div>
 
 <script>
 var colorConfirm = [];
@@ -67,8 +71,9 @@ function getList(str){
 	$('#categoryWindow').css("margin","auto");	
 	
 	setTimeout(function(){ 
-		$('#kMapIcon').css("visibility","visible");
-	}, 800);	
+		//$('#kMapIcon').css("visibility","visible");
+		$('#kMapIcon').css("display","");
+	}, 1000);	
 }
 
 function openMap(){
@@ -77,11 +82,13 @@ function openMap(){
 	var bw = document.body.clientWidth;
 	var bh = document.body.clientHeight;
 	
-	$('#kMapIcon').css("visibility","hidden");
+	//$('#kMapIcon').css("visibility","hidden");
 	$('#categoryWindow').animate({width: bw-(bw/2.7)}, "slow");
 	$('#categoryWindow').css("float","right");
 	$('#categoryWindow').css("margin","0");	
-	$("svg").animate({width: (bw/2.8)}, "slow");	
+	$("svg").animate({width: (bw/2.8)}, "slow");
+	$('#kMapIcon').css("display","none");
+	
 	
 }
 
@@ -91,11 +98,29 @@ function openWindow(){
 	$('.ui.basic.modal').modal('show');	
 }
 
-function createRoom(){
+function checkRoomInfo(){
+	var rName = $("#rName").val();
+	var categoryNo = $("#categoryNo").val();
+	var rSize = $("#rSize").val();
+	if(rName=="" || categoryNo=="" || rSize==""){
+		
+		return true;
+	}
+	return false;
+}
+
+
+
+function createRoom(){	
 	var rName = $('#rName').val();
-	rNameVal = {rName:rName};	
-	var au = new AjaxUtil("room/check",rNameVal);	
-	au.send(checkCallback);	
+	rNameVal = {rName:rName};
+	if(checkRoomInfo()){
+		alert("방 정보를 모두 입력해주세요.");		
+		
+	}else{
+		var au = new AjaxUtil("room/check",rNameVal);	
+		au.send(checkCallback);			
+	}
 }
 
 function checkCallback(res){		
@@ -223,7 +248,7 @@ function joinRoom(id){
 
 </script>
 
-<br>
+<br><br><br>
 <div id="categoryWindow" style="float: right; display : none ">
 	<div> 
 		<div class="ui segments">

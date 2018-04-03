@@ -40,7 +40,8 @@
 		
 		
 		<div id="chatSpace" class="chatSpace" >
-				<fieldset style="overflow-y: auto;">
+				<fieldset style="overflow-y: auto;" id="chatingBox">
+				
 			        <textarea id="messageWindow" rows="10" cols="50" readonly="true"></textarea>
 			        <br/>			        
 			        <input id="inputMessage" type="text"/>
