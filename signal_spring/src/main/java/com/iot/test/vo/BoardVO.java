@@ -4,17 +4,17 @@ import javax.inject.Named;
 
 @Named
 public class BoardVO {
-	private Integer bNo;
+	private int bNo;
 	private String bName;
 	private String bContent;
 	private String bRegDate;
 	private String uiNickName;
-	private Integer bHit; 
-	private Integer bRecom; 
-	public Integer getbNo() {
+	private int bHit;
+	private int bRecom;
+	public int getbNo() {
 		return bNo;
 	}
-	public void setbNo(Integer bNo) {
+	public void setbNo(int bNo) {
 		this.bNo = bNo;
 	}
 	public String getbName() {
@@ -41,17 +41,16 @@ public class BoardVO {
 	public void setUiNickName(String uiNickName) {
 		this.uiNickName = uiNickName;
 	}
-	
-	public Integer getbHit() {
+	public int getbHit() {
 		return bHit;
 	}
-	public void setbHit(Integer bHit) {
+	public void setbHit(int bHit) {
 		this.bHit = bHit;
 	}
-	public Integer getbRecom() {
+	public int getbRecom() {
 		return bRecom;
 	}
-	public void setbRecom(Integer bRecom) {
+	public void setbRecom(int bRecom) {
 		this.bRecom = bRecom;
 	}
 	@Override
@@ -59,6 +58,7 @@ public class BoardVO {
 		return "BoardVO [bNo=" + bNo + ", bName=" + bName + ", bContent=" + bContent + ", bRegDate=" + bRegDate
 				+ ", uiNickName=" + uiNickName + ", bHit=" + bHit + ", bRecom=" + bRecom + "]";
 	}
+
 	
 
 }

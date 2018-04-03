@@ -11,7 +11,8 @@
 <script>
 	$(document).ready(function() {
 		var param = {
-				hSessionId:"<%=sessionId%>"
+				hSessionId:"<%=sessionId%>",
+				bNo:"${boardVO.bNo}"
 		};
 		var ajax = new AjaxUtil("/board/hit",param);
 		ajax.send();
@@ -21,7 +22,7 @@
 	function goUpdateBoard() {
 		$("#goUpdate").click();
 	}
-	function commentCall() {
+	function commentCall(res) {
 		location.reload(true);
 	}
 
@@ -118,16 +119,7 @@ h1 h2 h3 h4 {
 			onclick="boardExpose()">
 			<i class="exclamation icon"></i>Expose
 		</button>
-	</div>
-	<form action="/board/update" method="post"
-		enctype="multipart/form-data" style="display: none">
-		<input name="bNo" value="${boardVO.bNo}" /><input name="bName"
-			value="${boardVO.bName}" /><input name="bContent"
-			value="${boardVO.bContent}" />
-		<button id="goUpdate"></button>
-	</form>
-
-	<div id='content' class="ui segment">
+		<div id='content' class="ui segment">
 		<div class="ui comments">
 			<h3 class="ui dividing header">Comments</h3>
 			<c:if test="${comentList}!=NULL">
@@ -161,6 +153,16 @@ h1 h2 h3 h4 {
 			</button>
 		</div>
 	</div>
+	</div>
+	<form action="/board/update" method="post"
+		enctype="multipart/form-data" style="display: none">
+		<input name="bNo" value="${boardVO.bNo}" /><input name="bName"
+			value="${boardVO.bName}" /><input name="bContent"
+			value="${boardVO.bContent}" />
+		<button id="goUpdate"></button>
+	</form>
+
+	
 
 </body>
 

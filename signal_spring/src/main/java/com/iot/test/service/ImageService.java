@@ -15,7 +15,7 @@ public interface ImageService {
 
 	public int insertImg(ImageVO img);
 
-	public int deleteImgByBNo(Integer imgNo);
+	public int deleteImgByBNo(int imgNo);
 
 	public int deleteImgByImgId(String imgId);
 

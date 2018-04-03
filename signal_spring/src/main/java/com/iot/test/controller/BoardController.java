@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -46,10 +47,10 @@ public class BoardController {
 
 	@Autowired
 	BoardCommentServiceImpl boardComentService;
-	
+
 	@Autowired
 	BoardHitServiceImpl boardHitService;
-	
+
 	@Autowired
 	BoardRecommandServiceImpl boardRecommandService;
 
@@ -72,8 +73,9 @@ public class BoardController {
 			ModelAndView mav) {
 		UserInfoVO uiv = (UserInfoVO) hs.getAttribute("user");
 		String uiNickName = uiv.getUiNickName();
-		bv.setUiNickName(uiNickName);;
+		bv.setUiNickName(uiNickName);
 		int bNo = boardService.insertBoard(bv);
+		log.info("/complete bNo={}", bNo);
 		for (MultipartFile img : images) {
 			ImageVO ImageVO = imageService.save(img, bNo);
 			imageService.insertImg(ImageVO);
@@ -126,7 +128,7 @@ public class BoardController {
 		bcv.setUiNickName(uiNickName);
 		boardComentService.insertComent(bcv);
 	}
-	
+
 	@RequestMapping(value = "/coment/delete", method = RequestMethod.POST)
 	public void deleteComent(@RequestBody BoardCommentVO bcv, HttpSession hs, ModelAndView mav) {
 		UserInfoVO uiv = (UserInfoVO) hs.getAttribute("user");
@@ -157,8 +159,8 @@ public class BoardController {
 		List<ImageVO> imageVOList = imageService.selectByBno(bNo);
 		UserInfoVO uiv = (UserInfoVO) hs.getAttribute("user");
 		List<BoardCommentVO> comentList = boardComentService.selectComentByBNo(bNo);
-		log.info("{}", boardVO);
-		log.info("{}", imageVOList);
+		log.info("boardVO{}", boardVO);
+		log.info("imageVOList{}", imageVOList);
 		mav.addObject("boardVO", boardVO);
 		mav.addObject("imageVOList", imageVOList);
 		mav.addObject("comentList", comentList);
@@ -171,25 +173,27 @@ public class BoardController {
 	}
 
 	@RequestMapping("/hit")
-	public void hitBoard(BoardHitVO bhv) {
+	public@ResponseBody void hitBoard(@RequestBody BoardHitVO bhv) {
+		log.info("BoardHitVO{}", bhv);
 		String rSessionId = bhv.gethSessionId();
 		List<String> hitrSessionIdList = boardHitService.hitSessionIdList(bhv.getbNo());
-		for(String sessionId : hitrSessionIdList) {
-			if(rSessionId.equals(sessionId)) {
-				return;
+		if (hitrSessionIdList != null) {
+			for (String sessionId : hitrSessionIdList) {
+				if (rSessionId.equals(sessionId)) {
+					return;
+				}
 			}
 		}
 		boardHitService.insertHit(bhv);
 		boardService.updateBoardHit(bhv.getbNo());
-
 	}
 
 	@RequestMapping("/recommand")
-	public void recommandBoard(BoardRecommandVO brv) {
+	public@ResponseBody void recommandBoard(@RequestBody BoardRecommandVO brv) {
 		int uiNo = brv.getUiNo();
 		List<Integer> recommandUiNoList = boardRecommandService.recommandUiIdList(brv.getbNo());
-		for(int rUiNo : recommandUiNoList) {
-			if(uiNo==rUiNo) {
+		for (int rUiNo : recommandUiNoList) {
+			if (uiNo == rUiNo) {
 				return;
 			}
 		}

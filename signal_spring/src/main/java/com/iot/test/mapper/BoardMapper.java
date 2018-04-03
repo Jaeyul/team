@@ -23,8 +23,8 @@ public interface BoardMapper {
 	@Select("select bNo, bName, bContent, bRegDate, uiNickName, bHit, bRecom from bulletin_board where bNo = #{bNo}")
 	public BoardVO selectByNo(@Param("bNo") Integer bNo);
 	
-	@Insert("call p_board_insertGetNo(#{bv.bName}, #{bv.bContent}, #{bv.uiNickName})")
-	public int insertBoard(@Param("bv") BoardVO bv);
+	@Select("call p_board_insertGetNo(#{bv.bName}, #{bv.bContent}, #{bv.uiNickName})")
+	public Integer insertBoard(@Param("bv") BoardVO bv);
 
 	@Delete("delete from bulletin_board where bNo = #{bNo}")
 	public int deleteBoard(@Param("bNo") Integer bNo);

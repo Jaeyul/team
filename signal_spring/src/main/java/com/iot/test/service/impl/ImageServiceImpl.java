@@ -41,7 +41,7 @@ public class ImageServiceImpl implements ImageService {
 	}
 
 	@Override
-	public int deleteImgByBNo(Integer bNo) {
+	public int deleteImgByBNo(int bNo) {
 
 		return im.deleteImgByBNo(bNo);
 	}

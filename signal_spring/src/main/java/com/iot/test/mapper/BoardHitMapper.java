@@ -15,8 +15,8 @@ public interface BoardHitMapper {
 	@Select("select hSessionId from board_hit_session where bNo=#{bNo}")
 	List<String> hitSessionIdList(@Param("bNo") int bNo);
 
-	@Insert("insert into board_hit_session (bSessionId,.bNo) vlaues(${bhv.bSessionId},${bhv.bNo})")
-	void insertHit(@Param("bhv") BoardHitVO bhv);
+	@Insert("insert into board_hit_session (hSessionId,bNo) values(#{bhv.hSessionId},#{bhv.bNo})")
+	int insertHit(@Param("bhv") BoardHitVO bhv);
 
 	@Delete("truncate table board_hit_session")
 	int tuncateHit();
