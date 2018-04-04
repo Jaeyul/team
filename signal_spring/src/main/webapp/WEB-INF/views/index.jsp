@@ -24,7 +24,7 @@
 <body>
 	<div id='content' class="ui text container">
 		<h1 class="ui inverted header">Tippler</h1>
-		<h2>Do whatever you want when you want to.</h2>
+		<h2>He is greatest who is most often in men's good thoughts.</h2>
 		<div class="ui huge primary button" onclick="goMap()"
 			style="background-color: purple">
 			Let's Chat <i class="right arrow icon"></i>

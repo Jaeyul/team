@@ -15,6 +15,11 @@
  *
  */
 
+history.pushState(null, null, location.href);
+    window.onpopstate = function () {
+        history.go(1);
+};
+
 var ws = new WebSocket('wss://' + location.host + '/groupcall');
 
 var participants = {};

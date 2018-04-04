@@ -14,6 +14,12 @@
     .image {
       margin-top: -100px;
     }
+    .image #tippleLogo {
+    position: absolute;
+	margin-left: 20px;
+	margin-top: -60px;
+	margin-bottom: -40px
+    }
     .column {
       max-width: 450px;
     }
@@ -219,10 +225,7 @@ function checkVal(id){
 <br><br><br><br><br>
 <div class="ui middle aligned center aligned grid">
   <div class="column">
-    <h2 class="ui pink image header">
-     	Sign-up      
-    </h2>    
-    
+    <img class="ui image" id="tippleLogo" src="/img/tippler2.png" >    
     <form class="ui large form">
         
       <div class="ui stacked segment">
@@ -271,27 +274,18 @@ function checkVal(id){
             <i class="large hand point up outline icon" id="iconCheck"></i>
             </div>
           </div>          
-        </div>
-         
-         
-         
+        </div>  
         
-        <div class="ui fluid large pink submit button" onclick="signup()"> Sign-Up</div>
+        <div class="ui fluid large magenta submit button" onclick="signup()"> Sign-Up</div>
       </div>      
       
     </form>    
   </div>
-  
-  
-  
-  
-  
-  
-  
 </div>
 
-<div class="ui modal" > 
-  
+</div>
+
+<div class="ui modal" >   
   <div class="header">
     Icon Choice
   </div>
@@ -317,9 +311,6 @@ function checkVal(id){
   </div>  
 </div>
 
-
-
-</div>
 </body>
 
 </html>

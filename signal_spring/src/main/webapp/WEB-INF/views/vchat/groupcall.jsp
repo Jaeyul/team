@@ -16,14 +16,41 @@
 
 .chatSpace {
   position: absolute;
-  top: 60%;
-  left: 51%; 
-  width: 570px;
+  top: 55%;
+  left: 65%; 
+  width: 0px;
+}
+
+.chatIcon {
+  position: absolute;
+  top: 55%;
+  left: 65%; 
+  
+}
+</style>
+<script>
+
+function openchat(){	
+	$("#chatIcon").css("display","none");	
+	$("#chatSpace").css("display","");	
+	$('#chatSpace').animate({width: 430}, "slow");
+	//setTimeout(function(){ 
+				
+	//}, 1000);
+}
+function clopsechat(){
+	$('#chatSpace').animate({width: 0}, "slow");
+	
+	setTimeout(function(){ 		
+		$('#chatSpace').css("display","none");	
+	}, 500);	
+	setTimeout(function(){ 
+		$("#chatIcon").css("display","");	
+	}, 1000);
 }
 
 
-</style>
-
+</script>
 
 
 </head>
@@ -39,22 +66,26 @@
 		</div>
 		
 		
-		<div id="chatSpace" class="chatSpace" >
-				<fieldset style="overflow-y: auto;" id="chatingBox">
-				
+		<div id="chatSpace" class="chatSpace" style="display:none">
+				<fieldset style="overflow-y: auto;" id="chatingBox">				
 			        <textarea id="messageWindow" rows="10" cols="50" readonly="true"></textarea>
 			        <br/>			        
 			        <input id="inputMessage" type="text"/>
 			        <input type="submit" value="send" onclick="send()" />
+			        <img src="/img/koreamap.png" class="image" height="40" width="60" style="float:right"onclick="clopsechat()">		
 			    </fieldset>					
 		</div>
+		
+		<div id="chatIcon" class="chatIcon">		
+			<img src="/img/koreamap.png" class="image" height="45" width="80" onclick="openchat()">		
+		</div>
+</div>
 		
 		<input type="hidden" id="rName" value=${rName }>
 		<input type="hidden" id="uiId" value=${uiId }>
 		<input type="hidden" id="uiNickName" value=${uiNickName }>
 		
-		<script type="text/javascript">
-		
+		<script type="text/javascript">		
         var textarea = document.getElementById("messageWindow");      
         var inputMessage = document.getElementById('inputMessage');
         var uiId = document.getElementById('uiId');
