@@ -7,10 +7,10 @@
 <link rel="styleSheet" href="/css/groupcall/randomstyle.css" type="text/css" media="screen">
 <script src="/js/jquery-3.3.1.js"></script>
 <script src="/js/adapter.js"></script>
-<script src="/js/groupcall/conferenceroom.js"></script>
+<script src="/js/groupcall/randomconferenceroom.js"></script>
 <script src="/js/groupcall/participant.js"></script>
 <script src="/js/kurento-utils.js"></script>
-
+<script src="/js/common.js"></script>
 <title>Insert title here</title>
 <style>
 
@@ -34,9 +34,7 @@ function openchat(){
 	$("#chatIcon").css("display","none");	
 	$("#chatSpace").css("display","");	
 	$('#chatSpace').animate({width: 430}, "slow");
-	//setTimeout(function(){ 
-				
-	//}, 1000);
+	
 }
 function clopsechat(){
 	$('#chatSpace').animate({width: 0}, "slow");
@@ -81,8 +79,8 @@ function clopsechat(){
 </div>
 		
 		<input type="hidden" id="rName" value=${rName }>
+		<input type="hidden" id="uiNickName" value=${uiNickName }>		
 		<input type="hidden" id="uiId" value=${uiId }>
-		<input type="hidden" id="uiNickName" value=${uiNickName }>
 		
 		<script type="text/javascript">		
         var textarea = document.getElementById("messageWindow");      
@@ -90,6 +88,7 @@ function clopsechat(){
         var uiId = document.getElementById('uiId');
         var uiNickName = document.getElementById('uiNickName');
         var roomName = document.getElementById('rName');
+        var uiNickNameList = [];
         
 	    ws.onerror = function(event) {
 	      onError(event)
@@ -100,17 +99,28 @@ function clopsechat(){
 	    };
 	    
 	    function onOpen(event) {
-	        textarea.value += "연결 성공\n";
-	        var msg = {"id": "sendMessage", "uiId": uiId.value, "name": roomName.value, "uiNickName": uiNickName.value, "msg": uiNickName.value+"님께서 입장하셨습니다." };
-	        ws.send(JSON.stringify(msg));
-	    }
+	    	var param = {rRName: roomName.value};
+	        var au = new AjaxUtil("/random/get", param);
+	        au.send(joinCallback);
+	       
+	    }	    
+	    
+	    function joinCallback(res){
+        	for(var privateId of res){        		
+        		uiNickNameList.push(privateId);	        		
+        	}
+        	
+        	var msg = {"id": "randomSendMessage", "uiId": uiId.value, "name": roomName.value, "uiNickName": uiNickName.value, "msg": inputMessage.value, "nickNameList":uiNickNameList};
+        	ws.send(JSON.stringify(msg));
+        	
+        }
 	    
 	    function onError(event) {
 	      alert(event.data);
 	    }
 	    
 	    function send() {	       
-	        var msg = {"id": "sendMessage", "uiId": uiId.value, "name": roomName.value, "uiNickName": uiNickName.value, "msg": inputMessage.value };
+	        //var msg = {"id": "sendMessage", "uiId": uiId.value, "name": roomName.value, "uiNickName": uiNickName.value, "msg": inputMessage.value };
 	        ws.send(JSON.stringify(msg));
 	        inputMessage.value = "";
 	    }

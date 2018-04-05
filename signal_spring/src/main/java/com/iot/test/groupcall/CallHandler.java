@@ -63,14 +63,14 @@ public class CallHandler extends TextWebSocketHandler {
   public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
     final JsonObject jsonMessage = gson.fromJson(message.getPayload(), JsonObject.class);    
 
-    final UserSession user = registry.getBySession(session);       
-
-	Map<String,String> map = gson.fromJson(message.getPayload(), Map.class);	
+    final UserSession user = registry.getBySession(session);      
+    
+	Map<String,Object> map = gson.fromJson(message.getPayload(), Map.class);	
 	if(map.get("uiId")!=null) {
-		if(sessionMap.get(map.get("uiId"))==null) {
-			sessionMap.put(map.get("uiId"), session);		
+		if(sessionMap.get((String) map.get("uiId"))==null) {
+			sessionMap.put((String) map.get("uiId"), session);		
 		}		
-	}
+	}	
 		
     if (user != null) {
       log.debug("Incoming message from user '{}': {}", user.getName(), jsonMessage);
@@ -103,7 +103,7 @@ public class CallHandler extends TextWebSocketHandler {
         
       case "sendMessage":   
     	  
-    	  List<String> userList = uirm.selectUserInRoomUiIdForRName(map.get("name")); 
+    	  List<String> userList = uirm.selectUserInRoomUiIdForRName((String) map.get("name")); 
     	  final Iterator<String> it = sessionMap.keySet().iterator();
     	  while(it.hasNext()) {    		
     		final String key = it.next();
@@ -115,6 +115,13 @@ public class CallHandler extends TextWebSocketHandler {
     		}		  
     	  }    	  
     	break; 
+      
+      case "randomSendMessage": 
+    	 
+    	
+    	  
+    	  
+    	break;
     	
       default:
         break;

@@ -177,11 +177,26 @@ function inRandomChat(){
 	au.send(matchingCallback);	
 }
 
-function matchingCallback(res){	
-	console.log(res);	
-	setTimeout(function(){ 
-		$("#loadingW").modal('hide');
-	}, 5000);
+function matchingCallback(res){
+	var waitTime = res.waitTime;
+	if(res.biz){			
+		$("#rRName").val(res.rRName);
+		$("#uiNickName").val(res.uiNickName);	
+		$('#resultMessage').html(res.msg);		
+		setTimeout(function(){			
+			$("#loadingW").modal('hide');
+			$("#goinRChat").submit();			
+		}, waitTime);	 
+	}
+	
+	else{
+		$('#resultMessage').html(res.msg);	
+		setTimeout(function(){			
+			$("#loadingW").modal('hide');			
+		}, 4000);						
+	}
+	
+	
 }
 
 
@@ -234,12 +249,12 @@ function matchingCallback(res){
   </div>
   
   <div class="content" style="width:600; margin:auto">
-   <form action="/random/chat" id="goinRChat" >
+   <form action="random/chat" id="goinRChat" >
 			<div class="ui form" >
-			  <div class="grouped fields" style="">
+			
+			  <div class="grouped fields">
 			    <label style="color:white"><h2>&emsp;&emsp;&ensp;How many do you want to chat to people</h2></label>
-			    <br>
-			    
+			    <br>			    
 			    <div class="field" style="margin-left:100">
 			      <div class="ui radio checkbox">
 			        <input type="radio" id="rRSize2" name="rRSize" value="2" onclick="setChecked(id)" checked>
@@ -270,8 +285,11 @@ function matchingCallback(res){
 			        <label style="color:white">&emsp;With Six People</label>
 			      </div>
 			    </div>
-			  </div>
+			  </div>			  
 			</div>
+			
+			<input type="hidden" id="rRName" name="rRName">
+			<input type="hidden" id="uiNickName" name="uiNickName">
 	</form>
   </div>
   
@@ -288,11 +306,15 @@ function matchingCallback(res){
 </div>
 
 
-<div class="ui basic modal" id="loadingW">  
-    <div class="ui large text loader">Loading</div>  
-  <p></p>
-  <p></p>
-  <p></p>
+<div class="ui basic modal" id="loadingW"> 
+
+	<div class="content" style="width:600; margin:auto">
+	 <label style="color:white;text-align: center;"><h2 id="resultMessage">Loading</h2></label>
+	 </div> 
+	<br>
+     <div class="ui large text loader"></div>
+     
+  
 </div>
 
 
