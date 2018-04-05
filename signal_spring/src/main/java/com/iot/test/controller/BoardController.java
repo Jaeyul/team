@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.iot.test.common.page.Paging;
 import com.iot.test.service.impl.BoardCommentServiceImpl;
 import com.iot.test.service.impl.BoardHitServiceImpl;
 import com.iot.test.service.impl.BoardRecommandServiceImpl;
@@ -54,18 +55,24 @@ public class BoardController {
 	@Autowired
 	BoardRecommandServiceImpl boardRecommandService;
 
-	ModelAndView goBoard(ModelAndView mav) {
-		List<BoardVO> boardList = boardService.boardList();
+	ModelAndView goBoard(ModelAndView mav, int page, int block) {
+		int maxContent = boardService.selectBoardCount();
+		Paging p = new Paging(maxContent);
+		p.setCurrentPage(page);
+		p.setCurrentBlock(block);
+		List<BoardVO> boardList = boardService.boardList((page-1) * 20);
 		mav.addObject("boardList", boardList);
+		mav.addObject("page", p);
 		mav.setViewName("board/board");
 		return mav;
 	}
-	
+
 	@RequestMapping
-	public ModelAndView boardListPage(ModelAndView mav) {
-		List<BoardVO> boardList = boardService.boardList();
+	public ModelAndView boardListPage(@RequestParam("page") int page, @RequestParam("block") int block,
+			ModelAndView mav) {
+		List<BoardVO> boardList = boardService.boardList(page);
 		log.info("boardList={}", boardList);
-		return goBoard(mav);
+		return goBoard(mav, page, block);
 	}
 
 	@RequestMapping("/write")
@@ -74,8 +81,8 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = "/complete", method = RequestMethod.POST)
-	public ModelAndView uploadImage(@RequestParam("filedata") List<MultipartFile> images, BoardVO bv, HttpSession hs,
-			ModelAndView mav) {
+	public ModelAndView uploadImage(@RequestParam("page") int page, @RequestParam("block") int block,
+			@RequestParam("filedata") List<MultipartFile> images, BoardVO bv, HttpSession hs, ModelAndView mav) {
 		UserInfoVO uiv = (UserInfoVO) hs.getAttribute("user");
 		String uiNickName = uiv.getUiNickName();
 		bv.setUiNickName(uiNickName);
@@ -85,7 +92,7 @@ public class BoardController {
 			ImageVO ImageVO = imageService.save(img, bNo);
 			imageService.insertImg(ImageVO);
 		}
-		return goBoard(mav);
+		return goBoard(mav, page, block);
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
@@ -97,8 +104,8 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = "/update/complete", method = RequestMethod.POST)
-	public ModelAndView updateComplete(@RequestParam("filedata") List<MultipartFile> images, BoardVO bv, HttpSession hs,
-			ModelAndView mav) {
+	public ModelAndView updateComplete(@RequestParam("page") int page, @RequestParam("block") int block,
+			@RequestParam("filedata") List<MultipartFile> images, BoardVO bv, HttpSession hs, ModelAndView mav) {
 		int bNo = bv.getbNo();
 		List<ImageVO> imageVOList = imageService.selectByBno(bNo);
 		for (ImageVO iv : imageVOList) {
@@ -117,32 +124,33 @@ public class BoardController {
 			imageService.insertImg(ImageVO);
 		}
 		boardService.updateBoard(bv);
-		return goBoard(mav);
+		return goBoard(mav, page, block);
 	}
 
 	@RequestMapping(value = "/comment", method = RequestMethod.POST)
 	public @ResponseBody void writeComent(@RequestBody BoardCommentVO bcv, HttpSession hs, ModelAndView mav) {
 		log.info("BoardCommentVO={}", bcv);
 		boardComentService.insertComent(bcv);
+		boardService.updateBoardCCP(bcv.getbNo());
 	}
 
 	@RequestMapping(value = "/comment/delete", method = RequestMethod.POST)
 	public @ResponseBody void deleteComent(@RequestBody BoardCommentVO bcv) {
 		int bcNo = bcv.getBcNo();
 		boardComentService.deleteComent(bcNo);
+		boardService.updateBoardCCM(bcv.getbNo());
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public ModelAndView deleteBoard(@RequestBody int bNo, ModelAndView mav) {
+	public @ResponseBody void deleteBoard(@RequestBody BoardVO bv, ModelAndView mav) {
+		int bNo = bv.getbNo();
 		List<ImageVO> imageList = imageService.selectByBno(bNo);
 		for (ImageVO image : imageList) {
 			String imgId = image.getImgId();
 			File imgF = new File(ImageServiceImpl.IMAGE_DIR, imgId);
 			imgF.delete();
-			imageService.deleteImgByBNo(bNo);
 		}
 		boardService.deleteBoard(bNo);
-		return goBoard(mav);
 	}
 
 	@RequestMapping(value = "/post", method = RequestMethod.GET)
@@ -165,7 +173,7 @@ public class BoardController {
 			boardHitService.insertHit(bhv);
 			boardService.updateBoardHit(bNo);
 		}
-		
+
 		BoardVO boardVO = boardService.selectByNo(bNo);
 		List<ImageVO> imageVOList = imageService.selectByBno(bNo);
 		UserInfoVO uiv = (UserInfoVO) hs.getAttribute("user");

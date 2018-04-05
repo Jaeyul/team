@@ -15,15 +15,21 @@ public class BoardServiceImpl implements BoardService {
 	BoardMapper bm;
 
 	@Override
-	public List<BoardVO> boardList() {
+	public int selectBoardCount() {
 
-		return bm.boardList();
+		return bm.seletBoardCount();
 	}
 
 	@Override
-	public List<BoardVO> searchBoardList(BoardVO bv) {
+	public List<BoardVO> boardList(int page) {
 
-		return bm.searchBoardList(bv);
+		return bm.boardList(page);
+	}
+
+	@Override
+	public List<BoardVO> searchBoardList(BoardVO bv, int page) {
+
+		return bm.searchBoardList(bv, page);
 	}
 
 	@Override
@@ -52,14 +58,26 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public int updateBoardHit(int bNo) {
-		
+
 		return bm.updateBoardHit(bNo);
 	}
 
 	@Override
 	public int updateBoardRecommand(int bNo) {
-		
+
 		return bm.updateBoardRecom(bNo);
+	}
+
+	@Override
+	public int updateBoardCCP(int bNo) {
+
+		return bm.updateBoardCCP(bNo);
+	}
+
+	@Override
+	public int updateBoardCCM(int bNo) {
+
+		return bm.updateBoardCCM(bNo);
 	}
 
 }

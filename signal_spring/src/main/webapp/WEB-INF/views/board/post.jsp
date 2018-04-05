@@ -12,7 +12,7 @@
 	function goUpdateBoard() {
 		$("#goUpdate").click();
 	}
-	function reloadCall(res) {
+	function reloadCall() {
 		location.reload(true);
 	}
 
@@ -23,7 +23,9 @@
 				bNo : bNo
 			};
 			var ajax = new AjaxUtil("/board/delete", param);
-			ajax.send(reloadCall);
+			ajax.send(function(){
+				location.href="/board?page=1&block=1";
+			});
 		}
 	}
 
@@ -53,11 +55,12 @@
 		}
 	}
 
-	function commentDelete(bcNo) {
+	function commentDelete(bcNo,bNo) {
 		var isDelete = confirm("삭제 시 복구 되지 않습니다.");
 
 		if (isDelete) {
 			var param = {
+				bNo:bNo,
 				bcNo : bcNo
 			};
 			var ajax = new AjaxUtil("/board/comment/delete", param);
@@ -89,7 +92,7 @@ h1 h2 h3 h4 {
 			<i class="user circle icon"></i>글쓴이 : ${boardVO.uiNickName}
 		</h4>
 		<h4 class="ui right floated header">조회수 : ${boardVO.bHit}</h4>
-		<c:if test="${loginUiNickName == boardVO.uiNickName}">
+		<c:if test="${loginUserInfoVO.uiNickName == boardVO.uiNickName}">
 			<button id="delete"
 				class="title ui right floated negative labeled button icon"
 				onclick="deleteBoard('${boardVO.bNo}')">
@@ -131,7 +134,7 @@ h1 h2 h3 h4 {
 								</a> <a class="author">${comment.uiNickName}</a> <span class="date">(${comment.bcRegDate})</span>
 								<c:if test="${loginUserInfoVO.uiNickName == comment.uiNickName}">
 									<button class="ui basic compact mini button"
-										onclick="commentDelete(${comment.bcNo})">삭제</button>
+										onclick="commentDelete(${comment.bcNo},${boardVO.bNo})">삭제</button>
 								</c:if>
 								<div class="metadata">
 									<div class="text">${comment.bcText}</div>

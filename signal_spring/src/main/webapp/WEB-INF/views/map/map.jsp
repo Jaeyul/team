@@ -117,7 +117,7 @@ function openMap(){
 function openWindow(){
 	$('#categoryNo').dropdown();
 	$('#rSize').dropdown();
-	$('.ui.basic.modal').modal('show');	
+	$('#makeRoomW').modal('show');	
 }
 
 function checkRoomInfo(){
@@ -261,7 +261,6 @@ function joinRoom(id){
 		}else{			
 			alert("방의 인원이 다 찼습니다. ")
 		}		
-				
 	}
 	
 	
@@ -317,7 +316,7 @@ function joinRoom(id){
 </div>
 
 
-<div class="ui basic modal"  style="border-style: solid;">
+<div class="ui basic modal"  style="border-style: solid;" id="makeRoomW">
 	<div class="ui icon header">
 	<i class="archive icon"></i>    
 </div>  

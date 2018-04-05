@@ -13,13 +13,7 @@
     }
     .image {
       margin-top: -100px;
-    }
-    .image #tippleLogo {
-    position: absolute;
-	margin-left: 20px;
-	margin-top: -60px;
-	margin-bottom: -40px
-    }
+    }   
     .column {
       max-width: 450px;
     }
@@ -164,7 +158,7 @@ function reChCursor(){
 }
 
 function openIconBox(){
-	$('.ui.modal').modal('show');	
+	$('#choiceIconBox').modal('show');	
 }
 
 function getIcon(){
@@ -225,7 +219,7 @@ function checkVal(id){
 <br><br><br><br><br>
 <div class="ui middle aligned center aligned grid">
   <div class="column">
-    <img class="ui image" id="tippleLogo" src="/img/tippler2.png" >    
+    <img class="ui logo image" id="tippleLogo" src="/img/tippler2.png" >    
     <form class="ui large form">
         
       <div class="ui stacked segment">
@@ -285,7 +279,7 @@ function checkVal(id){
 
 </div>
 
-<div class="ui modal" >   
+<div class="ui modal" id="choiceIconBox" >   
   <div class="header">
     Icon Choice
   </div>
