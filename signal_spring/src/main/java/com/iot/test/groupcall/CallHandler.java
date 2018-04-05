@@ -18,6 +18,7 @@
 package com.iot.test.groupcall;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -36,6 +37,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.iot.test.mapper.UserInRoomMapper;
+import com.iot.test.mapper.UserInfoMapper;
 
 /**
  * 
@@ -58,6 +60,9 @@ public class CallHandler extends TextWebSocketHandler {
   
   @Autowired
   private UserInRoomMapper uirm;
+  
+  @Autowired
+  private UserInfoMapper uim;
 
   @Override
   public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
@@ -116,13 +121,25 @@ public class CallHandler extends TextWebSocketHandler {
     	  }    	  
     	break; 
       
-      case "randomSendMessage": 
-    	 
-    	
-    	  
-    	  
-    	break;
-    	
+      case "randomSendMessage":    	 
+    	List<String> nickNameList= (List<String>) map.get("nickNameList");
+    	List<String> uiIdList = new ArrayList<String>();
+    	for(String uiNickName : nickNameList) {
+    		String uiId = uim.selectUiIdForChat(uiNickName);
+    		uiIdList.add(uiId);    		
+    	}
+    	System.out.println(uiIdList);
+    	final Iterator<String> rit = sessionMap.keySet().iterator();
+    	while(rit.hasNext()) {    		
+	  		final String key = rit.next();
+	  		for(String uiId : uiIdList) {
+	  			if(key.equals(uiId)) {
+	  				WebSocketSession ss = sessionMap.get(key);
+	          	  	ss.sendMessage(new TextMessage(message.getPayload()));  
+	  			}
+	  		}		  
+    	}     	  
+    	break;    	
       default:
         break;
     }

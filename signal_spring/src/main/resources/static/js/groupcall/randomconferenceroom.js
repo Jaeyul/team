@@ -27,9 +27,8 @@ var name;
 var leaveIdx = 0;
 
 window.onbeforeunload = function() {
-	if(leaveIdx == 0 ){
-		leaveIdx--;
-		leaveRoom();
+	if(leaveIdx == 0 ){		
+		leaveRoom();		
 	}	
 	ws.close();
 };
@@ -63,7 +62,8 @@ ws.onmessage = function(message) {
 			break;
 		default:
 			console.error('Unrecognized message', parsedMessage);
-	}		
+	}
+	
 	if(parsedMessage.msg){
 		var textarea = document.getElementById("messageWindow");
 		textarea.value += parsedMessage.uiNickName + " : " + parsedMessage.msg + "\n";	
@@ -99,18 +99,6 @@ function register() {
 		});
 
 	}, 500)
-
-	/*
-	 * name = document.getElementById('name').value; var room =
-	 * document.getElementById('roomName').value;
-	 * 
-	 * document.getElementById('room-header').innerText = 'ROOM ' + room;
-	 * document.getElementById('join').style.display = 'none';
-	 * document.getElementById('room').style.display = 'block';
-	 * 
-	 * var message = { id : 'joinRoom', name : name, room : room, }
-	 * sendMessage(message);
-	 */
 }
 
 function onNewParticipant(request) {
@@ -171,18 +159,40 @@ function onExistingParticipants(msg) {
 }
 
 function leaveRoom() {
-	leaveIdx++;	
-	sendMessage({
-		id : 'leaveRoom',
-		uiId : uiId
-				
-	});
-	for ( var key in participants) {
-		participants[key].dispose();
-	}
-	document.getElementById('room').style.display = 'none';
-	ws.close();			
-	location.href = "/map";	
+	leaveIdx++;
+	var uiNickName = document.getElementById('uiNickName').value;	
+	var uiId = $("#uiId").val();
+	var leaveParam = {
+		uiNickName : uiNickName
+	};
+	leaveParam = JSON.stringify(leaveParam);
+	
+	$.ajax({
+		type : "POST",
+		url : "/random/remove",
+		data : leaveParam,
+		beforeSend : function(xhr) {
+			xhr.setRequestHeader("Content-Type", "application/json");
+		},
+		success : function(res) {
+			
+			sendMessage({
+				id : 'leaveRoom',
+				uiId : uiId					
+			});
+			
+			for ( var key in participants) {
+				participants[key].dispose();
+			}
+			document.getElementById('room').style.display = 'none';
+			ws.close();			
+			location.href = "/map";
+		}
+		,
+		error : function(xhr, status, e) {
+			alert("에러 : " + xhr.responseText);
+		}
+	});	
 }
 
 function receiveVideo(sender) {

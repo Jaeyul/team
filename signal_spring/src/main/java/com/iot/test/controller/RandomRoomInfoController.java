@@ -86,15 +86,21 @@ public class RandomRoomInfoController {
 	
 	@RequestMapping(value="/get", method=RequestMethod.POST)
 	public @ResponseBody List<String> getShareuiNickNameList(@RequestBody Map<String,Object> rMap) {
-		
-		
-		
-		List<String> uiIdList = rrim.selectuiNickNameList(rMap);		
-		
-		
+		List<String> uiIdList = rrim.selectuiNickNameList(rMap);	
 		return uiIdList;
 	}
 	
+	@RequestMapping(value="/remove", method=RequestMethod.POST)
+	public @ResponseBody Map<String,Object> deleteRandomRoomInfo(@RequestBody Map<String,Object> rMap) {
+		
+		int result = rrim.deleteRandomRoomInfo(rMap);
+		rMap.put("biz", false);
+		if(result==1) {
+			rMap.put("biz", true);			
+		}		
+		
+		return rMap;
+	}
 	
 
 }

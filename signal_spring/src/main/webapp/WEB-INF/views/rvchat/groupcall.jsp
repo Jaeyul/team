@@ -108,9 +108,8 @@ function clopsechat(){
 	    function joinCallback(res){
         	for(var privateId of res){        		
         		uiNickNameList.push(privateId);	        		
-        	}
-        	
-        	var msg = {"id": "randomSendMessage", "uiId": uiId.value, "name": roomName.value, "uiNickName": uiNickName.value, "msg": inputMessage.value, "nickNameList":uiNickNameList};
+        	}        	
+        	var msg = {"id": "randomSendMessage", "uiId": uiId.value, "name": roomName.value, "uiNickName": uiNickName.value, "msg": uiNickName.value+"님께서 입장하셨습니다.", "nickNameList":uiNickNameList};
         	ws.send(JSON.stringify(msg));
         	
         }
@@ -119,8 +118,8 @@ function clopsechat(){
 	      alert(event.data);
 	    }
 	    
-	    function send() {	       
-	        //var msg = {"id": "sendMessage", "uiId": uiId.value, "name": roomName.value, "uiNickName": uiNickName.value, "msg": inputMessage.value };
+	    function send() {
+	    	var msg = {"id": "randomSendMessage", "uiId": uiId.value, "name": roomName.value, "uiNickName": uiNickName.value, "msg": inputMessage.value, "nickNameList":uiNickNameList};
 	        ws.send(JSON.stringify(msg));
 	        inputMessage.value = "";
 	    }

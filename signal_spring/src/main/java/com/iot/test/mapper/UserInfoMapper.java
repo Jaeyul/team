@@ -14,9 +14,8 @@ public interface UserInfoMapper {
 	
 	List<UserInfoVO> selectUserList(UserInfoVO ui);
 	
-//	@Select("select uiNo,uiId,uiPwd,uiNickName,uiEmail,uiRegDate "
-//			+ "from user_info where uiId = #{uiv.uiId} and uiPwd = #{uiv.uiPwd}")
-//	UserInfoVO selectUserForLogin(@Param("uiv")UserInfoVO uiv);
+	@Select("select uiId from user_info where uiNickName = #{uiNickName}")
+	String selectUiIdForChat(String uiNickName);
 	
 	@Select("select uiNo,uiId,uiPwd,uiNickName,uiEmail,uiRegDate, iconName "
 			+ "from user_info where uiId = #{uiv.uiId} and uiPwd = #{uiv.uiPwd}")
