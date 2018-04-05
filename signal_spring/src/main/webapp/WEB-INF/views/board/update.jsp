@@ -114,7 +114,7 @@ var forEachIndex = 0;
 <body>
 	<div id='content' class="ui container">
 		<br> <br> <br>
-		<form id="uploadForm" action="/board/updateComplete" method="post"
+		<form id="uploadForm" action="/board/update/complete" method="post"
 			enctype="multipart/form-data" class="ui form">
 
 			<div class="field">

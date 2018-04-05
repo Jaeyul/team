@@ -5,6 +5,17 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style type="text/css"> 
+    .image {
+    position: absolute;
+	margin-left: -10px;
+	margin-top: 50px;
+	margin-bottom: -40px
+    }
+ 
+   
+    }
+  </style>
 <!-- Standard Meta -->
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -23,11 +34,10 @@
 </head>
 <body>
 	<div id='content' class="ui text container">
-		<h1 class="ui inverted header">Tippler</h1>
-		<h2>He is greatest who is most often in men's good thoughts.</h2>
-		<div class="ui huge primary button" onclick="goMap()"
-			style="background-color: purple">
-			Let's Chat <i class="right arrow icon"></i>
+		
+		<img class="ui image" src="/img/main.png">
+		<div class="ui primary huge magenta button" onclick="goMap()">
+			Let's Video Chat <i class="right arrow icon"></i>
 		</div>
 	</div>
 

@@ -18,7 +18,7 @@
   position: absolute;
   top: 55%;
   left: 65%; 
-  width: 0px;
+  width: 430px;
 }
 
 .chatIcon {
@@ -56,17 +56,16 @@ function clopsechat(){
 </head>
 <body onload="register()">
 <div id="container">
-		<div id="wrapper">
-			
+
+		<div id="wrapper">			
 			<div id="room" style="display: none;">
 				<h2 id="room-header"></h2>
 				<div id="participants"></div>
 				<input type="button" id="button-leave" onmouseup="leaveRoom();"	value="Leave room">
 			</div>
-		</div>
+		</div>		
 		
-		
-		<div id="chatSpace" class="chatSpace" style="display:none">
+		<div id="chatSpace" class="chatSpace">
 				<fieldset style="overflow-y: auto;" id="chatingBox">				
 			        <textarea id="messageWindow" rows="10" cols="50" readonly="true"></textarea>
 			        <br/>			        
@@ -76,7 +75,7 @@ function clopsechat(){
 			    </fieldset>					
 		</div>
 		
-		<div id="chatIcon" class="chatIcon">		
+		<div id="chatIcon" class="chatIcon"  style="display:none">		
 			<img src="/img/koreamap.png" class="image" height="45" width="80" onclick="openchat()">		
 		</div>
 </div>

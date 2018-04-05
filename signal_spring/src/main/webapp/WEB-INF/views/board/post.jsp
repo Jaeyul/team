@@ -9,60 +9,60 @@
 <title>${boardVO.bName}</title>
 </head>
 <script>
-	$(document).ready(function() {
-		var param = {
-				hSessionId:"<%=sessionId%>",
-				bNo:"${boardVO.bNo}"
-		};
-		var ajax = new AjaxUtil("/board/hit",param);
-		ajax.send();
-
-	})
-
 	function goUpdateBoard() {
 		$("#goUpdate").click();
 	}
-	function commentCall(res) {
+	function reloadCall(res) {
 		location.reload(true);
 	}
 
-	function deleteCall(res) {
-		alert("Delete Complete");
-		location.href = "/board";
-	}
-
-	function reconmmandCall(res) {
-		if (res.msg) {
-			alert(res.msg);
+	function deleteBoard(bNo) {
+		var isDelete = confirm("삭제 시 복구 되지 않습니다.");
+		if (isDelete) {
+			var param = {
+				bNo : bNo
+			};
+			var ajax = new AjaxUtil("/board/delete", param);
+			ajax.send(reloadCall);
 		}
 	}
 
-	function deleteBoard(bNo) {
-		var param = {
-			bNo : bNo
-		};
-		var ajax = new AjaxUtil("/board/delete", param);
-		ajax.send(deleteCall);
-	}
-
 	function addComment(bNo, uiNickName) {
-		var bcText = $("#commentText").text();
-		var param = {
-			bNo : bNo,
-			bcText : bcText,
-			uiNickName : uiNickName
-		};
-		var ajax = new AjaxUtil("/board/comment", param);
-		ajax.send(commentCall);
+		if (uiNickName != null) {
+			var bcText = $("#bcText").val();
+			var param = {
+				bNo : bNo,
+				bcText : bcText,
+				uiNickName : uiNickName
+			};
+			var ajax = new AjaxUtil("/board/comment", param);
+			ajax.send(reloadCall);
+		}
 	}
 
-	function thumbsUp(bNo, uiNo) {
-		var param = {
-			bNo : bNo,
-			uiNo : uiNo
-		};
-		var ajax = new AjaxUtil("/board/reconmmand", param);
-		ajax.send(reconmmandCall);
+	function boardReconmmand(bNo, uiNo) {
+		if (uiNo) {
+			var param = {
+				bNo : bNo,
+				uiNo : uiNo
+			};
+			var ajax = new AjaxUtil("/board/recommand", param);
+			ajax.send(reloadCall);
+		} else {
+			alert("로그인이 필요합니다");
+		}
+	}
+
+	function commentDelete(bcNo) {
+		var isDelete = confirm("삭제 시 복구 되지 않습니다.");
+
+		if (isDelete) {
+			var param = {
+				bcNo : bcNo
+			};
+			var ajax = new AjaxUtil("/board/comment/delete", param);
+			ajax.send(reloadCall);
+		}
 	}
 </script>
 <link href='https://fonts.googleapis.com/css?family=Faustina'
@@ -82,23 +82,23 @@ h1 h2 h3 h4 {
 <body>
 	<div id='content' class="ui segment">
 		<h4 id="bNo" style='font-family: Fjalla one;'
-			class="title ui left floated purple header">Number :
-			${boardVO.bNo}</h4>
-		<h2 style='font-family: Fjalla one;'
-			class="title ui left floated header">Title : ${boardVO.bName}</h2>
+			class="title ui left floated purple header">번호 : ${boardVO.bNo}</h4>
+		<h4 style='font-family: Fjalla one;'
+			class="title ui left floated header">제목 : ${boardVO.bName}</h4>
 		<h4 class="ui right floated header">
-			<i class="user circle icon"></i>Writer : ${boardVO.uiNickName}
+			<i class="user circle icon"></i>글쓴이 : ${boardVO.uiNickName}
 		</h4>
+		<h4 class="ui right floated header">조회수 : ${boardVO.bHit}</h4>
 		<c:if test="${loginUiNickName == boardVO.uiNickName}">
 			<button id="delete"
 				class="title ui right floated negative labeled button icon"
 				onclick="deleteBoard('${boardVO.bNo}')">
-				<i class="trash alternate icon"></i>Delete
+				<i class="trash alternate icon"></i>삭제
 			</button>
 			<button id="update"
 				class="ui right floated basic labeled top attached button icon"
 				onclick="goUpdateBoard()">
-				<i class="edit outline alternate icon"></i>Update
+				<i class="edit outline alternate icon"></i>수정
 			</button>
 		</c:if>
 
@@ -112,47 +112,49 @@ h1 h2 h3 h4 {
 		<p>${boardVO.bContent}</p>
 		<br> <br>
 		<button class="ui labeled basic button icon"
-			onclick="thumbsUp('${boardVO.bNo}','${UserInfoVO.uiNo}')">
-			<i class="thumbs up outline icon"></i>Thumbs Up : ${boardVO.bRecom}
+			onclick="boardReconmmand('${boardVO.bNo}','${loginUserInfoVO.uiNo}')">
+			<i class="thumbs up outline icon"></i>추천 : ${boardVO.bRecom}
 		</button>
 		<button class="ui labeled inverted yellow button icon"
 			onclick="boardExpose()">
-			<i class="exclamation icon"></i>Expose
+			<i class="exclamation icon"></i>신고
 		</button>
 		<div id='content' class="ui segment">
-		<div class="ui comments">
-			<h3 class="ui dividing header">Comments</h3>
-			<c:if test="${comentList}!=NULL">
+			<div class="ui comments">
+				<h3 class="ui dividing header">Comments</h3>
 				<c:forEach items="${comentList}" var="comment">
-					<div class="comment">
-						<a class="ui avatar threaded image"> <img
-							src="/img/basic_user.png">
-						</a>
-						<div class="content">
-							<a class="author">nickName</a>
-							<div class="metadata">
-								<span class="date">${comment.bcRegDate}</span>
-							</div>
-							<div class="text">${comment.bcText}</div>
-							<div class="actions">
-								<a class="reply">Reply</a>
+					<div>
+						<div class="comment">
+							<div class="content">
+								<a class="ui avatar threaded image"> <img
+									src="/img/basic_user.png">
+								</a> <a class="author">${comment.uiNickName}</a> <span class="date">(${comment.bcRegDate})</span>
+								<c:if test="${loginUserInfoVO.uiNickName == comment.uiNickName}">
+									<button class="ui basic compact mini button"
+										onclick="commentDelete(${comment.bcNo})">삭제</button>
+								</c:if>
+								<div class="metadata">
+									<div class="text">${comment.bcText}</div>
+								</div>
+								<br>
 							</div>
 						</div>
 					</div>
 				</c:forEach>
-			</c:if>
-		</div>
-
-		<div class="ui reply form">
-			<div class="field">
-				<textarea id="commentText"></textarea>
 			</div>
-			<button id="addComment" class="ui blue labeled submit icon button"
-				onclick="addComment('${boardVO.bNo}','${boardVO.uiNickName}')">
-				<i class="icon edit"></i> Add Reply
-			</button>
+
+			<div class="ui reply form">
+				<div class="field">
+					<textarea id="bcText"
+						<c:if test="${loginUserInfoVO.uiNickName==null}">disabled</c:if>></textarea>
+				</div>
+				<button id="addComment" class="ui blue labeled submit icon button"
+					onclick="addComment('${boardVO.bNo}','${loginUserInfoVO.uiNickName}')">
+					<i class="icon edit"></i> 등록
+				</button>
+			</div>
+
 		</div>
-	</div>
 	</div>
 	<form action="/board/update" method="post"
 		enctype="multipart/form-data" style="display: none">
@@ -162,10 +164,6 @@ h1 h2 h3 h4 {
 		<button id="goUpdate"></button>
 	</form>
 
-	
-
 </body>
-
-
 
 </html>

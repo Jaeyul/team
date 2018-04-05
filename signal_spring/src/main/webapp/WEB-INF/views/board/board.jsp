@@ -8,8 +8,9 @@
 <title>Bulletin_Board</title>
 </head>
 <script>
-	function goPost(id) {
-		$('#putData').val(id);
+	function goPost(id,hSessionId) {
+		$('#bNo').val(id);
+		$('#hSessionId').val(hSessionId);
 		$('#form').submit();
 	}
 </script>
@@ -29,7 +30,7 @@
 			</thead>
 			<tbody>
 				<c:forEach items="${boardList}" var="post">
-					<tr id="${post.bNo}" onclick='goPost(id)' style='cursor: pointer'>
+					<tr id="${post.bNo}" onclick="goPost(id,'<%=sessionId%>')" style='cursor: pointer'>
 						<td>${post.bNo}</td>
 						<td>${post.bName}</td>
 						<td>${post.uiNickName}</td>
@@ -43,7 +44,8 @@
 			<a href="/board/write" class='ui labeled Inverted button icon'><i class="pencil alternate icon"> </i>Write</a>
 	</div>
 	<form id='form' action='/board/post' style="display:none">
-		<input id='putData' name='bNo' type='hidden' />
+		<input id='bNo' name='bNo' type='hidden' />
+		<input id='hSessionId' name='hSessionId' type='hidden' />
 	</form>
 </body>
 </html>

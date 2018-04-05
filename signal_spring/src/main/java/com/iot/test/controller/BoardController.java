@@ -54,13 +54,18 @@ public class BoardController {
 	@Autowired
 	BoardRecommandServiceImpl boardRecommandService;
 
+	ModelAndView goBoard(ModelAndView mav) {
+		List<BoardVO> boardList = boardService.boardList();
+		mav.addObject("boardList", boardList);
+		mav.setViewName("board/board");
+		return mav;
+	}
+	
 	@RequestMapping
 	public ModelAndView boardListPage(ModelAndView mav) {
 		List<BoardVO> boardList = boardService.boardList();
 		log.info("boardList={}", boardList);
-		mav.addObject("boardList", boardList);
-		mav.setViewName("board/board");
-		return mav;
+		return goBoard(mav);
 	}
 
 	@RequestMapping("/write")
@@ -80,10 +85,7 @@ public class BoardController {
 			ImageVO ImageVO = imageService.save(img, bNo);
 			imageService.insertImg(ImageVO);
 		}
-		List<BoardVO> boardList = boardService.boardList();
-		mav.addObject("boardList", boardList);
-		mav.setViewName("board/board");
-		return mav;
+		return goBoard(mav);
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
@@ -94,7 +96,7 @@ public class BoardController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/updateComplete", method = RequestMethod.POST)
+	@RequestMapping(value = "/update/complete", method = RequestMethod.POST)
 	public ModelAndView updateComplete(@RequestParam("filedata") List<MultipartFile> images, BoardVO bv, HttpSession hs,
 			ModelAndView mav) {
 		int bNo = bv.getbNo();
@@ -115,26 +117,19 @@ public class BoardController {
 			imageService.insertImg(ImageVO);
 		}
 		boardService.updateBoard(bv);
-		List<BoardVO> boardList = boardService.boardList();
-		mav.addObject("boardList", boardList);
-		mav.setViewName("board/board");
-		return mav;
+		return goBoard(mav);
 	}
 
-	@RequestMapping(value = "/coment", method = RequestMethod.POST)
-	public void writeComent(@RequestBody BoardCommentVO bcv, HttpSession hs, ModelAndView mav) {
-		UserInfoVO uiv = (UserInfoVO) hs.getAttribute("user");
-		String uiNickName = uiv.getUiNickName();
-		bcv.setUiNickName(uiNickName);
+	@RequestMapping(value = "/comment", method = RequestMethod.POST)
+	public @ResponseBody void writeComent(@RequestBody BoardCommentVO bcv, HttpSession hs, ModelAndView mav) {
+		log.info("BoardCommentVO={}", bcv);
 		boardComentService.insertComent(bcv);
 	}
 
-	@RequestMapping(value = "/coment/delete", method = RequestMethod.POST)
-	public void deleteComent(@RequestBody BoardCommentVO bcv, HttpSession hs, ModelAndView mav) {
-		UserInfoVO uiv = (UserInfoVO) hs.getAttribute("user");
-		String uiNickName = uiv.getUiNickName();
-		bcv.setUiNickName(uiNickName);
-		boardComentService.insertComent(bcv);
+	@RequestMapping(value = "/comment/delete", method = RequestMethod.POST)
+	public @ResponseBody void deleteComent(@RequestBody BoardCommentVO bcv) {
+		int bcNo = bcv.getBcNo();
+		boardComentService.deleteComent(bcNo);
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
@@ -147,14 +142,30 @@ public class BoardController {
 			imageService.deleteImgByBNo(bNo);
 		}
 		boardService.deleteBoard(bNo);
-		List<BoardVO> boardList = boardService.boardList();
-		mav.addObject("boardList", boardList);
-		mav.setViewName("board/board");
-		return mav;
+		return goBoard(mav);
 	}
 
 	@RequestMapping(value = "/post", method = RequestMethod.GET)
-	public ModelAndView boardPage(@RequestParam("bNo") int bNo, ModelAndView mav, HttpSession hs) {
+	public ModelAndView boardPage(@RequestParam int bNo, String hSessionId, ModelAndView mav, HttpSession hs) {
+		log.info("hSessionId{}", hSessionId);
+		// session 확인후 조회수 증가
+		List<String> hitrSessionIdList = boardHitService.hitSessionIdList(bNo);
+		boolean isSessionId = false;
+		if (hitrSessionIdList != null) {
+			for (String sessionId : hitrSessionIdList) {
+				if (hSessionId.equals(sessionId)) {
+					isSessionId = true;
+				}
+			}
+		}
+		if (!isSessionId) {
+			BoardHitVO bhv = new BoardHitVO();
+			bhv.setbNo(bNo);
+			bhv.sethSessionId(hSessionId);
+			boardHitService.insertHit(bhv);
+			boardService.updateBoardHit(bNo);
+		}
+		
 		BoardVO boardVO = boardService.selectByNo(bNo);
 		List<ImageVO> imageVOList = imageService.selectByBno(bNo);
 		UserInfoVO uiv = (UserInfoVO) hs.getAttribute("user");
@@ -164,32 +175,15 @@ public class BoardController {
 		mav.addObject("boardVO", boardVO);
 		mav.addObject("imageVOList", imageVOList);
 		mav.addObject("comentList", comentList);
-		mav.addObject("UserInfoVO", uiv);
 		if (uiv != null) {
-			mav.addObject("loginUiNickName", uiv.getUiNickName());
+			mav.addObject("loginUserInfoVO", uiv);
 		}
 		mav.setViewName("board/post");
 		return mav;
 	}
 
-	@RequestMapping("/hit")
-	public@ResponseBody void hitBoard(@RequestBody BoardHitVO bhv) {
-		log.info("BoardHitVO{}", bhv);
-		String rSessionId = bhv.gethSessionId();
-		List<String> hitrSessionIdList = boardHitService.hitSessionIdList(bhv.getbNo());
-		if (hitrSessionIdList != null) {
-			for (String sessionId : hitrSessionIdList) {
-				if (rSessionId.equals(sessionId)) {
-					return;
-				}
-			}
-		}
-		boardHitService.insertHit(bhv);
-		boardService.updateBoardHit(bhv.getbNo());
-	}
-
 	@RequestMapping("/recommand")
-	public@ResponseBody void recommandBoard(@RequestBody BoardRecommandVO brv) {
+	public @ResponseBody void recommandBoard(@RequestBody BoardRecommandVO brv) {
 		int uiNo = brv.getUiNo();
 		List<Integer> recommandUiNoList = boardRecommandService.recommandUiIdList(brv.getbNo());
 		for (int rUiNo : recommandUiNoList) {
