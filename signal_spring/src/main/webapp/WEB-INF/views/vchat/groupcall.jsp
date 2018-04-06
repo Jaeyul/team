@@ -14,18 +14,24 @@
 <title>Insert title here</title>
 <style>
 
-.chatSpace {
-  position: absolute;
+/* .chatSpace {
+  position: relative;
   top: 55%;
   left: 65%; 
   width: 430px;
 }
 
 .chatIcon {
-  position: absolute;
+  position: relative;
   top: 55%;
-  left: 65%; 
+  left: 85%; 
   
+} */
+.spaceSpace{
+	position:absolute;
+	top: 60%;
+	left: 65%;
+
 }
 </style>
 <script>
@@ -63,8 +69,10 @@ function clopsechat(){
 				<div id="participants"></div>
 				<input type="button" id="button-leave" onmouseup="leaveRoom();"	value="Leave room">
 			</div>
-		</div>		
-		
+		</div>	
+</div>
+
+<div id="container" class="spaceSpace">
 		<div id="chatSpace" class="chatSpace">
 				<fieldset style="overflow-y: auto;" id="chatingBox">				
 			        <textarea id="messageWindow" rows="10" cols="50" readonly="true"></textarea>

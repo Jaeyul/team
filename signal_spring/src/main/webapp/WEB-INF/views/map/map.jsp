@@ -41,7 +41,7 @@ svg {
 
 <div id="kMapIcon" style="display: none;float: left;margin-top:60 ">
 <div style="vertical-align: middle;">
-	<img src="/img/koreamap.png" class="image" height="45" width="80" onclick="openMap()">
+	<img src="/img/koreamap.png" class="image" height="45" width="60" onclick="openMap()">
 </div>
 
 </div>
@@ -78,10 +78,9 @@ function getList(str){
 	
 	var params = {regeonName:str};
 	var au = new AjaxUtil("room/all",params);	
-	au.send(searchCallback)
+	au.send(searchCallback)	
 	
-	
-	$("svg").animate({width: 0}, 1000);
+	$("svg").animate({width: 0}, 1000);		
 	$('#regeonName').val(str);
 	$('#regeon').html(localRegeonName);
 	$('#categoryWindow').css("width",bw*(1/2));

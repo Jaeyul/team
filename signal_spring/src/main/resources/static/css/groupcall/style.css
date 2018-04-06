@@ -20,11 +20,11 @@ body {
 	font: 13px/20px "Lucida Grande", Tahoma, Verdana, sans-serif;
 	color: #404040;
 	/* background: #cc2663; */
-	background-image: url(/img/Koala.jpg);
+	background-image: url(/img/borabg.png);
 	/* background-image: url(https://i.pinimg.com/originals/f0/a7/02/f0a70248f3c8d5887c2c66f49d7fc570.png);  */
 	/* background-image: url(https://i.ytimg.com/vi/fFIEddn_sow/maxresdefault.jpg);  */
 	/* background-image: url(http://cfile1.uf.tistory.com/image/2215A84E55C4529A16FF43); */
-	/* background-image: url(/img/city.jpg); */
+	
 	/* background-image: url(http://www.bloter.net/wp-content/uploads/2017/08/flickr.CC-BY.Marc-Levin.png); */
 	background-repeat: no-repeat;
 	background-size: cover;

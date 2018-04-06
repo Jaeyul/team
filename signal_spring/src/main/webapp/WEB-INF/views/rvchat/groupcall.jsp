@@ -14,7 +14,7 @@
 <title>Insert title here</title>
 <style>
 
-.chatSpace {
+/* .chatSpace {
   position: absolute;
   top: 55%;
   left: 65%; 
@@ -26,6 +26,12 @@
   top: 55%;
   left: 65%; 
   
+} */
+.spaceSpace{
+	position:absolute;
+	top: 60%;
+	left: 65%;
+
 }
 </style>
 <script>
@@ -63,6 +69,11 @@ function clopsechat(){
 			</div>
 		</div>		
 		
+		
+</div>
+
+<div id="container" class="spaceSpace">
+
 		<div id="chatSpace" class="chatSpace">
 				<fieldset style="overflow-y: auto;" id="chatingBox">				
 			        <textarea id="messageWindow" rows="10" cols="50" readonly="true"></textarea>
@@ -76,7 +87,9 @@ function clopsechat(){
 		<div id="chatIcon" class="chatIcon"  style="display:none">		
 			<img src="/img/koreamap.png" class="image" height="45" width="80" onclick="openchat()">		
 		</div>
+
 </div>
+
 		
 		<input type="hidden" id="rName" value=${rName }>
 		<input type="hidden" id="uiNickName" value=${uiNickName }>		
