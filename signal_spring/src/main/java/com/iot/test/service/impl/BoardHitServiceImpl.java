@@ -21,15 +21,23 @@ public class BoardHitServiceImpl implements BoardHitService {
 		return bhm.hitSessionIdList(bNo);
 	}
 	@Override
-	public void insertHit(BoardHitVO bhv) {
-		bhm.insertHit(bhv);
+	public int insertHit(int bNo, String hSessionId) {
+		List<String> hitrSessionIdList = bhm.hitSessionIdList(bNo);
+		boolean isSessionId = false;
+		if (hitrSessionIdList != null) {
+			for (String sessionId : hitrSessionIdList) {
+				if (hSessionId.equals(sessionId)) {
+					isSessionId = true;
+				}
+			}
+		}
+		if (!isSessionId) {
+			BoardHitVO nBhv = new BoardHitVO();
+			nBhv.setbNo(bNo);
+			nBhv.sethSessionId(hSessionId);
+			return bhm.insertHit(nBhv);
+		}
+		return 0;
 	}
-
-	@Override
-	public int truncateHit() {
-
-		return bhm.tuncateHit();
-	}
-
 
 }

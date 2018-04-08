@@ -54,6 +54,19 @@
 			alert("로그인이 필요합니다");
 		}
 	}
+	
+	function boardExpose(bNo, uiNo) {
+		if (uiNo) {
+			var param = {
+				bNo : bNo,
+				uiNo : uiNo
+			};
+			var ajax = new AjaxUtil("/board/expose", param);
+			ajax.send(reloadCall);
+		} else {
+			alert("로그인이 필요합니다");
+		}
+	}
 
 	function commentDelete(bcNo,bNo) {
 		var isDelete = confirm("삭제 시 복구 되지 않습니다.");

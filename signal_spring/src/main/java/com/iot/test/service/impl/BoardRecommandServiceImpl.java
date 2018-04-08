@@ -14,21 +14,23 @@ public class BoardRecommandServiceImpl implements BoardRecommandService {
 
 	@Autowired
 	BoardRecommandMapper brm;
-	
-	@Override 
-	public List<Integer> recommandUiIdList(int bNo){
-		return brm.RecomuiIdList(bNo);
+
+	@Override
+	public List<Integer> recommandUiIdList(int bNo) {
+		return brm.recomUiIdList(bNo);
 	}
 
 	@Override
-	public void insertRecommand(BoardRecommandVO brv) {
-		brm.insertRecom(brv);
+	public int insertRecommand(BoardRecommandVO brv) {
+		int uiNo = brv.getUiNo();
+		List<Integer> recommandUiNoList = brm.recomUiIdList(brv.getbNo());
+		for (int rUiNo : recommandUiNoList) {
+			if (uiNo == rUiNo) {
+				return 0;
+			}
+		}
+		return brm.insertRecom(brv);
 	}
 
-	@Override
-	public int truncateRecommand() {
-
-		return brm.tuncateRecom();
-	}
 
 }

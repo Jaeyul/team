@@ -18,6 +18,4 @@ public interface BoardHitMapper {
 	@Insert("insert into board_hit_session (hSessionId,bNo) values(#{bhv.hSessionId},#{bhv.bNo})")
 	int insertHit(@Param("bhv") BoardHitVO bhv);
 
-	@Delete("truncate table board_hit_session")
-	int tuncateHit();
 }

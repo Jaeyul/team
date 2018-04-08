@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,6 +18,24 @@ import com.iot.test.vo.ImageVO;
 public class ImageServiceImpl implements ImageService {
 	@Autowired
 	ImgMapper im;
+
+	@Autowired
+	ImageServiceImpl imageService;
+
+	@Autowired
+	BoardServiceImpl boardService;
+
+	@Autowired
+	UserInfoServiceImpl userService;
+
+	@Autowired
+	BoardCommentServiceImpl boardComentService;
+
+	@Autowired
+	BoardHitServiceImpl boardHitService;
+
+	@Autowired
+	BoardRecommandServiceImpl boardRecommandService;
 
 	public static final String IMAGE_DIR = "src/main/resources/static/web/upload_images\\";
 
@@ -35,26 +52,32 @@ public class ImageServiceImpl implements ImageService {
 	}
 
 	@Override
-	public int insertImg(ImageVO img) {
+	public void insertImg(List<MultipartFile> images, int bNo) {
 
-		return im.insertImg(img);
+		for (MultipartFile img : images) {
+			ImageVO ImageVO = save(img, bNo);
+			im.insertImg(ImageVO);
+		}
 	}
 
 	@Override
-	public int deleteImgByBNo(int bNo) {
+	public int deleteImg(int bNo) {
 
 		return im.deleteImgByBNo(bNo);
 	}
-	
 
-	public int deleteImgByImgId(String imgId) {
-		return im.deleteImgByImgId(imgId);
-	}
-
-	@Override
-	public int updateImg(ImageVO img) {
-
-		return im.updateImg(img);
+	public void updateImg(List<ImageVO> imageVOList, List<MultipartFile> images) {
+		for (ImageVO iv : imageVOList) {
+			for (MultipartFile mf : images) {
+				if (iv.getImgName() == mf.getName()) {
+					imageVOList.remove(iv);
+					images.remove(mf);
+				}
+			}
+		}
+		for (ImageVO iv : imageVOList) {
+			im.deleteImgByImgId(iv.getImgId());
+		}
 	}
 
 	/**

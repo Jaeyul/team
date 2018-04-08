@@ -8,7 +8,5 @@ public interface BoardRecommandService {
 	
 	public List<Integer> recommandUiIdList(int bNo);
 	
-	public void insertRecommand(BoardRecommandVO brv);
-
-	public int truncateRecommand();
+	public int insertRecommand(BoardRecommandVO brv);
 }

@@ -231,7 +231,7 @@ function matchingCallback(res){
 							<div class="text" id="myPageBt">My Page</div>
 							<div class="menu" id="dropBt">
 								<div class="item">My Profile</div>
-								<div class="item" >My Friends</div>
+								<div class="item">My Friends</div>
 								<div class="item">My Post</div>
 								<div class="item">History</div>
 							</div>							

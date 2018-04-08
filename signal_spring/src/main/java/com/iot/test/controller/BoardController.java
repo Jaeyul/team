@@ -25,7 +25,6 @@ import com.iot.test.service.impl.BoardServiceImpl;
 import com.iot.test.service.impl.ImageServiceImpl;
 import com.iot.test.service.impl.UserInfoServiceImpl;
 import com.iot.test.vo.BoardCommentVO;
-import com.iot.test.vo.BoardHitVO;
 import com.iot.test.vo.BoardRecommandVO;
 import com.iot.test.vo.BoardVO;
 import com.iot.test.vo.ImageVO;
@@ -60,7 +59,7 @@ public class BoardController {
 		Paging p = new Paging(maxContent);
 		p.setCurrentPage(page);
 		p.setCurrentBlock(block);
-		List<BoardVO> boardList = boardService.boardList((page-1) * 20);
+		List<BoardVO> boardList = boardService.boardList((page - 1) * 20);
 		mav.addObject("boardList", boardList);
 		mav.addObject("page", p);
 		mav.setViewName("board/board");
@@ -88,10 +87,7 @@ public class BoardController {
 		bv.setUiNickName(uiNickName);
 		int bNo = boardService.insertBoard(bv);
 		log.info("/complete bNo={}", bNo);
-		for (MultipartFile img : images) {
-			ImageVO ImageVO = imageService.save(img, bNo);
-			imageService.insertImg(ImageVO);
-		}
+		imageService.insertImg(images, bNo);
 		return goBoard(mav, page, block);
 	}
 
@@ -108,21 +104,8 @@ public class BoardController {
 			@RequestParam("filedata") List<MultipartFile> images, BoardVO bv, HttpSession hs, ModelAndView mav) {
 		int bNo = bv.getbNo();
 		List<ImageVO> imageVOList = imageService.selectByBno(bNo);
-		for (ImageVO iv : imageVOList) {
-			for (MultipartFile mf : images) {
-				if (iv.getImgName() == mf.getName()) {
-					imageVOList.remove(iv);
-					images.remove(mf);
-				}
-			}
-		}
-		for (ImageVO iv : imageVOList) {
-			imageService.deleteImgByImgId(iv.getImgId());
-		}
-		for (MultipartFile img : images) {
-			ImageVO ImageVO = imageService.save(img, bNo);
-			imageService.insertImg(ImageVO);
-		}
+		imageService.updateImg(imageVOList, images);
+		imageService.insertImg(images, bNo);
 		boardService.updateBoard(bv);
 		return goBoard(mav, page, block);
 	}
@@ -145,41 +128,30 @@ public class BoardController {
 	public @ResponseBody void deleteBoard(@RequestBody BoardVO bv, ModelAndView mav) {
 		int bNo = bv.getbNo();
 		List<ImageVO> imageList = imageService.selectByBno(bNo);
+		// 서버에 다운로드 된 파일 삭제
 		for (ImageVO image : imageList) {
 			String imgId = image.getImgId();
 			File imgF = new File(ImageServiceImpl.IMAGE_DIR, imgId);
 			imgF.delete();
 		}
+		// BD 게시판 정보, 이미지 정보 삭제(cascade 제약 조건으로 게시판 정보만 삭제해도 그에 맺어진 이미지 정보들도 전부 삭제됨)
 		boardService.deleteBoard(bNo);
 	}
 
 	@RequestMapping(value = "/post", method = RequestMethod.GET)
 	public ModelAndView boardPage(@RequestParam int bNo, String hSessionId, ModelAndView mav, HttpSession hs) {
-		log.info("hSessionId{}", hSessionId);
-		// session 확인후 조회수 증가
-		List<String> hitrSessionIdList = boardHitService.hitSessionIdList(bNo);
-		boolean isSessionId = false;
-		if (hitrSessionIdList != null) {
-			for (String sessionId : hitrSessionIdList) {
-				if (hSessionId.equals(sessionId)) {
-					isSessionId = true;
-				}
-			}
-		}
-		if (!isSessionId) {
-			BoardHitVO bhv = new BoardHitVO();
-			bhv.setbNo(bNo);
-			bhv.sethSessionId(hSessionId);
-			boardHitService.insertHit(bhv);
+		// 조회수 기록
+		if (boardHitService.insertHit(bNo, hSessionId) == 1) {
 			boardService.updateBoardHit(bNo);
 		}
-
+		// 게시글 정보
 		BoardVO boardVO = boardService.selectByNo(bNo);
+		// 첨부된 이미지 정보
 		List<ImageVO> imageVOList = imageService.selectByBno(bNo);
+		// 로그인 계정 정보
 		UserInfoVO uiv = (UserInfoVO) hs.getAttribute("user");
+		// 댓글 정보
 		List<BoardCommentVO> comentList = boardComentService.selectComentByBNo(bNo);
-		log.info("boardVO{}", boardVO);
-		log.info("imageVOList{}", imageVOList);
 		mav.addObject("boardVO", boardVO);
 		mav.addObject("imageVOList", imageVOList);
 		mav.addObject("comentList", comentList);
@@ -192,15 +164,15 @@ public class BoardController {
 
 	@RequestMapping("/recommand")
 	public @ResponseBody void recommandBoard(@RequestBody BoardRecommandVO brv) {
-		int uiNo = brv.getUiNo();
-		List<Integer> recommandUiNoList = boardRecommandService.recommandUiIdList(brv.getbNo());
-		for (int rUiNo : recommandUiNoList) {
-			if (uiNo == rUiNo) {
-				return;
-			}
+		if (boardRecommandService.insertRecommand(brv) == 1) {
+			boardService.updateBoardRecommand(brv.getbNo());
 		}
-		boardRecommandService.insertRecommand(brv);
-		boardService.updateBoardRecommand(brv.getbNo());
-
+	}
+	
+	@RequestMapping("/expose")
+	public @ResponseBody void exposeBoard(@RequestBody BoardRecommandVO brv) {
+		if (boardRecommandService.insertRecommand(brv) == 1) {
+			boardService.updateBoardRecommand(brv.getbNo());
+		}
 	}
 }

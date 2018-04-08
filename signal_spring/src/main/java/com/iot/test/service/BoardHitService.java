@@ -7,7 +7,5 @@ import com.iot.test.vo.BoardHitVO;
 public interface BoardHitService {
 	public List<String> hitSessionIdList(int bNo);
 	
-	public void insertHit(BoardHitVO bhv);
-
-	public int truncateHit();
+	public int insertHit(int bNo, String hSessionId);
 }

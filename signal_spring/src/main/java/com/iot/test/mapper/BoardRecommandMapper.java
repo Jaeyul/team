@@ -14,11 +14,8 @@ import com.iot.test.vo.BoardRecommandVO;
 @Mapper
 public interface BoardRecommandMapper {
 	@Select("select uiNo from board_recommand_uino where bNo=#{bNo}")
-	List<Integer> RecomuiIdList(@Param("bNo") int bNo);
+	List<Integer> recomUiIdList(@Param("bNo") int bNo);
 
 	@Insert("insert into board_recommand_uino (uiNo,bNo) values(#{brv.uiNo},#{brv.bNo})")
-	void insertRecom(@Param("brv") BoardRecommandVO brv);
-
-	@Delete("truncate table board_recommand_uino")
-	int tuncateRecom();
+	int insertRecom(@Param("brv") BoardRecommandVO brv);
 }

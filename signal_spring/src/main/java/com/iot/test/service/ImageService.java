@@ -13,13 +13,12 @@ public interface ImageService {
 
 	public List<ImageVO> selectByBno(int bNo);
 
-	public int insertImg(ImageVO img);
+	public void insertImg(List<MultipartFile> images, int bNo);
 
-	public int deleteImgByBNo(int imgNo);
+	public int deleteImg(int imgNo);
 
-	public int deleteImgByImgId(String imgId);
+	public void updateImg(List<ImageVO> imageVOList, List<MultipartFile> images);
 
-	public int updateImg(ImageVO img);
 
 	public ImageVO save(MultipartFile multipartFile, int bNo);
 
