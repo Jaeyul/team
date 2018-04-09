@@ -132,7 +132,7 @@ h1 h2 h3 h4 {
 			<i class="thumbs up outline icon"></i>추천 : ${boardVO.bRecom}
 		</button>
 		<button class="ui labeled inverted yellow button icon"
-			onclick="boardExpose()">
+			onclick="boardExpose('${boardVO.bNo}','${loginUserInfoVO.uiNo}')">
 			<i class="exclamation icon"></i>신고
 		</button>
 		<div id='content' class="ui segment">

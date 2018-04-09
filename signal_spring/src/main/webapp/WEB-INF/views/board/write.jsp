@@ -123,11 +123,12 @@
 					name="filedata" multiple />
 			</div>
 			<br>
+
 			<!-- 미리보기 영역 -->
 			<div id="preview" class="content"></div>
-
-			<br>
-			<button class="ui primary button">Save</button>
+			<div>
+				<button class="ui purple button">Save</button>
+			</div>
 		</form>
 	</div>
 </body>

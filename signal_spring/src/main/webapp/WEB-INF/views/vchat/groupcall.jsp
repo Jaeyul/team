@@ -5,13 +5,20 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="styleSheet" href="/css/groupcall/style.css" type="text/css" media="screen">
+<link rel="stylesheet" type="text/css" href="/css/components/dropdown.css">
+<link rel="stylesheet" type="text/css" href="/css/components/header.css">
+<link rel="stylesheet" type="text/css" href="/css/components/button.css">
 <script src="/js/jquery-3.3.1.js"></script>
 <script src="/js/adapter.js"></script>
+<script src="/js/components/dropdown.js"></script>
+<script src="/js/components/visibility.js"></script>
 <script src="/js/groupcall/conferenceroom.js"></script>
 <script src="/js/groupcall/participant.js"></script>
 <script src="/js/kurento-utils.js"></script>
+<script src="/js/components/transition.js"></script>
 
-<title>Insert title here</title>
+
+<title>video chat</title>
 <style>
 
 /* .chatSpace {
@@ -35,6 +42,10 @@
 }
 </style>
 <script>
+
+/* $(document).ready(function(){
+	
+}) */
 
 function openchat(){	
 	$("#chatIcon").css("display","none");	

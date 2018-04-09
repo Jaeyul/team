@@ -68,6 +68,14 @@ public class UrlController {
 
 		return "user/signup";
 	}
+	
+	@RequestMapping("/google/signup")
+	public ModelAndView signupGoogle(@RequestParam("id") String id, @RequestParam("email") String email, ModelAndView mav) {
+		mav.setViewName("user/signup");
+		mav.addObject("id", id);
+		mav.addObject("email", email);
+		return mav;
+	}
 
 	@RequestMapping("/video")
 	public ModelAndView groupcall(@RequestParam Map<String, Object> rMap, HttpSession hs) throws JsonProcessingException {

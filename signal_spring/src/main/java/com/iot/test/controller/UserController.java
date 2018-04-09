@@ -61,9 +61,6 @@ public class UserController {
         return checkMap;
     }
 	
-	
-	
-	
 	@RequestMapping(value="/uiId", method=RequestMethod.POST)
     public @ResponseBody String getUiId(HttpSession hs) {
 		

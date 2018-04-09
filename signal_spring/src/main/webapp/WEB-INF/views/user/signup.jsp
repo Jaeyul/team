@@ -1,23 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/common/common.jsp" %> 
+	pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/views/common/common.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
-  <style type="text/css">
-    body {
-      background-color: #DADADA;
-    }
-    body > .grid {
-      height: 100%;
-    }
-    .image {
-      margin-top: -100px;
-    }   
-    .column {
-      max-width: 450px;
-    }
-  </style>
+<style type="text/css">
+body {
+	background-color: #DADADA;
+}
+
+body>.grid {
+	height: 100%;
+}
+
+.image {
+	margin-top: -100px;
+}
+
+.column {
+	max-width: 450px;
+}
+</style>
 </head>
 <script>
 
@@ -215,97 +218,104 @@ function checkVal(id){
 
 </script>
 <body onload="getIcon()">
-<div id="content">
-<br><br><br><br><br>
-<div class="ui middle aligned center aligned grid">
-  <div class="column">
-    <img class="ui logo image" id="tippleLogo" src="/img/tippler2.png" >    
-    <form class="ui large form">
-        
-      <div class="ui stacked segment">
-      
-        <div class="field">
-          <div class="ui left icon input">
-            <i class="user icon"></i>
-            <input type="text" id="uiId" name="uiId" placeholder="ID">
-            
-            <div class="ui basic button right icon input" style="width:50px" id="checkyUp" onclick="idValidation()" onmouseover="chCursor()" onmouseout="reChCursor">
-            <i class="large check icon" id="checkyUpp"></i>
-            </div>  
-            
-          </div>          
-        </div>
-        
-        <div class="field">
-          <div class="ui left icon input">
-            <i class="lock icon"></i>
-            <input type="password" id="uiPwd" name="uiPwd" placeholder="Password">            
-           
-          </div>         
-        </div>
-       
-         <div class="field">
-          <div class="ui left icon input">
-            <i class="user circle icon"></i>
-            <input type="text" id="uiNickName" name="uiNickName" placeholder="Nickname">
-               
-          </div>          
-         </div>
-         
-         <div class="field">
-          <div class="ui left icon input">
-            <i class="at icon"></i>
-            <input type="text" id="uiEmail" name="uiEmail" placeholder="Email">              
-          </div>          
-         </div>
-         
-         <div class="field">
-          <div class="ui left icon input">
-            <i class="hand point right outline icon" id="iconConfirm"></i>
-            <input type="text" id="iconName" name="iconName" placeholder="Icon" disabled>
-            
-            <div class="ui basic button right icon input" style="width:50px" id="iconCheck" onclick="openIconBox()" onmouseover="chCursor()" onmouseout="reChCursor">
-            <i class="large hand point up outline icon" id="iconCheck"></i>
-            </div>
-          </div>          
-        </div>  
-        
-        <div class="ui fluid large magenta submit button" onclick="signup()"> Sign-Up</div>
-      </div>      
-      
-    </form>    
-  </div>
-</div>
+	<div id="content">
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<div class="ui middle aligned center aligned grid">
+			<div class="column">
+				<img class="ui logo image" id="tippleLogo" src="/img/tippler2.png">
+				<form class="ui large form">
 
-</div>
+					<div class="ui stacked segment">
 
-<div class="ui modal" id="choiceIconBox" >   
-  <div class="header">
-    Icon Choice
-  </div>
-  
-  <div class="image content">
-  
-    <div class="ui image" style="width:250px">      
-    </div>
-    
-    <div class="description">
-      <div class="ui header" id="iconBox">     	   
-      
-	  </div>	
-    </div>
-    
-  </div>  
-  
-  <div class="actions">
-    
-    <div class="ui black deny button" id="no" onclick="checkVal(id)">
-      Nope
-    </div>   
-  </div>  
-</div>
+						<div class="field">
+							<div class="ui left icon input">
+								<i class="user icon"></i> <input type="text" id="uiId"
+									name="uiId" placeholder="ID"
+									<c:if test="${id!=null}">value="${id}" disabled</c:if>>
+
+								<div class="ui basic button right icon input"
+									style="width: 50px" id="checkyUp"
+									<c:if test="${id=null}">onclick="idValidation()"</c:if>
+									onmouseover="chCursor()" onmouseout="reChCursor">
+									<i class="large check icon" id="checkyUpp"></i>
+								</div>
+
+							</div>
+						</div>
+
+						<div class="field">
+							<div class="ui left icon input">
+								<i class="lock icon"></i> <input type="password" id="uiPwd"
+									name="uiPwd" placeholder="Password"
+									<c:if test="${id!=null}">value="password" disabled</c:if>>
+
+							</div>
+						</div>
+
+						<div class="field">
+							<div class="ui left icon input">
+								<i class="user circle icon"></i> <input type="text"
+									id="uiNickName" name="uiNickName" placeholder="Nickname">
+
+							</div>
+						</div>
+
+						<div class="field">
+							<div class="ui left icon input">
+								<i class="at icon"></i> <input type="text" id="uiEmail"
+									name="uiEmail" placeholder="Email"
+									<c:if test="${email!=null}">value="${email}" disabled</c:if>>
+							</div>
+						</div>
+
+						<div class="field">
+							<div class="ui left icon input">
+								<i class="hand point right outline icon" id="iconConfirm"></i> <input
+									type="text" id="iconName" name="iconName" placeholder="Icon"
+									disabled>
+
+								<div class="ui basic button right icon input"
+									style="width: 50px" id="iconCheck" onclick="openIconBox()"
+									onmouseover="chCursor()" onmouseout="reChCursor">
+									<i class="large hand point up outline icon" id="iconCheck"></i>
+								</div>
+							</div>
+						</div>
+
+						<div class="ui fluid large magenta submit button"
+							onclick="signup()">Sign-Up</div>
+					</div>
+
+				</form>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="ui modal" id="choiceIconBox">
+		<div class="header">Icon Choice</div>
+
+		<div class="image content">
+
+			<div class="ui image" style="width: 250px"></div>
+
+			<div class="description">
+				<div class="ui header" id="iconBox"></div>
+			</div>
+
+		</div>
+
+		<div class="actions">
+
+			<div class="ui black deny button" id="no" onclick="checkVal(id)">
+				Nope</div>
+		</div>
+	</div>
 
 </body>
 
 </html>
-    

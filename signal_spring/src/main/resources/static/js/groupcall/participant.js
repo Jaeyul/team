@@ -42,21 +42,26 @@ function Participant(name) {
 	dropDiv.classList.add('ui', 'inverted', 'dropdown', 'button');
 	nameDiv.classList.add('text');
 	dropDiv.setAttribute('id', 'dropDiv');
+	nameDiv.setAttribute('id', 'nameDiv');
 	menuDiv.classList.add('menu');
 	friendItem.classList.add('item');
 	exposeItem.classList.add('item');
-	
+
 	container.appendChild(video);
 	container.appendChild(dropDiv);
-	container.onclick = switchContainerClass;
-	
+
+	// container.onclick = switchContainerClass;
+
 	document.getElementById('participants').appendChild(container);
 	dropDiv.appendChild(nameDiv);
 	nameDiv.appendChild(document.createTextNode(name));
+	dropDiv.appendChild(menuDiv);
 	menuDiv.appendChild(friendItem);
 	menuDiv.appendChild(exposeItem);
-	
-	//document.getElementById("dropDiv").dropdown();
+	friendItem.appendChild(document.createTextNode("친구등록"));
+	exposeItem.appendChild(document.createTextNode("신고"));
+
+	$('#dropDiv').dropdown();
 
 	video.id = 'video-' + name;
 	video.autoplay = true;

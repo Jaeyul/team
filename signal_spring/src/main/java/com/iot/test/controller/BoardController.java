@@ -1,4 +1,4 @@
-package com.iot.test.controller;
+	package com.iot.test.controller;
 
 import java.io.File;
 import java.util.List;
@@ -66,6 +66,20 @@ public class BoardController {
 		return mav;
 	}
 
+	ModelAndView goBoard(ModelAndView mav) {
+		int page = 1;
+		int block = 1;
+		int maxContent = boardService.selectBoardCount();
+		Paging p = new Paging(maxContent);
+		p.setCurrentPage(page);
+		p.setCurrentBlock(block);
+		List<BoardVO> boardList = boardService.boardList((page - 1) * 20);
+		mav.addObject("boardList", boardList);
+		mav.addObject("page", p);
+		mav.setViewName("board/board");
+		return mav;
+	}
+
 	@RequestMapping
 	public ModelAndView boardListPage(@RequestParam("page") int page, @RequestParam("block") int block,
 			ModelAndView mav) {
@@ -80,15 +94,20 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = "/complete", method = RequestMethod.POST)
-	public ModelAndView uploadImage(@RequestParam("page") int page, @RequestParam("block") int block,
-			@RequestParam("filedata") List<MultipartFile> images, BoardVO bv, HttpSession hs, ModelAndView mav) {
+	public ModelAndView uploadImage(@RequestParam("filedata") List<MultipartFile> images, BoardVO bv, HttpSession hs,
+			ModelAndView mav) {
+
 		UserInfoVO uiv = (UserInfoVO) hs.getAttribute("user");
 		String uiNickName = uiv.getUiNickName();
+
 		bv.setUiNickName(uiNickName);
+		//게시판 내용 저장
 		int bNo = boardService.insertBoard(bv);
 		log.info("/complete bNo={}", bNo);
+		//이미지 내용 저장
 		imageService.insertImg(images, bNo);
-		return goBoard(mav, page, block);
+
+		return goBoard(mav);
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
@@ -168,7 +187,7 @@ public class BoardController {
 			boardService.updateBoardRecommand(brv.getbNo());
 		}
 	}
-	
+
 	@RequestMapping("/expose")
 	public @ResponseBody void exposeBoard(@RequestBody BoardRecommandVO brv) {
 		if (boardRecommandService.insertRecommand(brv) == 1) {

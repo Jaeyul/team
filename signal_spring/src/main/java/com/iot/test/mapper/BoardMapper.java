@@ -14,7 +14,7 @@ import com.iot.test.vo.BoardVO;
 @Mapper
 public interface BoardMapper {
 
-	@Select("select bNo, bName, bContent, bRegDate, uiNickName, bHit, bRecom, bCommentCount from bulletin_board limit #{page} , 20 ")
+	@Select("select bNo, bName, bContent, bRegDate, uiNickName, bHit, bRecom, bCommentCount from bulletin_board order by bNo desc limit #{page} , 20")
 	public List<BoardVO> boardList(@Param("page") int page);
 
 	@Select("select bNo, bName, bContent, bRegDate, uiNickName, bHit, bRecom, bCommentCount from bulletin_board where bName = #{bv.bName} or bContent = #{bv.bContent} or uiNickName = #{bv.uiNickName}")
