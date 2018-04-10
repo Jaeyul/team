@@ -60,6 +60,6 @@
 <link rel="stylesheet" type="text/css" href="/css/components/shape.css">
 <link rel="stylesheet" type="text/css" href="/css/components/checkbox.css">
 <link rel="stylesheet" type="text/css" href="/css/components/loader.css">
-
+<link rel="stylesheet" type="text/css" href="/css/components/card.css">
 
 <%@ include file="/WEB-INF/views/common/header.jsp"%>

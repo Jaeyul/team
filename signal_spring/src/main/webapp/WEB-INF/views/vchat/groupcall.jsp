@@ -1,24 +1,65 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <link rel="styleSheet" href="/css/groupcall/style.css" type="text/css" media="screen">
-<link rel="stylesheet" type="text/css" href="/css/components/dropdown.css">
+
+<link rel="stylesheet" type="text/css"
+	href="/css/components/container.css">
+<link rel="stylesheet" type="text/css" href="/css/components/grid.css">
 <link rel="stylesheet" type="text/css" href="/css/components/header.css">
+<link rel="stylesheet" type="text/css" href="/css/components/image.css">
+<link rel="stylesheet" type="text/css" href="/css/components/menu.css">
+<link rel="stylesheet" type="text/css"
+	href="/css/components/divider.css">
+<link rel="stylesheet" type="text/css"
+	href="/css/components/dropdown.css">
+<link rel="stylesheet" type="text/css"
+	href="/css/components/segment.css">
+<link rel="stylesheet" type="text/css" href="/css/components/form.css">
+<link rel="stylesheet" type="text/css" href="/css/components/list.css">
+<link rel="stylesheet" type="text/css" href="/css/components/icon.css">
+<link rel="stylesheet" type="text/css"
+	href="/css/components/sidebar.css">
+<link rel="stylesheet" type="text/css"
+	href="/css/components/transition.css">
+<link rel="stylesheet" type="text/css" href="/css/components/input.css">
 <link rel="stylesheet" type="text/css" href="/css/components/button.css">
+<link rel="stylesheet" type="text/css"
+	href="/css/components/message.css">
+<link rel="stylesheet" type="text/css" href="/css/components/modal.css">
+<link rel="stylesheet" type="text/css" href="/css/components/table.css">
+
+<link rel="stylesheet" type="text/css" href="/css/components/accordion.css">
+<link rel="stylesheet" type="text/css" href="/css/components/shape.css">
+<link rel="stylesheet" type="text/css" href="/css/components/checkbox.css">
+<link rel="stylesheet" type="text/css" href="/css/components/loader.css">
+
+
 <script src="/js/jquery-3.3.1.js"></script>
-<script src="/js/adapter.js"></script>
-<script src="/js/components/dropdown.js"></script>
+
 <script src="/js/components/visibility.js"></script>
+<script src="/js/components/sidebar.js"></script>
+<script src="/js/components/transition.js"></script>
+<script src="/js/components/form.js"></script>
+<script src="/js/components/dropdown.js"></script>
+<script src="/js/components/dimmer.js"></script>
+<script src="/js/components/modal.js"></script>
+<script src="/js/components/accordion.js"></script>
+<script src="/js/components/shape.js"></script>
+<script src="/js/components/checkbox.js"></script>
+
+<script src="/js/common.js"></script>
+<script src="/js/adapter.js"></script>
 <script src="/js/groupcall/conferenceroom.js"></script>
 <script src="/js/groupcall/participant.js"></script>
 <script src="/js/kurento-utils.js"></script>
-<script src="/js/components/transition.js"></script>
 
-
-<title>video chat</title>
+<title>Insert title here</title>
 <style>
 
 /* .chatSpace {
@@ -43,10 +84,6 @@
 </style>
 <script>
 
-/* $(document).ready(function(){
-	
-}) */
-
 function openchat(){	
 	$("#chatIcon").css("display","none");	
 	$("#chatSpace").css("display","");	
@@ -66,10 +103,23 @@ function clopsechat(){
 	}, 1000);
 }
 
+function alramId(id){
+	id = id.substring(5);
+	var param = {uiNickName:id};
+	
+	if(confirm("정말로 친구등록을 하시겠습니까?")){		
+		var au = new AjaxUtil("/friends/add",param);		
+		au.send(checkAdd);
+	}
+}
+
+function checkAdd(res){
+	
+	alert(res);
+}
+
 
 </script>
-
-
 </head>
 <body onload="register()">
 <div id="container">
@@ -77,7 +127,8 @@ function clopsechat(){
 		<div id="wrapper">			
 			<div id="room" style="display: none;">
 				<h2 id="room-header"></h2>
-				<div id="participants"></div>
+				<div id="participants">							
+				</div>
 				<input type="button" id="button-leave" onmouseup="leaveRoom();"	value="Leave room">
 			</div>
 		</div>	

@@ -14,58 +14,56 @@
  * limitations under the License.
  *
  */
+
 const PARTICIPANT_MAIN_CLASS = 'participant main';
 const PARTICIPANT_CLASS = 'participant';
 
 /**
  * Creates a video element for a new participant
- * 
- * @param {String}
- *            name - the name of the new participant, to be used as tag name of
- *            the video element. The tag of the new element will be 'video<name>'
+ *
+ * @param {String} name - the name of the new participant, to be used as tag
+ *                        name of the video element.
+ *                        The tag of the new element will be 'video<name>'
  * @return
  */
 function Participant(name) {
 	this.name = name;
 	var container = document.createElement('div');
-	container.className = isPresentMainParticipant() ? PARTICIPANT_CLASS
-			: PARTICIPANT_MAIN_CLASS;
+	container.className = isPresentMainParticipant() ? PARTICIPANT_CLASS : PARTICIPANT_MAIN_CLASS;
 	container.id = name;
-	var dropDiv = document.createElement('div');
-	var nameDiv = document.createElement('div');
-	var menuDiv = document.createElement('div');
-	var friendItem = document.createElement('div');
-	var exposeItem = document.createElement('div');
+	var span = document.createElement('span');
+	var div = document.createElement('div');
+	div.setAttribute('id','kos' + this.name);
+	
 	var video = document.createElement('video');
 	var rtcPeer;
 
-	dropDiv.classList.add('ui', 'inverted', 'dropdown', 'button');
-	nameDiv.classList.add('text');
-	dropDiv.setAttribute('id', 'dropDiv');
-	nameDiv.setAttribute('id', 'nameDiv');
-	menuDiv.classList.add('menu');
-	friendItem.classList.add('item');
-	exposeItem.classList.add('item');
-
 	container.appendChild(video);
-	container.appendChild(dropDiv);
-
-	// container.onclick = switchContainerClass;
-
+	container.appendChild(span);
+	container.appendChild(div);
+	
+	var dropDownStr = "";	
+	dropDownStr += "<div id='sub" + this.name + "' class='ui inverted dropdown button'>";
+	dropDownStr += "<div class='text'>"+ name + "</div>";
+	dropDownStr += "<div class='menu'>";
+	dropDownStr += "<div class='item' id='click" + this.name +"' onclick='alramId(id)'>Add Friend</div>";
+	dropDownStr += "<div class='item'>Etc</div></div></div>";
+	
+	
+	//container.onclick = switchContainerClass;
+	
 	document.getElementById('participants').appendChild(container);
-	dropDiv.appendChild(nameDiv);
-	nameDiv.appendChild(document.createTextNode(name));
-	dropDiv.appendChild(menuDiv);
-	menuDiv.appendChild(friendItem);
-	menuDiv.appendChild(exposeItem);
-	friendItem.appendChild(document.createTextNode("친구등록"));
-	exposeItem.appendChild(document.createTextNode("신고"));
-
-	$('#dropDiv').dropdown();
-
+	span.appendChild(document.createTextNode(name));
+	
+	$('#kos' + this.name).html(dropDownStr);
+	$('#sub' + this.name).dropdown();	
+	
+	
 	video.id = 'video-' + name;
 	video.autoplay = true;
-	video.controls = false;
+	video.controls = false;		
+
+	
 
 	this.getElement = function() {
 		return container;
@@ -77,14 +75,13 @@ function Participant(name) {
 
 	function switchContainerClass() {
 		if (container.className === PARTICIPANT_CLASS) {
-			var elements = Array.prototype.slice.call(document
-					.getElementsByClassName(PARTICIPANT_MAIN_CLASS));
+			var elements = Array.prototype.slice.call(document.getElementsByClassName(PARTICIPANT_MAIN_CLASS));
 			elements.forEach(function(item) {
-				item.className = PARTICIPANT_CLASS;
-			});
+					item.className = PARTICIPANT_CLASS;
+				});
 
-			container.className = PARTICIPANT_MAIN_CLASS;
-		} else {
+				container.className = PARTICIPANT_MAIN_CLASS;
+			} else {
 			container.className = PARTICIPANT_CLASS;
 		}
 	}
@@ -93,32 +90,29 @@ function Participant(name) {
 		return ((document.getElementsByClassName(PARTICIPANT_MAIN_CLASS)).length != 0);
 	}
 
-	this.offerToReceiveVideo = function(error, offerSdp, wp) {
-		if (error)
-			return console.error("sdp offer error")
+	this.offerToReceiveVideo = function(error, offerSdp, wp){
+		if (error) return console.error ("sdp offer error")
 		console.log('Invoking SDP offer callback function');
-		var msg = {
-			id : "receiveVideoFrom",
-			sender : name,
-			sdpOffer : offerSdp
-		};
+		var msg =  { id : "receiveVideoFrom",
+				sender : name,
+				sdpOffer : offerSdp
+			};
 		sendMessage(msg);
 	}
 
-	this.onIceCandidate = function(candidate, wp) {
-		console.log("Local candidate" + JSON.stringify(candidate));
 
-		var message = {
-			id : 'onIceCandidate',
-			candidate : candidate,
-			name : name
-		};
-		sendMessage(message);
+	this.onIceCandidate = function (candidate, wp) {
+		  console.log("Local candidate" + JSON.stringify(candidate));
+
+		  var message = {
+		    id: 'onIceCandidate',
+		    candidate: candidate,
+		    name: name
+		  };
+		  sendMessage(message);
 	}
 
-	Object.defineProperty(this, 'rtcPeer', {
-		writable : true
-	});
+	Object.defineProperty(this, 'rtcPeer', { writable: true});
 
 	this.dispose = function() {
 		console.log('Disposing participant ' + this.name);

@@ -1,6 +1,7 @@
 package com.iot.test.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -16,6 +17,9 @@ public interface UserInfoMapper {
 
 	@Select("select uiId from user_info where uiNickName = #{uiNickName}")
 	String selectUiIdForChat(String uiNickName);
+	
+	@Select("select uiNickName as fName, uiId as fId from user_info where uiId=#{fId}")
+	Map<String,Object> selectUserInfoToFriend(String fId);
 
 	@Select("select uiNo,uiId,uiPwd,uiNickName,uiEmail,uiRegDate,iconName "
 			+ "from user_info where uiId = #{uiv.uiId} and uiPwd = #{uiv.uiPwd}")

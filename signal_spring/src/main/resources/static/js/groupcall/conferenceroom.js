@@ -82,9 +82,9 @@ function register() {
 			success : function please(res) {
 				name = res;
 				var room = document.getElementById("rName").value;
-				document.getElementById('room-header').innerText = room;				
+				document.getElementById('room-header').innerText = 'ROOM : '
+						+ room;				
 				document.getElementById('room').style.display = 'block';
-				document.getElementById('room-header').classList.add("ui", "dividing", "inverted", "header");
 				var message = {
 					id : 'joinRoom',
 					name : name,
@@ -154,8 +154,7 @@ function onExistingParticipants(msg) {
 	var participant = new Participant(name);
 	participants[name] = participant;
 	var video = participant.getVideoElement();
-	var container = participant.getElement();
-	
+
 	var options = {
 		localVideo : video,
 		mediaConstraints : constraints,
