@@ -37,7 +37,7 @@ public class ImageServiceImpl implements ImageService {
 	@Autowired
 	BoardRecommandServiceImpl boardRecommandService;
 
-	public static final String IMAGE_DIR = "src/main/resources/static/web/upload_images\\";
+	public static final String IMAGE_DIR = "/data/web_upload_img\\";
 
 	@Override
 	public List<ImageVO> ImgList() {
