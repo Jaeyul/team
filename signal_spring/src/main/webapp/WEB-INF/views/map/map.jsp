@@ -116,7 +116,7 @@ function openMap(){
 function openWindow(){
 	$('#categoryNo').dropdown();
 	$('#rSize').dropdown();
-	$('#makeRoomW').modal('show');	
+	$('#makeRoomW').modal('setting', 'closable', false).modal('show');	
 }
 
 function checkRoomInfo(){

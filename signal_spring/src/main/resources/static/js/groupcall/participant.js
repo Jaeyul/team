@@ -31,7 +31,7 @@ function Participant(name) {
 	var container = document.createElement('div');
 	container.className = isPresentMainParticipant() ? PARTICIPANT_CLASS : PARTICIPANT_MAIN_CLASS;
 	container.id = name;
-	var span = document.createElement('span');
+	//var span = document.createElement('span');
 	var div = document.createElement('div');
 	div.setAttribute('id','kos' + this.name);
 	
@@ -39,7 +39,7 @@ function Participant(name) {
 	var rtcPeer;
 
 	container.appendChild(video);
-	container.appendChild(span);
+	//container.appendChild(span);
 	container.appendChild(div);
 	
 	var dropDownStr = "";	
@@ -53,7 +53,7 @@ function Participant(name) {
 	//container.onclick = switchContainerClass;
 	
 	document.getElementById('participants').appendChild(container);
-	span.appendChild(document.createTextNode(name));
+	//span.appendChild(document.createTextNode(name));
 	
 	$('#kos' + this.name).html(dropDownStr);
 	$('#sub' + this.name).dropdown();	

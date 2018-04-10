@@ -44,7 +44,7 @@ var param;
 function Validation(){
 	var uiId = $("#uiId").val().trim();
 	var uiPwd = $("#uiPwd").val().trim();
-	var uiNickName = $("#uiNickName").val().trim();
+	var uiNickName = $("#uiNickNameForSignUp").val().trim();
 	var uiEmail = $("#uiEmail").val().trim();
 	var iconName = $("#iconName").val().trim();
 	
@@ -96,7 +96,7 @@ function signup(){
 		}
 		else if(nickCheck==1){			
 			nickCheck--;	
-			$("#uiNickName").focus();
+			$("#uiNickNameForSignUp").focus();
 		}
 		else if(iconName==1){			
 			emailCheck--;
@@ -166,17 +166,15 @@ function openIconBox(){
 
 function getIcon(){
 	var params = {};
-	var au = new AjaxUtil("icon/get",params);
+	var au = new AjaxUtil("/icon/get", params);
 	au.send(iconCallback);
-		
 }
+
 function iconCallback(res){
-	var iconStr = "";
-	
+	var iconStr = "";	
 	for(var iconMap of res){
 		if((iconMap.iconNo)%10 == 0){
-			iconStr += "<i class='"+ iconMap.iconCode +"' id="+ iconMap.iconName +" onclick='selectIcon(id)' onmouseover='transitionPulse(id)'></i><br>"
-			
+			iconStr += "<i class='"+ iconMap.iconCode +"' id="+ iconMap.iconName +" onclick='selectIcon(id)' onmouseover='transitionPulse(id)'></i><br>"			
 		}else{
 			iconStr += "<i class='"+ iconMap.iconCode +"' id="+ iconMap.iconName +" onclick='selectIcon(id)' onmouseover='transitionPulse(id)'></i>"
 		}		
@@ -203,7 +201,6 @@ function selectIcon(id){
 //onmouseover transition
 function transitionPulse(id){
 	$('#' + id).transition('jiggle');
-	
 	
 }
 
@@ -259,7 +256,7 @@ function checkVal(id){
 						<div class="field">
 							<div class="ui left icon input">
 								<i class="user circle icon"></i> <input type="text"
-									id="uiNickName" name="uiNickName" placeholder="Nickname">
+									id="uiNickNameForSignUp" name="uiNickName" placeholder="Nickname">
 
 							</div>
 						</div>

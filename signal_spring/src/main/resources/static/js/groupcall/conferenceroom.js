@@ -27,9 +27,40 @@ var name;
 var leaveIdx = 0;
 
 window.onbeforeunload = function() {
-	if(leaveIdx == 0 ){
-		leaveIdx--;
-		leaveRoom();
+	if(leaveIdx == 0 ){		
+		var rName = $("#rName").val();
+		var uiId = $("#uiId").val();
+		var leaveParam = {
+			rName : rName,
+			uiId : uiId
+		};
+		leaveParam = JSON.stringify(leaveParam);
+		
+		$.ajax({
+			type : "POST",
+			url : "uir/leave",
+			data : leaveParam,
+			async : false,
+			beforeSend : function(xhr) {
+				xhr.setRequestHeader("Content-Type", "application/json");
+			},
+			success : function(res) {
+
+				sendMessage({
+					id : 'leaveRoom',
+					uiId : uiId					
+				});
+				for ( var key in participants) {
+					participants[key].dispose();
+				}
+				document.getElementById('room').style.display = 'none';				
+
+			}
+			,
+			error : function(xhr, status, e) {
+				alert("에러 : " + xhr.responseText);
+			}
+		});
 	}	
 	ws.close();
 };
@@ -203,17 +234,14 @@ function leaveRoom() {
 
 			ws.close();			
 			location.href = "/map";
-			
-
 		}
-
 		,
 		error : function(xhr, status, e) {
 			alert("에러 : " + xhr.responseText);
 		}
 	});
+	
 
-	// document.getElementById('join').style.display = 'block';
 }
 
 function receiveVideo(sender) {

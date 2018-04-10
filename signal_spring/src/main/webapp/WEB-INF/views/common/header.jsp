@@ -236,7 +236,7 @@ function movePage(){
 							<div class="text" id="myPageBt">My Page</div>
 							<div class="menu" id="dropBt">
 								<div class="item">My Profile</div>
-								<div class="item" onclick="movePage()">My Friends</div>
+								<div class="item" onclick="movePage()"><i class="icon users"></i>My Friends<div class="floating ui red label">${acceptSize}</div></div>
 								<div class="item">My Post</div>
 								<div class="item">History</div>
 							</div>							

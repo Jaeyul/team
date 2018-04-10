@@ -8,16 +8,29 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
-<body>
 
+<script>
+function accept(id){
+	var param = {uiId : id};
+	var au = new AjaxUtil("/friends/add", param);
+	au.send(resultCallback);
+	function resultCallback(res){
+		alert(res.msg);
+		if(res.biz){
+			$("#"+id+"parent").css("display","none");
+			location.href="/myfriends";
+		}
+	}
+}
+</script>
+<body>
 <div id="content">
 <br><br><br><br><br><br>
-
-<div class="ui link cards">
+<div class="ui link cards" style="width:70%; float:left">
 <c:forEach items="${fList}" var="fMap">	
-	 <div class="card">
-    <div class="image">
-    </div>
+	<div class="card" style="width:250px">
+	    <div class="image">
+	    </div>
     <div class="content">
       <div class="header">${fMap.fName}</div>
       <div class="meta">
@@ -28,25 +41,43 @@
       </div>
     </div>
     <div class="extra content">
-      <span class="right floated">
-        
+      <span class="right floated">      	  
+		<div class="ui icon button" data-content="친구를 삭제하겠습니까?">
+			<i class="window close icon"></i>
+		</div>
       </span>
       <span>
-        <i class="user icon"></i>
-       
       </span>
     </div>
   </div>
-			
 </c:forEach>  
 </div>
 
 
+<div style="width:20%; float:right">
+
 <c:forEach items="${callList}" var="callMap">
-<input type="button" value=${callMap.uiId }>
+<c:choose>
+	<c:when test="${callMap.count < 4}">
+	<div class="ui piled segment" id="${callMap.uiId }parent" style="width:300">
+		<p>${callMap.uiId }님께서 친구요청을 하셨습니다.</p>	
+		<p>수락하시겠습니까?</p>	
+		<button class="ui blue button" id="${callMap.uiId }" onclick="accept(id)">수락</button>
+		<button class="ui button">거절</button>
+	</div>
+	</c:when>	
+	<c:otherwise>		
+	</c:otherwise>
+</c:choose>
 </c:forEach>	
 
 </div>
+</div>
+
+
+
+
+
 
 
 </body>

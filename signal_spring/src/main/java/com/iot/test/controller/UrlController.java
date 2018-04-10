@@ -1,5 +1,6 @@
 package com.iot.test.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -131,26 +132,27 @@ public class UrlController {
 	public ModelAndView goMyFriends(HttpSession hs) {
 		int idx = 0;
 		ModelAndView mav = new ModelAndView();
-		String uiId = ((UserInfoVO) hs.getAttribute("user")).getUiId();		
-		
+		String uiId = ((UserInfoVO) hs.getAttribute("user")).getUiId();	
 		List<Map<String,Object>> friendsList = fm.selectFriendsListByUiId(uiId);
 		
-		List<Map<String,Object>> friendsTargetList = fm.selectFriendsListByUiIdAsFId(uiId);
+		List<Map<String,Object>> friendsTargetList = fm.selectFriendsListByUiIdAsFId(uiId);		
+		List<Map<String,Object>> acceptList = new ArrayList<Map<String,Object>>();
+		
 		for(int i=0; i<friendsTargetList.size(); i++) {
 			String myId = (String) friendsTargetList.get(i).get("fId");
 			String otherId = (String) friendsTargetList.get(i).get("uiId");
 			Map<String,Object> fMap = new HashMap<String,Object>();
 			fMap.put("uiId", myId);
 			fMap.put("fId", otherId);	
-			if(fm.selectFriendsListCheck(fMap).size()==1) {
-				friendsTargetList.remove(i);				
-			}			
+			if(fm.selectFriendsListCheck(fMap).size()!=1) {
+				friendsTargetList.get(i).put("count",idx);
+				acceptList.add(friendsTargetList.get(i));
+				idx++;
+			}
 		}
-				
-		mav.addObject("callList", friendsTargetList);		
-		mav.addObject("fList", friendsList);	
-				
-		mav.setViewName("mypage/myfriends");		
+		mav.addObject("callList", acceptList);		
+		mav.addObject("fList", friendsList);					
+		mav.setViewName("mypage/myfriends");
 		return mav;		
 	}
 

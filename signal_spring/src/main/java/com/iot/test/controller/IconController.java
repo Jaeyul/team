@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.iot.test.mapper.IconInfoMapper;
 
 @Controller
-@RequestMapping("*/icon")
+@RequestMapping("/icon")
 public class IconController {
 	
 	@Autowired

@@ -11,6 +11,7 @@
 
 <c:set var="isLogin" value="${(empty sessionScope.user)?false:true}" />
 <c:set var="Log" value="${(empty sessionScope.user)?'login':'logout'}" />
+<c:set var="acceptSize" value="${sessionScope.acceptSize}" />
 
 <script src="/js/jquery-3.3.1.js"></script>
 <script src="/js/components/visibility.js"></script>
@@ -35,8 +36,7 @@
 <link rel="stylesheet" type="text/css" href="/css/components/header.css">
 <link rel="stylesheet" type="text/css" href="/css/components/image.css">
 <link rel="stylesheet" type="text/css" href="/css/components/menu.css">
-<link rel="stylesheet" type="text/css"
-	href="/css/components/divider.css">
+<link rel="stylesheet" type="text/css" href="/css/components/divider.css">
 <link rel="stylesheet" type="text/css"
 	href="/css/components/dropdown.css">
 <link rel="stylesheet" type="text/css"
@@ -61,5 +61,5 @@
 <link rel="stylesheet" type="text/css" href="/css/components/checkbox.css">
 <link rel="stylesheet" type="text/css" href="/css/components/loader.css">
 <link rel="stylesheet" type="text/css" href="/css/components/card.css">
-
+<link rel="stylesheet" type="text/css" href="/css/components/label.css">
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
