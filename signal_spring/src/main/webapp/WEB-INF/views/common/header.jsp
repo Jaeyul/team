@@ -219,7 +219,7 @@ function movePage(){
 	<div class='pusher'>
 		<div id="headerContent"
 			class="ui inverted vertical masthead center aligned segment"
-			style="background-image: url('/img/mainbg3.png'); background-position:center; background-repeat:no-repeat; background-size:cover">
+			style="background-image: url('/img/main4.jpg'); background-position:center; background-repeat:no-repeat; background-size:cover">
 			<div class="ui container">
 				<div id='headerMenu'
 					class="ui large secondary inverted pointing menu"

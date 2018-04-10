@@ -62,14 +62,14 @@ body>.grid {
 		};
 		var au = new AjaxUtil("/user/login", param, null, "post");
 		au.send(loginCall);
-		function loginCall(res) {
-			alert(res.msg);
-			if (res.biz) {
-				document.location.href = "/home";
-			}
+
+	}
+	function loginCall(res) {
+		alert(res.msg);
+		if (res.biz) {
+			document.location.href = "/home";
 		}
 	}
-
 	var googleUser = {};
 	var startApp = function() {
 		gapi
@@ -94,7 +94,9 @@ body>.grid {
 
 	function checkIdCall(res) {
 		if (res.biz) {
-			$("#googleSignup").submit();
+			if (confirm("회원가입이 필요합니다. 회원가입 페이지로 이동하시겠습니까?")) {
+				$("#googleSignup").submit();
+			}
 		}
 	}
 
@@ -107,13 +109,14 @@ body>.grid {
 			var param = {
 				uiId : profile.getId()
 			}
-			var ajax = new AjaxUtil("/user/check", param);
-			ajax.send(checkIdCall);
-			$(".buttonText").on("click", revokeAllScopes());  
-			
+			setTimeout(function() {
+				var ajax = new AjaxUtil("/user/check", param);
+				ajax.send(checkIdCall)
+			}, 100);
+			$(".buttonText").on("click", revokeAllScopes());
 			var ajax = new AjaxUtil("/user/login", param);
 			ajax.send(loginCall);
-			
+
 		}, function(error) {
 			alert(JSON.stringify(error, undefined, 2));
 		});
@@ -171,43 +174,9 @@ span.buttonText {
 </style>
 </head>
 <body>
-	<!-- <div id="content">
-<br><br><br><br><br>
-	<div class="ui middle aligned center aligned grid">
-		<div class="column">
-			<h2 class="ui pink image header">
-				
-				<div class="content">Log-in to your account</div>
-			</h2>
-
-			<div class="ui large form">
-				<div class="ui stacked segment">
-					<div class="field">
-						<div class="ui left icon input">
-							<i class="user icon"></i> <input type="text" name="email"
-								placeholder="ID" id="uiId">
-						</div>
-					</div>
-					<div class="field">
-						<div class="ui left icon input">
-							<i class="lock icon"></i> <input type="password" name="password"
-								placeholder="Password" id="uiPwd">
-						</div>
-					</div>
-					<div class="ui fluid large pink button" onclick="login()">Login</div>
-				</div>
-				<div class="ui error message"></div>
-			</div>
-
-			<div class="ui message">
-				<a href="/signup">Sign Up</a>
-			</div>
-		</div>
-	</div>	
-</div> -->
 
 	<div id="content">
-
+		<br> <br> <br>
 		<div class="ui middle aligned center aligned grid">
 			<div class="column">
 
@@ -233,15 +202,14 @@ span.buttonText {
 					</div>
 					<div class="ui error message"></div>
 				</div>
-				<div id="gSignInWrapper">
-					<label id="customBtn" class="ui button purple labeled icon"><i
-						class="google icon"></i>Sign in with Google</label>
+				<div id="customBtn" class="ui button purple labeled icon">
+					<i class="google icon"></i>Sign in with Google
 					<script>
 						startApp();
 					</script>
 				</div>
-				<br> <a class="ui button purple labeled icon" href="/signup"><i
-					class="paw icon"></i>Sign Up</a>
+				<br> <br> <a class="ui button purple labeled icon"
+					href="/signup"><i class="paw icon"></i>Sign Up</a>
 			</div>
 		</div>
 	</div>

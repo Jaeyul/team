@@ -34,6 +34,7 @@ var iconCheck = 0;
 
 var checkIdOk = 0;
 
+
 var reS = /^\w+$/;
 var reN = /[0-9]/;
 var reL = /[a-z]/;
@@ -44,7 +45,7 @@ var param;
 function Validation(){
 	var uiId = $("#uiId").val().trim();
 	var uiPwd = $("#uiPwd").val().trim();
-	var uiNickName = $("#uiNickNameForSignUp").val().trim();
+	var uiNickName = $("#uiNickName").val().trim();
 	var uiEmail = $("#uiEmail").val().trim();
 	var iconName = $("#iconName").val().trim();
 	
@@ -96,7 +97,7 @@ function signup(){
 		}
 		else if(nickCheck==1){			
 			nickCheck--;	
-			$("#uiNickNameForSignUp").focus();
+			$("#uiNickName").focus();
 		}
 		else if(iconName==1){			
 			emailCheck--;
@@ -110,7 +111,7 @@ function signup(){
 	}	
 	
 	if(checkIdOk!=0){
-		var au = new AjaxUtil("user/signup", param);
+		var au = new AjaxUtil("/user/signup", param);
 		au.send(callback);
 		
 		function callback(res){
@@ -166,15 +167,19 @@ function openIconBox(){
 
 function getIcon(){
 	var params = {};
-	var au = new AjaxUtil("/icon/get", params);
+	var au = new AjaxUtil("icon/get",params);
 	au.send(iconCallback);
+	if($("#uiId").prop("disabled")){
+		checkIdOk++;
+	}
 }
-
 function iconCallback(res){
-	var iconStr = "";	
+	var iconStr = "";
+	
 	for(var iconMap of res){
 		if((iconMap.iconNo)%10 == 0){
-			iconStr += "<i class='"+ iconMap.iconCode +"' id="+ iconMap.iconName +" onclick='selectIcon(id)' onmouseover='transitionPulse(id)'></i><br>"			
+			iconStr += "<i class='"+ iconMap.iconCode +"' id="+ iconMap.iconName +" onclick='selectIcon(id)' onmouseover='transitionPulse(id)'></i><br>"
+			
 		}else{
 			iconStr += "<i class='"+ iconMap.iconCode +"' id="+ iconMap.iconName +" onclick='selectIcon(id)' onmouseover='transitionPulse(id)'></i>"
 		}		
@@ -202,6 +207,7 @@ function selectIcon(id){
 function transitionPulse(id){
 	$('#' + id).transition('jiggle');
 	
+	
 }
 
 function checkVal(id){
@@ -216,11 +222,7 @@ function checkVal(id){
 </script>
 <body onload="getIcon()">
 	<div id="content">
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
+		<br> <br> <br> <br> <br>
 		<div class="ui middle aligned center aligned grid">
 			<div class="column">
 				<img class="ui logo image" id="tippleLogo" src="/img/tippler2.png">
@@ -236,7 +238,7 @@ function checkVal(id){
 
 								<div class="ui basic button right icon input"
 									style="width: 50px" id="checkyUp"
-									<c:if test="${id=null}">onclick="idValidation()"</c:if>
+									<c:if test="${id==null}"> onclick="idValidation()"</c:if>
 									onmouseover="chCursor()" onmouseout="reChCursor">
 									<i class="large check icon" id="checkyUpp"></i>
 								</div>
@@ -248,7 +250,7 @@ function checkVal(id){
 							<div class="ui left icon input">
 								<i class="lock icon"></i> <input type="password" id="uiPwd"
 									name="uiPwd" placeholder="Password"
-									<c:if test="${id!=null}">value="password" disabled</c:if>>
+									<c:if test="${email!=null}">value="P@ssw0rd" disabled</c:if>>
 
 							</div>
 						</div>
@@ -256,7 +258,7 @@ function checkVal(id){
 						<div class="field">
 							<div class="ui left icon input">
 								<i class="user circle icon"></i> <input type="text"
-									id="uiNickNameForSignUp" name="uiNickName" placeholder="Nickname">
+									id="uiNickName" name="uiNickName" placeholder="Nickname">
 
 							</div>
 						</div>

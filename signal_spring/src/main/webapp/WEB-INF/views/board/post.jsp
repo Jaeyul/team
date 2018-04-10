@@ -29,13 +29,14 @@
 		}
 	}
 
-	function addComment(bNo, uiNickName) {
+	function addComment(bNo, uiNickName, iconName) {
 		if (uiNickName != null) {
 			var bcText = $("#bcText").val();
 			var param = {
 				bNo : bNo,
 				bcText : bcText,
-				uiNickName : uiNickName
+				uiNickName : uiNickName,
+				iconName : iconName
 			};
 			var ajax = new AjaxUtil("/board/comment", param);
 			ajax.send(reloadCall);
@@ -142,8 +143,8 @@ h1 h2 h3 h4 {
 					<div>
 						<div class="comment">
 							<div class="content">
-								<a class="ui avatar threaded image"> <img
-									src="/img/basic_user.png">
+								<a class="ui avatar threaded image"> <i
+									class="large ${comment.iconName} middle aligned icon"></i>
 								</a> <a class="author">${comment.uiNickName}</a> <span class="date">(${comment.bcRegDate})</span>
 								<c:if test="${loginUserInfoVO.uiNickName == comment.uiNickName}">
 									<button class="ui basic compact mini button"
@@ -165,7 +166,7 @@ h1 h2 h3 h4 {
 						<c:if test="${loginUserInfoVO.uiNickName==null}">disabled</c:if>></textarea>
 				</div>
 				<button id="addComment" class="ui blue labeled submit icon button"
-					onclick="addComment('${boardVO.bNo}','${loginUserInfoVO.uiNickName}')">
+					onclick="addComment('${boardVO.bNo}','${loginUserInfoVO.uiNickName}', '${loginUserInfoVO.iconName}')">
 					<i class="icon edit"></i> 등록
 				</button>
 			</div>
