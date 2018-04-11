@@ -29,16 +29,7 @@
 var files = {};
 var previewIndex = 0;
 var forEachIndex = 0;
-	function updateCall(res) {
-	}
-	function updateBoard(bNo, imgId) {
-		var param = {
-			bNo : bNo,
-			imgId : imgId
-		};
-		var ajax = new AjaxUtil("/board/write");
-		ajax.send(updateCall);
-	}
+	
 	$(document).ready(function() {
 		$('#attach input[type=file]').change(function() {
 			addPreview($(this)); //preview form 추가하기

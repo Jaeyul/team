@@ -1,6 +1,7 @@
 package com.iot.test.service.impl;
 
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
@@ -66,18 +67,22 @@ public class ImageServiceImpl implements ImageService {
 		return im.deleteImgByBNo(bNo);
 	}
 
-	public void updateImg(List<ImageVO> imageVOList, List<MultipartFile> images) {
+	public List<MultipartFile> updateImg(List<ImageVO> imageVOList, List<MultipartFile> images) {
 		for (ImageVO iv : imageVOList) {
 			for (MultipartFile mf : images) {
 				if (iv.getImgName() == mf.getName()) {
+					File imgF = new File(ImageServiceImpl.IMAGE_DIR, iv.getImgId());
+					imgF.delete();
 					imageVOList.remove(iv);
 					images.remove(mf);
+
 				}
 			}
 		}
 		for (ImageVO iv : imageVOList) {
 			im.deleteImgByImgId(iv.getImgId());
 		}
+		return images;
 	}
 
 	/**

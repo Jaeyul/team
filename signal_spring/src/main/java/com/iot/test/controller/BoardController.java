@@ -1,4 +1,4 @@
-	package com.iot.test.controller;
+package com.iot.test.controller;
 
 import java.io.File;
 import java.util.List;
@@ -101,10 +101,10 @@ public class BoardController {
 		String uiNickName = uiv.getUiNickName();
 
 		bv.setUiNickName(uiNickName);
-		//게시판 내용 저장
+		// 게시판 내용 저장
 		int bNo = boardService.insertBoard(bv);
 		log.info("/complete bNo={}", bNo);
-		//이미지 내용 저장
+		// 이미지 내용 저장
 		imageService.insertImg(images, bNo);
 
 		return goBoard(mav);
@@ -119,14 +119,18 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = "/update/complete", method = RequestMethod.POST)
-	public ModelAndView updateComplete(@RequestParam("page") int page, @RequestParam("block") int block,
-			@RequestParam("filedata") List<MultipartFile> images, BoardVO bv, HttpSession hs, ModelAndView mav) {
+	public ModelAndView updateComplete(@RequestParam("filedata") List<MultipartFile> images, BoardVO bv, HttpSession hs,
+			ModelAndView mav) {
 		int bNo = bv.getbNo();
 		List<ImageVO> imageVOList = imageService.selectByBno(bNo);
-		imageService.updateImg(imageVOList, images);
-		imageService.insertImg(images, bNo);
+		List<MultipartFile> updateImages = imageService.updateImg(imageVOList, images);
+		log.info("updateImages={}", updateImages.size());
+		if (updateImages.size() != 0) {
+			log.info("updateImages={}", updateImages);
+			imageService.insertImg(updateImages, bNo);
+		}
 		boardService.updateBoard(bv);
-		return goBoard(mav, page, block);
+		return goBoard(mav);
 	}
 
 	@RequestMapping(value = "/comment", method = RequestMethod.POST)

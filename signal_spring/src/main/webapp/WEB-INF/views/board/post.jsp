@@ -97,24 +97,26 @@ h1 h2 h3 h4 {
 }
 </style>
 <body>
-	<div id='content' class="ui segment">
-		<h4 id="bNo" style='font-family: Fjalla one;'
-			class="title ui left floated purple header">번호 : ${boardVO.bNo}</h4>
-		<h4 style='font-family: Fjalla one;'
-			class="title ui left floated header">제목 : ${boardVO.bName}</h4>
-		<h4 class="ui right floated header">
-			<i class="user circle icon"></i>글쓴이 : ${boardVO.uiNickName}
-		</h4>
-		<h4 class="ui right floated header">조회수 : ${boardVO.bHit}</h4>
+	<div id='content' class="ui small segment" style="width: 70%; margin:100 0 0 280">
+		<div class="segment">
+			<h4 id="bNo" style='font-family: Fjalla one;'
+				class="title ui left floated purple header">번호 : ${boardVO.bNo}</h4>
+			<h3 style='font-family: Fjalla one;'
+				class="title ui left floated header">제목 : ${boardVO.bName}</h3>
+			<h4 class="ui right floated header">
+				<i class="user circle icon"></i>글쓴이 : ${boardVO.uiNickName}
+			</h4>
+			<h4 class="ui right floated header">조회수 : ${boardVO.bHit}</h4>
+		</div>
 		<c:if test="${loginUserInfoVO.uiNickName == boardVO.uiNickName}">
 			<button id="delete"
 				class="title ui right floated negative labeled button icon"
-				onclick="deleteBoard('${boardVO.bNo}')">
+				onclick="deleteBoard('${boardVO.bNo}')" style="margin-top: -5">
 				<i class="trash alternate icon"></i>삭제
 			</button>
 			<button id="update"
 				class="ui right floated basic labeled top attached button icon"
-				onclick="goUpdateBoard()">
+				onclick="goUpdateBoard()" style="margin-top: -5">
 				<i class="edit outline alternate icon"></i>수정
 			</button>
 		</c:if>

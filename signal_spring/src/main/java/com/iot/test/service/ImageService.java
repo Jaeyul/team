@@ -17,7 +17,7 @@ public interface ImageService {
 
 	public int deleteImg(int imgNo);
 
-	public void updateImg(List<ImageVO> imageVOList, List<MultipartFile> images);
+	public List<MultipartFile> updateImg(List<ImageVO> imageVOList, List<MultipartFile> images);
 
 
 	public ImageVO save(MultipartFile multipartFile, int bNo);
