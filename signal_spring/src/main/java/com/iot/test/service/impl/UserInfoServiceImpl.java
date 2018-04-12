@@ -30,7 +30,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 		rMap.put("msg", "로그인에 실패하셨습니다.");
 		rMap.put("biz", false);
 		if (ui.getUiPwd() == null) {
-			userVO = uim.selectUserById(ui.getUiId());
+			userVO = uim.selectUserById(ui);
 		} else {
 			userVO = uim.selectUserForLogin(ui);
 		}

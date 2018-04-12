@@ -22,35 +22,67 @@ function accept(id){
 		}
 	}
 }
+
+function reject(id){
+	id = id.substr(6);
+	var param = {uiId:id};
+	var au = new AjaxUtil("/friends/reject", param);
+	au.send(rejectCallback);
+	function rejectCallback(res){
+		alert(res.msg);
+		if(res.biz){			
+			location.href="/myfriends";
+		}
+	}
+}
+
+function remove(id){
+	id = id.substr(6);	
+	var param = {fId:id};
+	var au = new AjaxUtil("/friends/remove", param);
+	au.send(removeCallback);
+	function removeCallback(res){
+		alert(res.msg);
+		if(res.biz){			
+			location.href="/myfriends";
+		}
+	}
+	
+}
+
+
+
+
+function popUpFunc(){
+	$('.window.close.icon.link')
+	  .popup();	
+}
+
 </script>
-<body>
+<body onload="popUpFunc()">
 <div id="content">
 <br><br><br><br><br><br>
 <div class="ui link cards" style="width:70%; float:left">
-<c:forEach items="${fList}" var="fMap">	
+<c:forEach items="${fList}" var="fMap">
+	
 	<div class="card" style="width:250px">
-	    <div class="image">
-	    </div>
-    <div class="content">
-      <div class="header">${fMap.fName}</div>
-      <div class="meta">
-        <a>${fMap.fId}</a>
-      </div>
-      <div class="description">
-        ${fMap.fComment}
-      </div>
+	<div class="content">
+	<div class="right floated meta" id="delete${fMap.fId }" onclick="remove(id)">
+		<i class="window close icon link" data-content="${fMap.fId }님을 삭제하겠습니까?" data-variation="width"></i>
+	</div>
+	<br>    
+	<div class="header">${fMap.fName}</div>
+	<div class="meta">
+		<a>${fMap.fId}</a>
+	</div>
+	<div class="description">
+		${fMap.fComment}
+	</div>
     </div>
     <div class="extra content">
-      <span class="right floated">      	  
-		<div class="ui icon button" data-content="친구를 삭제하겠습니까?">
-			<i class="window close icon"></i>
-		</div>
-      </span>
-      <span>
-      </span>
     </div>
   </div>
-</c:forEach>  
+</c:forEach>
 </div>
 
 
@@ -63,7 +95,7 @@ function accept(id){
 		<p>${callMap.uiId }님께서 친구요청을 하셨습니다.</p>	
 		<p>수락하시겠습니까?</p>	
 		<button class="ui blue button" id="${callMap.uiId }" onclick="accept(id)">수락</button>
-		<button class="ui button">거절</button>
+		<button class="ui button" id="reject${callMap.uiId }" onclick="reject(id)">거절</button>
 	</div>
 	</c:when>	
 	<c:otherwise>		
@@ -73,12 +105,5 @@ function accept(id){
 
 </div>
 </div>
-
-
-
-
-
-
-
 </body>
 </html>

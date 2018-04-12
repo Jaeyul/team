@@ -1,9 +1,9 @@
 package com.iot.test.mapper;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -22,6 +22,11 @@ public interface FriendsMapper {
 	
 	@Insert("insert into Friends(fName,fId,uiId) values(#{fName},#{fId},#{uiId})")
 	int insertFriends(Map<String,Object> fInfoMap);
+	
+	@Delete("delete from Friends where fId=#{fId} and uiId=#{uiId}")
+	int deleteFriends(Map<String,Object> fIdMap);
+	
+	
 	
 
 }

@@ -113,9 +113,8 @@ function alramId(id){
 	}
 }
 
-function checkAdd(res){
-	
-	alert(res);
+function checkAdd(res){	
+	alert(res.msg);
 }
 
 

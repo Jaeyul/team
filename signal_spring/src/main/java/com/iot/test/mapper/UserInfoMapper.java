@@ -28,8 +28,8 @@ public interface UserInfoMapper {
 	@Select("select uiId from user_info where uiId = #{uiv.uiId}")
 	UserInfoVO selectUiId(@Param("uiv") UserInfoVO uiv);
 
-	@Select("select uiNo,uiId,uiPwd,uiNickName,uiEmail,uiRegDate,iconName from user_info where uiId = #{uiId}")
-	UserInfoVO selectUserById(@Param("uiId") String uiId);
+	@Select("select uiNo,uiId,uiPwd,uiNickName,uiEmail,uiRegDate,iconName from user_info where uiId = #{uiv.uiId}")
+	UserInfoVO selectUserById(@Param("uiv") UserInfoVO uiv);
 
 	@Insert("insert into user_info(uiId,uiPwd,uiNickName,uiEmail,uiRegdate,iconName) "
 			+ "values(#{uiId},#{uiPwd},#{uiNickName},#{uiEmail},current_timestamp,#{iconName})")
