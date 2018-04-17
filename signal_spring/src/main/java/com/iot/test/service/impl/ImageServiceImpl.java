@@ -67,22 +67,22 @@ public class ImageServiceImpl implements ImageService {
 		return im.deleteImgByBNo(bNo);
 	}
 
-	public List<MultipartFile> updateImg(List<ImageVO> imageVOList, List<MultipartFile> images) {
-		for (ImageVO iv : imageVOList) {
-			for (MultipartFile mf : images) {
-				if (iv.getImgName() == mf.getName()) {
-					File imgF = new File(ImageServiceImpl.IMAGE_DIR, iv.getImgId());
-					imgF.delete();
-					imageVOList.remove(iv);
-					images.remove(mf);
+	public void updateImg(List<ImageVO> imageVOList, List<Integer> imgNoList) {
+		if (imageVOList != null) {
+			for (ImageVO iv : imageVOList) {
+				for (Integer imgNo : imgNoList) {
+					if (iv.getImgNo() == imgNo) {
+						imageVOList.remove(iv);
 
+					}
 				}
 			}
+			for (ImageVO iv : imageVOList) {
+				File imgF = new File(ImageServiceImpl.IMAGE_DIR, iv.getImgId());
+				imgF.delete();
+				im.deleteImgByImgId(iv.getImgId());
+			}
 		}
-		for (ImageVO iv : imageVOList) {
-			im.deleteImgByImgId(iv.getImgId());
-		}
-		return images;
 	}
 
 	/**

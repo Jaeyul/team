@@ -97,7 +97,7 @@ h1 h2 h3 h4 {
 }
 </style>
 <body>
-	<div id='content' class="ui small segment" style="width: 70%; margin:100 0 0 280">
+	<div id='content' class="ui small segment" style="width: 80%; margin:100 0 0 180">
 		<div class="segment">
 			<h4 id="bNo" style='font-family: Fjalla one;'
 				class="title ui left floated purple header">번호 : ${boardVO.bNo}</h4>
@@ -125,7 +125,7 @@ h1 h2 h3 h4 {
 
 		<c:forEach items="${imageVOList}" var="imageVO">
 			<img class="ui spaced image"
-				src="file:/data/web_upload_img/${imageVO.imgId}">
+				src="file://data/web_upload_img/${imageVO.imgId}">
 		</c:forEach>
 
 		<p>${boardVO.bContent}</p>

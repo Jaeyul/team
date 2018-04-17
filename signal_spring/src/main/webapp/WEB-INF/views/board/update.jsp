@@ -26,10 +26,10 @@
 }
 </style>
 <script>
-var files = {};
-var previewIndex = 0;
-var forEachIndex = 0;
-	
+	var files = {};
+	var previewIndex = 0;
+	var forEachIndex = 0;
+
 	$(document).ready(function() {
 		$('#attach input[type=file]').change(function() {
 			addPreview($(this)); //preview form 추가하기
@@ -70,13 +70,12 @@ var forEachIndex = 0;
 
 			}
 		} else
-			alert("Please upload less than 6 imgs"); // 첨부클릭 후 취소시의 대응책은 세우지 않았다.
+			alert("6개를 초과한 이미지를 올릴수는 없습니다."); // 첨부클릭 후 취소시의 대응책은 세우지 않았다.
 	}
 
 	//preview 영역에서 삭제 버튼 클릭시 해당 미리보기이미지 영역 삭제
 	function deletePreview(obj) {
 		var imgNum = obj.attributes['value'].value;
-		alert(imgNum);
 		delete files[imgNum];
 		$(".preview-box[value=" + imgNum + "]").remove();
 	}
@@ -89,17 +88,27 @@ var forEachIndex = 0;
 		var fileNameExtension = fileName.toLowerCase().substring(
 				fileNameExtensionIndex, fileName.length);
 		if (!((fileNameExtension === 'jpg') || (fileNameExtension === 'gif') || (fileNameExtension === 'png'))) {
-			alert('Sorry, Only jpg, gif, png can be uploaded.');
+			alert('오로지 jpg, gif, png의 형식의 파일만 업로드 가능합니다. ');
 			return true;
-		} else if (size > 200000) {
-			alert('Sorry, The img size must be less than 200KB');
+		} else if (size > 2000000) {
+			alert('크기가 2MB 미만의 이미지만 업로드 가능합니다. ');
 			return true;
 		} else if (count > 5) {
-			alert("Please upload less than 6 imgs");
+			alert("6개를 초과한 이미지를 올릴수는 없습니다.");
 			return true;
 		} else {
 			return false;
 		}
+	}
+	
+	function updateComplete(){
+		var imgNoList = [];
+		var priviewNo = $("#priviewNo")
+		console.log(inputList);
+		for(var input of priviewNo){
+			imgNoList.push(input.value);
+		}
+		$("#imgNoList").val(imgNoList);
 	}
 </script>
 <body>
@@ -129,16 +138,22 @@ var forEachIndex = 0;
 			<br>
 			<!-- 미리보기 영역 -->
 			<div id="preview" class="content"></div>
-			<c:forEach items="${imageVOList}"  var="imageVO" varStatus="status">
+			<c:forEach items="${imageVOList}" var="imageVO" varStatus="status">
 				<div class="preview-box" value="${status.index}">
-					<img class="thumbnail" src="/web/upload_images/${imageVO.imgId}" />
+					<img class="thumbnail"
+						src="file://data/web_upload_img/${imageVO.imgId}" />
 					<p class="ui grey inverted header">${imageVO.imgName}</p>
 					<a class="ui negative button" href="\#" value="${status.index}"
 						onclick="deletePreview(this)"> Delete </a>
 				</div>
-				</c:forEach>
-			<input type="hidden" value="${param.bNo}" /> <br>
-			<button class="ui primary button">Save</button>
+				<input id="previewNo" value="${imageVO.imgNo}"
+					style="display: none">
+			</c:forEach>
+			<input id="imgNoList" name="imgNoList" value="${imageVO.imgNo}"
+					style="display: none">
+			style="display: none"> <input type="hidden" name="bNo"
+				value="${param.bNo}" />
+			<button class="ui purple button" onclick="updateComplete()">Save</button>
 		</form>
 	</div>
 </body>

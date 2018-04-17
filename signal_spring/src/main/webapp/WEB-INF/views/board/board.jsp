@@ -142,7 +142,7 @@
 			name='hSessionId' type='hidden' />
 	</form>
 
-	<form id='pageForm' style="display: none">
+	<form id='pageForm' action='/board' style="display: none">
 		<input id='page' name='page' type='hidden'></input> <input id='block'
 			name='block' type='hidden'></input>
 	</form>

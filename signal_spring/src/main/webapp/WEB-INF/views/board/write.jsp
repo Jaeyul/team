@@ -61,6 +61,7 @@
 												+ imgNum
 												+ "\" onclick=\"deletePreview(this)\">"
 												+ "Delete" + "</a>" + "</div>");
+						console.log(img.target.result);
 						files[imgNum] = file;
 					}
 				};
@@ -68,7 +69,7 @@
 
 			}
 		} else
-			alert("Please upload less than 6 imgs"); // 첨부클릭 후 취소시의 대응책은 세우지 않았다.
+			alert("이미지는 6개까지 업로드 할 수 있습니다."); // 첨부클릭 후 취소시의 대응책은 세우지 않았다.
 	}
 
 	//preview 영역에서 삭제 버튼 클릭시 해당 미리보기이미지 영역 삭제
@@ -86,13 +87,13 @@
 		var fileNameExtension = fileName.toLowerCase().substring(
 				fileNameExtensionIndex, fileName.length);
 		if (!((fileNameExtension === 'jpg') || (fileNameExtension === 'gif') || (fileNameExtension === 'png'))) {
-			alert('Sorry, Only jpg, gif, png can be uploaded.');
+			alert('jpg, gif, png의 형식의 파일만 업로드 할 수 있습니다.');
 			return true;
 		} else if (size > 2000000) {
-			alert('Sorry, The img size must be less than 2MB');
+			alert('이미지 용량은 2MB를 넘을 수 없습니다.');
 			return true;
 		} else if (count > 5) {
-			alert("Please upload less than 6 imgs");
+			alert("이미지는 6개까지 업로드 할 수 있습니다.");
 			return true;
 		} else {
 			return false;

@@ -119,15 +119,15 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = "/update/complete", method = RequestMethod.POST)
-	public ModelAndView updateComplete(@RequestParam("filedata") List<MultipartFile> images, BoardVO bv, HttpSession hs,
-			ModelAndView mav) {
+	public ModelAndView updateComplete(@RequestParam("filedata") List<MultipartFile> images,
+			@RequestParam("imgNoList") List<Integer> imgNoList, BoardVO bv, HttpSession hs, ModelAndView mav) {
 		int bNo = bv.getbNo();
 		List<ImageVO> imageVOList = imageService.selectByBno(bNo);
-		List<MultipartFile> updateImages = imageService.updateImg(imageVOList, images);
-		log.info("updateImages={}", updateImages.size());
-		if (updateImages.size() != 0) {
-			log.info("updateImages={}", updateImages);
-			imageService.insertImg(updateImages, bNo);
+		if (imgNoList.size() != 0 && imageVOList.size() != 0) {
+			imageService.updateImg(imageVOList, imgNoList);
+		}
+		if (images.size() > 1) {
+			imageService.insertImg(images, bNo);
 		}
 		boardService.updateBoard(bv);
 		return goBoard(mav);
