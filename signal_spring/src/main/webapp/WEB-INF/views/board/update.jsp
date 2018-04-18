@@ -103,9 +103,10 @@
 	
 	function updateComplete(){
 		var imgNoList = [];
-		var priviewNo = $("#priviewNo")
-		console.log(inputList);
+		var priviewNo = $("#previewNo")
+		console.log(priviewNo);
 		for(var input of priviewNo){
+			console.log(input.value);
 			imgNoList.push(input.value);
 		}
 		$("#imgNoList").val(imgNoList);
@@ -141,17 +142,15 @@
 			<c:forEach items="${imageVOList}" var="imageVO" varStatus="status">
 				<div class="preview-box" value="${status.index}">
 					<img class="thumbnail"
-						src="file://data/web_upload_img/${imageVO.imgId}" />
+						src="src/main/resources/static/web/upload_images\\${imageVO.imgId}" />
 					<p class="ui grey inverted header">${imageVO.imgName}</p>
 					<a class="ui negative button" href="\#" value="${status.index}"
 						onclick="deletePreview(this)"> Delete </a>
 				</div>
-				<input id="previewNo" value="${imageVO.imgNo}"
-					style="display: none">
+				<input id="previewNo" value="${imageVO.imgNo}" style="display: none">
 			</c:forEach>
 			<input id="imgNoList" name="imgNoList" value="${imageVO.imgNo}"
-					style="display: none">
-			style="display: none"> <input type="hidden" name="bNo"
+				style="display: none"><input type="hidden" name="bNo"
 				value="${param.bNo}" />
 			<button class="ui purple button" onclick="updateComplete()">Save</button>
 		</form>

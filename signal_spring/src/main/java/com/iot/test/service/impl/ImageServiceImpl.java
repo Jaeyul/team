@@ -4,19 +4,26 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.iot.test.controller.BoardController;
 import com.iot.test.mapper.ImgMapper;
 import com.iot.test.service.ImageService;
 import com.iot.test.vo.ImageVO;
 
 @Service
 public class ImageServiceImpl implements ImageService {
+	
+	private static final Logger log = LoggerFactory.getLogger(ImageServiceImpl.class);
+	
 	@Autowired
 	ImgMapper im;
 
@@ -38,7 +45,7 @@ public class ImageServiceImpl implements ImageService {
 	@Autowired
 	BoardRecommandServiceImpl boardRecommandService;
 
-	public static final String IMAGE_DIR = "/data/web_upload_img/";
+	public static final String IMAGE_DIR = "src/main/resources/static/web/upload_images\\";
 
 	@Override
 	public List<ImageVO> ImgList() {
@@ -68,20 +75,19 @@ public class ImageServiceImpl implements ImageService {
 	}
 
 	public void updateImg(List<ImageVO> imageVOList, List<Integer> imgNoList) {
-		if (imageVOList != null) {
-			for (ImageVO iv : imageVOList) {
-				for (Integer imgNo : imgNoList) {
-					if (iv.getImgNo() == imgNo) {
-						imageVOList.remove(iv);
-
-					}
+		List<ImageVO> refineList = imageVOList;
+		log.info("imageVOList={}",imageVOList);
+		for (ImageVO iv : imageVOList) {
+			for (Integer imgNo : imgNoList) {
+				if (iv.getImgNo() == imgNo) {
+					refineList.remove(iv);
 				}
 			}
-			for (ImageVO iv : imageVOList) {
-				File imgF = new File(ImageServiceImpl.IMAGE_DIR, iv.getImgId());
-				imgF.delete();
-				im.deleteImgByImgId(iv.getImgId());
-			}
+		}
+		for (ImageVO iv : refineList) {
+			File imgF = new File(ImageServiceImpl.IMAGE_DIR, iv.getImgId());
+			imgF.delete();
+			im.deleteImgByImgId(iv.getImgId());
 		}
 	}
 

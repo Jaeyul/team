@@ -30,16 +30,23 @@
 	}
 
 	function addComment(bNo, uiNickName, iconName) {
+		var bcText = $("#bcText").val();
 		if (uiNickName != null) {
-			var bcText = $("#bcText").val();
+			if(bcText){
 			var param = {
 				bNo : bNo,
 				bcText : bcText,
 				uiNickName : uiNickName,
 				iconName : iconName
-			};
+			}
+			}else{
+				alert("댓글을 입력하세요");
+				return;
+			}
 			var ajax = new AjaxUtil("/board/comment", param);
 			ajax.send(reloadCall);
+		}else{
+			alert("로그인이 필요합니다!");
 		}
 	}
 
@@ -125,7 +132,7 @@ h1 h2 h3 h4 {
 
 		<c:forEach items="${imageVOList}" var="imageVO">
 			<img class="ui spaced image"
-				src="file://data/web_upload_img/${imageVO.imgId}">
+				src="/web/upload_images/${imageVO.imgId}">
 		</c:forEach>
 
 		<p>${boardVO.bContent}</p>

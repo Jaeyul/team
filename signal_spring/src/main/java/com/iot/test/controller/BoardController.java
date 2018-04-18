@@ -83,8 +83,6 @@ public class BoardController {
 	@RequestMapping
 	public ModelAndView boardListPage(@RequestParam("page") int page, @RequestParam("block") int block,
 			ModelAndView mav) {
-		List<BoardVO> boardList = boardService.boardList(page);
-		log.info("boardList={}", boardList);
 		return goBoard(mav, page, block);
 	}
 
@@ -122,13 +120,14 @@ public class BoardController {
 	public ModelAndView updateComplete(@RequestParam("filedata") List<MultipartFile> images,
 			@RequestParam("imgNoList") List<Integer> imgNoList, BoardVO bv, HttpSession hs, ModelAndView mav) {
 		int bNo = bv.getbNo();
+		log.info("images={}", images);
+		log.info("imgNoList={}", imgNoList);
 		List<ImageVO> imageVOList = imageService.selectByBno(bNo);
+		log.info("imageVOList={}", imageVOList);
 		if (imgNoList.size() != 0 && imageVOList.size() != 0) {
 			imageService.updateImg(imageVOList, imgNoList);
 		}
-		if (images.size() > 1) {
-			imageService.insertImg(images, bNo);
-		}
+		imageService.insertImg(images, bNo);
 		boardService.updateBoard(bv);
 		return goBoard(mav);
 	}
