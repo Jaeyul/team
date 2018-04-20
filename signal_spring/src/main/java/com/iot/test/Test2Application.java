@@ -4,6 +4,12 @@ import org.kurento.client.KurentoClient;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
@@ -14,7 +20,7 @@ import com.iot.test.groupcall.UserRegistry;
 
 @SpringBootApplication
 @EnableWebSocket
-public class Test2Application implements WebSocketConfigurer{
+public class Test2Application implements WebSocketConfigurer {
 
 	@Bean
 	public UserRegistry registry() {
@@ -39,6 +45,7 @@ public class Test2Application implements WebSocketConfigurer{
 	public static void main(String[] args) {
 		SpringApplication.run(Test2Application.class, args);
 	}
+		
 
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
