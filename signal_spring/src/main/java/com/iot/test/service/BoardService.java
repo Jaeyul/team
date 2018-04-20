@@ -10,8 +10,12 @@ public interface BoardService {
 	public List<BoardVO> searchBoardList(BoardVO bv, int page);
 
 	public int selectBoardCount();
+	
+	public int selectByNickCount(String uiNickName);
 
 	public BoardVO selectByNo(Integer bNo);
+
+	public List<BoardVO> selectByNick(String uiNickName, int page);
 
 	public int insertBoard(BoardVO bv);
 

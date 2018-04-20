@@ -108,6 +108,7 @@ public class BoardController {
 		return goBoard(mav);
 	}
 
+	// 게시판 수정화면으로 이동
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public ModelAndView updateBoard(int bNo, ModelAndView mav) {
 		List<ImageVO> imageVOList = imageService.selectByBno(bNo);
@@ -116,17 +117,20 @@ public class BoardController {
 		return mav;
 	}
 
+	// 게시판 수정 완료
 	@RequestMapping(value = "/update/complete", method = RequestMethod.POST)
 	public ModelAndView updateComplete(@RequestParam("filedata") List<MultipartFile> images,
 			@RequestParam("imgNoList") List<Integer> imgNoList, BoardVO bv, HttpSession hs, ModelAndView mav) {
 		int bNo = bv.getbNo();
-		log.info("images={}", images);
-		log.info("imgNoList={}", imgNoList);
+		// 게시판 이미지 리스트 받아옴
 		List<ImageVO> imageVOList = imageService.selectByBno(bNo);
-		log.info("imageVOList={}", imageVOList);
+		// 기존에 남아있는 이미지를 비교 하여 있으면 냅두고 없으면 지움 (남아있는게 없다면 초기화)
 		if (imgNoList.size() != 0 && imageVOList.size() != 0) {
 			imageService.updateImg(imageVOList, imgNoList);
+		} else {
+			imageService.deleteImg(bNo);
 		}
+		// 추가한 이미지를 삽입, 저장
 		imageService.insertImg(images, bNo);
 		boardService.updateBoard(bv);
 		return goBoard(mav);
@@ -181,6 +185,26 @@ public class BoardController {
 			mav.addObject("loginUserInfoVO", uiv);
 		}
 		mav.setViewName("board/post");
+		return mav;
+	}
+
+	@RequestMapping(value = "/mypost", method = RequestMethod.GET)
+	public ModelAndView boardMyPage(@RequestParam("page") int page, @RequestParam("block") int block, ModelAndView mav,
+			HttpSession hs) {
+		UserInfoVO ui = (UserInfoVO) hs.getAttribute("user");
+		String uiNickName = ui.getUiNickName();
+		int myPostCount = boardService.selectByNickCount(uiNickName);
+		if (myPostCount == 0) {
+			block = 0;
+		}
+		Paging p = new Paging(myPostCount);
+		p.setCurrentPage(page);
+		p.setCurrentBlock(block);
+		List<BoardVO> boardList = boardService.selectByNick(uiNickName, (page - 1) * 20);
+		mav.addObject("boardList", boardList);
+		mav.addObject("page", p);
+		mav.addObject("myPost", true);
+		mav.setViewName("board/board");
 		return mav;
 	}
 

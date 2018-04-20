@@ -31,6 +31,12 @@ public class BoardServiceImpl implements BoardService {
 
 		return bm.searchBoardList(bv, page);
 	}
+	
+	@Override
+	public List<BoardVO> selectByNick(String uiNickName, int page) {
+		
+		return bm.selectByNick(uiNickName,page);
+	}
 
 	@Override
 	public BoardVO selectByNo(Integer bNo) {
@@ -78,6 +84,12 @@ public class BoardServiceImpl implements BoardService {
 	public int updateBoardCCM(int bNo) {
 
 		return bm.updateBoardCCM(bNo);
+	}
+
+	@Override
+	public int selectByNickCount(String uiNickName) {
+		
+		return bm.selectByNickCount(uiNickName);
 	}
 
 }

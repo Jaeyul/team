@@ -113,8 +113,7 @@ function register() {
 			success : function please(res) {
 				name = res;
 				var room = document.getElementById("rName").value;
-				document.getElementById('room-header').innerText = 'ROOM : '
-						+ room;				
+				document.getElementById('room-header').innerHTML += "<h3 class='ui dividing inverted header'>room</h3>";				
 				document.getElementById('room').style.display = 'block';
 				var message = {
 					id : 'joinRoom',

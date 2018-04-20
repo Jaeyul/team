@@ -32,6 +32,16 @@
 		$('#attach input[type=file]').change(function() {
 			addPreview($(this)); //preview form 추가하기
 		})
+
+		$("#saveButton").on("click", function() {
+			if (!$("#bName").val()) {
+				$("#saveButton").attr("type", "button");
+				alert("제목을 작성해주세요");
+			} else if (!$("#bContent").val()) {
+				$("#saveButton").attr("type", "button");
+				alert("내용을 작성해주세요");
+			}
+		})
 	});
 	// image preview 기능 구현
 	// input = file object[]
@@ -48,7 +58,7 @@
 						return;
 					} else {
 						//div id="preview" 내에 동적코드추가.
-						//이 부분을 수정해서 이미지 링크 외 파일명, 사이즈 등의 부가설명을 할 수 있을 것이다.
+						//이 부분을 수정해서 이미지 링크 외 파일명, 사이즈 등의 부가설명을 할 수 있을 것입니다
 						var imgNum = previewIndex++;
 						$("#preview")
 								.append(
@@ -69,7 +79,7 @@
 
 			}
 		} else
-			alert("이미지는 6개까지 업로드 할 수 있습니다."); // 첨부클릭 후 취소시의 대응책은 세우지 않았다.
+			alert("이미지는 6개까지 업로드 할 수 있습니다.");
 	}
 
 	//preview 영역에서 삭제 버튼 클릭시 해당 미리보기이미지 영역 삭제
@@ -108,12 +118,12 @@
 
 			<div class="field">
 				<h3 class="ui dividing inverted header">Title</h3>
-				<input name="bName" type="text" class="ui input">
+				<input id="bName" name="bName" type="text" class="ui input">
 			</div>
 
 			<div class="field">
 				<h3 class="ui dividing inverted header">Text</h3>
-				<textarea name="bContent"></textarea>
+				<textarea id="bContent" name="bContent"></textarea>
 			</div>
 
 			<!-- 첨부 버튼 -->
@@ -128,7 +138,7 @@
 			<!-- 미리보기 영역 -->
 			<div id="preview" class="content"></div>
 			<div>
-				<button class="ui purple button">Save</button>
+				<button id="saveButton" class="ui purple button">Save</button>
 			</div>
 		</form>
 	</div>

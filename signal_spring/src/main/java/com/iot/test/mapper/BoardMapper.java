@@ -17,11 +17,17 @@ public interface BoardMapper {
 	@Select("select bNo, bName, bContent, bRegDate, uiNickName, bHit, bRecom, bCommentCount from bulletin_board order by bNo desc limit #{page} , 20")
 	public List<BoardVO> boardList(@Param("page") int page);
 
-	@Select("select bNo, bName, bContent, bRegDate, uiNickName, bHit, bRecom, bCommentCount from bulletin_board where bName = #{bv.bName} or bContent = #{bv.bContent} or uiNickName = #{bv.uiNickName}")
+	@Select("select bNo, bName, bContent, bRegDate, uiNickName, bHit, bRecom, bCommentCount from bulletin_board where bName = #{bv.bName} or bContent = #{bv.bContent} or uiNickName = #{bv.uiNickName} order by bNo desc limit #{page} , 20")
 	public List<BoardVO> searchBoardList(@Param("bv") BoardVO bv, @Param("page") int page);
 
 	@Select("select bNo, bName, bContent, bRegDate, uiNickName, bHit, bRecom, bCommentCount from bulletin_board where bNo = #{bNo}")
 	public BoardVO selectByNo(@Param("bNo") Integer bNo);
+
+	@Select("select bNo, bName, bContent, bRegDate, uiNickName, bHit, bRecom, bCommentCount from bulletin_board where uiNickName = #{uiNickName} order by bNo desc limit #{page} , 20")
+	public List<BoardVO> selectByNick(@Param("uiNickName") String uiNickName, @Param("page") int page);
+
+	@Select("select count(1) from bulletin_board where uiNickName = #{uiNickName}")
+	public Integer selectByNickCount(@Param("uiNickName") String uiNickName);
 
 	@Select("select count(1) from bulletin_board;")
 	public Integer seletBoardCount();

@@ -21,9 +21,9 @@ import com.iot.test.vo.ImageVO;
 
 @Service
 public class ImageServiceImpl implements ImageService {
-	
+
 	private static final Logger log = LoggerFactory.getLogger(ImageServiceImpl.class);
-	
+
 	@Autowired
 	ImgMapper im;
 
@@ -63,8 +63,10 @@ public class ImageServiceImpl implements ImageService {
 	public void insertImg(List<MultipartFile> images, int bNo) {
 
 		for (MultipartFile img : images) {
-			ImageVO ImageVO = save(img, bNo);
-			im.insertImg(ImageVO);
+			if (img.getSize() != 0) {
+				ImageVO ImageVO = save(img, bNo);
+				im.insertImg(ImageVO);
+			}
 		}
 	}
 
@@ -75,16 +77,16 @@ public class ImageServiceImpl implements ImageService {
 	}
 
 	public void updateImg(List<ImageVO> imageVOList, List<Integer> imgNoList) {
-		List<ImageVO> refineList = imageVOList;
-		log.info("imageVOList={}",imageVOList);
-		for (ImageVO iv : imageVOList) {
+		List<ImageVO> refinedList = imageVOList;
+		for (int i = 0; i < imageVOList.size(); i++) {
+			ImageVO iv = imageVOList.get(i);
 			for (Integer imgNo : imgNoList) {
 				if (iv.getImgNo() == imgNo) {
-					refineList.remove(iv);
+					refinedList.remove(i);
 				}
 			}
 		}
-		for (ImageVO iv : refineList) {
+		for (ImageVO iv : refinedList) {
 			File imgF = new File(ImageServiceImpl.IMAGE_DIR, iv.getImgId());
 			imgF.delete();
 			im.deleteImgByImgId(iv.getImgId());
@@ -92,7 +94,7 @@ public class ImageServiceImpl implements ImageService {
 	}
 
 	/**
-	 * Multipart File을 파일로 저장하고 DB(를 빙자한 맵)에 업로드 파일 정보 저장, 실패하는 경우 null리
+	 * Multipart File을 파일로 저장하고 DB(를 빙자한 맵)에 업로드 파일 정보 저장
 	 */
 	public ImageVO save(MultipartFile multipartFile, int bNo) {
 		// UUID로 유일할 것 같은 값 생성.. 낮은 확률로 중복 가능성이 있음
@@ -101,7 +103,6 @@ public class ImageServiceImpl implements ImageService {
 		try {
 			imgId = saveToFile(multipartFile, genId);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		ImageVO iv = new ImageVO();

@@ -9,11 +9,11 @@
 </head>
 
 <%
-String uri = request.getRequestURI();
-UserInfoVO user = (UserInfoVO)session.getAttribute("user");
-if(uri.indexOf("login")==-1 && uri.indexOf("signup")==-1 && user==null){
-	response.sendRedirect("/login");
-}
+	String uri = request.getRequestURI();
+	UserInfoVO user = (UserInfoVO) session.getAttribute("user");
+	if (uri.indexOf("login") == -1 && uri.indexOf("signup") == -1 && user == null) {
+		response.sendRedirect("/login");
+	}
 %>
 
 
@@ -199,8 +199,12 @@ function matchingCallback(res){
 	
 }
 
-function movePage(){		
+function moveMyFriends(){		
 	location.href="/myfriends";
+}
+
+function moveMyPost(){
+	location.href="/board/mypost?page=1&block=1";
 }
 
 
@@ -211,116 +215,128 @@ function movePage(){
 	<!-- Sidebar Menu -->
 	<div id="headerMenu" class="ui vertical inverted sidebar menu">
 		<a href="/home" class="item">Home</a> <a href="/map" class="item">Map</a>
-		<a href="/random" class="item">Random</a> <a href="/board?page=1&block=1"
-			class="item">Board</a> <a href="${(Log=='login')? '/login':'/user/logout'}" class="item">${(Log=='login')?'Login':'Logout'}</a> <a
-			href="/signup" class="item">Signup</a>
+		<a href="/random" class="item">Random</a> <a
+			href="/board?page=1&block=1" class="item">Board</a> <a
+			href="${(Log=='login')? '/login':'/user/logout'}" class="item">${(Log=='login')?'Login':'Logout'}</a>
+		<a href="/signup" class="item">Signup</a>
 	</div>
 	<!-- Page Contents -->
 	<div class='pusher'>
 		<div id="headerContent"
 			class="ui inverted vertical masthead center aligned segment"
-			style="background-image: url('/img/main4.jpg'); background-position:center; background-repeat:no-repeat; background-size:cover">
+			style="background-image: url('/img/main4.jpg'); background-position: center; background-repeat: no-repeat; background-size: cover">
 			<div class="ui container">
 				<div id='headerMenu'
 					class="ui large secondary inverted pointing menu"
 					style="border-style: none">
 					<a class="toc item"> <i class="sidebar icon"></i>
 					</a> <a href="/home" class="item">Home</a> <a href="/map" class="item">Map</a>
-					<a class="item" onclick="openRandom()" style="display:${(Log=='login')?'none':''};">Random</a> <a href="/board?page=1&block=1"
-						class="item">Board</a>
+					<a class="item" onclick="openRandom()"
+						style="display:${(Log=='login')?'none':''};">Random</a> <a
+						href="/board?page=1&block=1" class="item">Board</a>
 					<div class="right item">
-						<a href="${(Log=='login')? '/login':'/user/logout'}" class="ui inverted button">${(Log=='login')?'Log in':'Log out'}</a> 
-						<a href="/signup" class="ui inverted button" style="display:${(Log=='login')?'':'none'}">Sign up</a>	
-												
-						<div id="myPage" class="ui inverted dropdown button" style="display:${(Log=='login')?'none':''};">
+						<a href="${(Log=='login')? '/login':'/user/logout'}"
+							class="ui inverted button">${(Log=='login')?'Log in':'Log out'}</a>
+						<a href="/signup" class="ui inverted button"
+							style="display:${(Log=='login')?'':'none'}">Sign up</a>
+
+						<div id="myPage" class="ui inverted dropdown button"
+							style="display:${(Log=='login')?'none':''};">
 							<div class="text" id="myPageBt">My Page</div>
 							<div class="menu" id="dropBt">
-								<div class="item">My Profile</div>
-								<div class="item" onclick="movePage()"><i class="icon users"></i>My Friends<div class="floating ui red label">${acceptSize}</div></div>
-								<div class="item">My Post</div>
-								<div class="item">History</div>
-							</div>							
-						</div>	
-					</div>	
+								<div class="item" onclick="moveMyFriends()">
+									<i class="icon users"></i>My Friends
+									<div class="floating ui red label">${acceptSize}</div>
+								</div>
+								<div class="item" onclick="moveMyPost()">
+									<i class="clipboard outline icon"></i>My Post
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	
-	
-<div class="ui basic modal" id="goRandom" style="border-style: solid;">
-  <div class="ui icon header">
-    <i class="handshake outline icon"></i>    
-  </div>
-  
-  <div class="content" style="width:600; margin:auto">
-   <form action="random/chat" id="goinRChat" >
-			<div class="ui form" >
-			
-			  <div class="grouped fields">
-			    <label style="color:white"><h2>&emsp;&emsp;&ensp;How many do you want to chat to people</h2></label>
-			    <br>			    
-			    <div class="field" style="margin-left:100">
-			      <div class="ui radio checkbox">
-			        <input type="radio" id="rRSize2" name="rRSize" value="2" onclick="setChecked(id)" checked>
-			        <label style="color:white">&emsp;With Two People</label>
-			      </div>
-			    </div>			  
-			    <div class="field" style="margin-left:100">
-			      <div class="ui radio checkbox">
-			        <input type="radio" id="rRSize3" name="rRSize" value="3" onclick="setChecked(id)">
-			        <label style="color:white">&emsp;With Three People</label>
-			      </div>
-			    </div>
-			    <div class="field" style="margin-left:100">
-			      <div class="ui radio checkbox">
-			        <input type="radio" id="rRSize4" name="rRSize" value="4" onclick="setChecked(id)">
-			        <label style="color:white">&emsp;With Four People</label>
-			      </div>
-			    </div>
-			    <div class="field" style="margin-left:100">
-			      <div class="ui radio checkbox">
-			        <input type="radio" id="rRSize5" name="rRSize" value="5" onclick="setChecked(id)">
-			        <label style="color:white">&emsp;With Five People</label>
-			      </div>
-			    </div>
-			    <div class="field" style="margin-left:100">
-			      <div class="ui radio checkbox">
-			        <input type="radio" id="rRSize6" name="rRSize" value="6" onclick="setChecked(id)">
-			        <label style="color:white">&emsp;With Six People</label>
-			      </div>
-			    </div>
-			  </div>			  
+
+
+	<div class="ui basic modal" id="goRandom" style="border-style: solid;">
+		<div class="ui icon header">
+			<i class="handshake outline icon"></i>
+		</div>
+
+		<div class="content" style="width: 600; margin: auto">
+			<form action="random/chat" id="goinRChat">
+				<div class="ui form">
+
+					<div class="grouped fields">
+						<label style="color: white"><h2>&emsp;&emsp;&ensp;How
+								many do you want to chat to people</h2></label> <br>
+						<div class="field" style="margin-left: 100">
+							<div class="ui radio checkbox">
+								<input type="radio" id="rRSize2" name="rRSize" value="2"
+									onclick="setChecked(id)" checked> <label
+									style="color: white">&emsp;With Two People</label>
+							</div>
+						</div>
+						<div class="field" style="margin-left: 100">
+							<div class="ui radio checkbox">
+								<input type="radio" id="rRSize3" name="rRSize" value="3"
+									onclick="setChecked(id)"> <label style="color: white">&emsp;With
+									Three People</label>
+							</div>
+						</div>
+						<div class="field" style="margin-left: 100">
+							<div class="ui radio checkbox">
+								<input type="radio" id="rRSize4" name="rRSize" value="4"
+									onclick="setChecked(id)"> <label style="color: white">&emsp;With
+									Four People</label>
+							</div>
+						</div>
+						<div class="field" style="margin-left: 100">
+							<div class="ui radio checkbox">
+								<input type="radio" id="rRSize5" name="rRSize" value="5"
+									onclick="setChecked(id)"> <label style="color: white">&emsp;With
+									Five People</label>
+							</div>
+						</div>
+						<div class="field" style="margin-left: 100">
+							<div class="ui radio checkbox">
+								<input type="radio" id="rRSize6" name="rRSize" value="6"
+									onclick="setChecked(id)"> <label style="color: white">&emsp;With
+									Six People</label>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<input type="hidden" id="rRName" name="rRName"> <input
+					type="hidden" id="uiNickName" name="uiNickName">
+			</form>
+		</div>
+
+		<div class="actions">
+			<div class="ui red basic cancel inverted button">
+				<i class="remove icon"></i> No
 			</div>
-			
-			<input type="hidden" id="rRName" name="rRName">
-			<input type="hidden" id="uiNickName" name="uiNickName">
-	</form>
-  </div>
-  
-  <div class="actions">
-    <div class="ui red basic cancel inverted button">
-      <i class="remove icon"></i>
-      No
-    </div>
-    <div class="ui green ok inverted button" onclick="inRandomChat()">
-      <i class="checkmark icon"></i>
-      Yes
-    </div>
-  </div>  
-</div>
+			<div class="ui green ok inverted button" onclick="inRandomChat()">
+				<i class="checkmark icon"></i> Yes
+			</div>
+		</div>
+	</div>
 
 
-<div class="ui basic modal" id="loadingW"> 
+	<div class="ui basic modal" id="loadingW">
 
-	<div class="content" style="width:600; margin:auto">
-	 <label style="color:white;text-align: center;"><h2 id="resultMessage">Loading</h2></label>
-	 </div> 
-	<br>
-     <div class="ui large text loader"></div>
-     
-  
-</div>
+		<div class="content" style="width: 600; margin: auto">
+			<label style="color: white; text-align: center;"><h2
+					id="resultMessage">Loading</h2></label>
+		</div>
+		<br>
+		<div class="ui large text loader"></div>
+
+
+	</div>
 
 
 </body>
