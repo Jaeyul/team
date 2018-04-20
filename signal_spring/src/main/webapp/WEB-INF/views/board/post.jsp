@@ -132,7 +132,7 @@ h1 h2 h3 h4 {
 
 		<c:forEach items="${imageVOList}" var="imageVO">
 			<img class="ui spaced image"
-				src="file:/data/web_upload_img/${imageVO.imgId}">
+				src="src/main/resources/static/web/upload_images/${imageVO.imgId}">
 		</c:forEach>
 
 		<p>${boardVO.bContent}</p>
